@@ -1,3 +1,0 @@
-10
-# This is a new comment
-# Final comment
