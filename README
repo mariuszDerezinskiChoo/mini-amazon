@@ -2,4 +2,5 @@ This is a README
 
 # This is a comment
 
-
+## install semantic ui
+npm install semantic-ui-react semantic-ui-css
