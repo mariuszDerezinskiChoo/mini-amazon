@@ -1,7 +1,7 @@
-import React from 'react'
-import pic from './placeholder.png'
-import { Image, Button, Icon, Header, Card, Modal } from 'semantic-ui-react'
-import './sellingItem.css'
+import React from 'react';
+import pic from '../placeholder.png';
+import { Image, Button, Icon, Header, Card, Modal } from 'semantic-ui-react';
+import '../styles/sellingItem.css';
 
 function SellingItem(props) {
     const [open, setOpen] = React.useState(false)

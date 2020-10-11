@@ -9,14 +9,14 @@ const dummyData = [
     {
         id: 2,
         image: "asdf",
-        name: "earbuds",
+        name: "Earbuds",
         price: "100",
         quantity: 3
     },
     {
         id: 3,
         image: "asdf",
-        name: "laptop",
+        name: "Laptop",
         price: "1000",
         quantity: 5
     }
