@@ -1,0 +1,8 @@
+from mini-amazon import User, Item, Reviews
+user1 = ('user1@demo.com', 'pw', 'user1first', 'user1last', '1')
+user1 = ('user1@demo.com', 'pw', 'user1first', 'user1last', '1')
+
+
+
+
+db.session.add()

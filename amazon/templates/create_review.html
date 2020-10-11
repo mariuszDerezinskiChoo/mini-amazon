@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+
+
+
+{% block content %}
+
+
+<div class="content-section">
+    <form method="POST" action="">
+
+
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{{ legend }}</legend>
+            <!-- BUYER EMAIL -->
+            <div class="form-group">
+                {{ form.buyer_email.label(class="form-control-label") }}
+                {% if form.buyer_email.errors %}
+                    {{ form.buyer_email(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.buyer_email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.buyer_email(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!-- SELLER EMAIL -->
+            <div class="form-group">
+                {{ form.seller_email.label(class="form-control-label") }}
+                {% if form.seller_email.errors %}
+                    {{ form.seller_email(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.seller_email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.seller_email(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!-- ITEM ID -->
+            <div class="form-group">
+                {{ form.item_id.label(class="form-control-label") }}
+                {% if form.item_id.errors %}
+                    {{ form.item_id(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.item_id.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.item_id(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!-- RATING ITEM -->
+            <div class="form-group">
+                {{ form.rating_item.label(class="form-control-label") }}
+                {% if form.rating_item.errors %}
+                    {{ form.rating_item(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.rating_item.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.rating_item(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!-- RATING SELLER -->
+            <div class="form-group">
+                {{ form.rating_seller.label(class="form-control-label") }}
+                {% if form.rating_seller.errors %}
+                    {{ form.rating_seller(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.rating_seller.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.rating_seller(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!-- REVIEW -->
+            <div class="form-group">
+                {{ form.review.label(class="form-control-label") }}
+                {% if form.review.errors %}
+                    {{ form.review(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.review.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.review(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+
+
+    </form>
+</div>
+
+
+{% endblock content %}
+
