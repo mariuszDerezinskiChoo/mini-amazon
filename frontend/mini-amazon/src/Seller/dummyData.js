@@ -5,8 +5,8 @@ const dummyData = [
         name: "Headphones",
         price: "300",
         quantity: 5,
-        itemDesc: "These sleek noise cancelling headphones will drown out your parents' arguments",
-        sellerDesc: "Beats by Dre"
+        sellerDesc: "Beats by Dre",
+        itemDesc: "These sleek noise cancelling headphones will drown out your parents' arguments"
     },
     {
         id: 2,
@@ -14,8 +14,8 @@ const dummyData = [
         name: "Earbuds",
         price: "100",
         quantity: 3,
-        itemDesc: "Stunt on the plebeians with these expensive earbuds",
-        sellerDesc: "Uncle Dane is a very gud sentry mayne"
+        sellerDesc: "Uncle Dane is a very gud sentry mayne",
+        itemDesc: "Stunt on the plebeians with these expensive earbuds"
     },
     {
         id: 3,
@@ -23,8 +23,8 @@ const dummyData = [
         name: "Laptop",
         price: "2000",
         quantity: 5,
-        itemDesc: "Let your individuality shine with a new Macbook Pro",
-        sellerDesc: "Orange Inc."
+        sellerDesc: "Orange Inc.",
+        itemDesc: "Let your individuality shine with a new Macbook Pro"
     }
 ]
 

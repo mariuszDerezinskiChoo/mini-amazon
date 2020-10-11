@@ -28,12 +28,12 @@ function CreateModal() {
                         <input required placeholder='Quantity' />
                     </Form.Field>
                     <Form.Field>
-                        <label>Seller Description</label>
-                        <TextArea required placeholder='Describe Yourself' />
-                    </Form.Field>
-                    <Form.Field>
                         <label>Item Description</label>
                         <TextArea required placeholder='Description' />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Seller Description</label>
+                        <TextArea required placeholder='Describe Yourself' />
                     </Form.Field>
                     <Form.Field>
                         <label>Upload a Picture</label>

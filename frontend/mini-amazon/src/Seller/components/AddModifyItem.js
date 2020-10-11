@@ -5,7 +5,7 @@ import ModifyModal from './ModifyModal.js';
 
 function addModifyItem() {
     return (
-        <Segment placeholder>
+        <Segment placeholder raised>
             <Grid columns={2} stackable textAlign='center'>
                 <Divider vertical>Or</Divider>
 

@@ -6,8 +6,13 @@ import AddModifyItem from './Seller/components/AddModifyItem.js';
 function App() {
   return (
     <div>
-      <AddModifyItem />
-      <ListedItems />
+      <div id='add-modify'>
+        <AddModifyItem />
+      </div>
+      <br />
+      <div id='item-list'>
+        <ListedItems />
+      </div>
     </div>
   );
 }

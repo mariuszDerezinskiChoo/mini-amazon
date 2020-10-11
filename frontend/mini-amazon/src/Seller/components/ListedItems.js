@@ -11,7 +11,7 @@ function ListedItems() {
     }
 
     return (
-        <Segment.Group>
+        <Segment.Group raised>
             <Segment><h2>Your Listed Items</h2></Segment>
             <Segment>
                 <Card.Group centered>

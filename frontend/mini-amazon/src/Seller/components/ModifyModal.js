@@ -46,12 +46,12 @@ function ModifyModal() {
                             <input required value={selectedData.quantity} />
                         </Form.Field>
                         <Form.Field>
-                            <label>Seller Description</label>
-                            <TextArea required value={selectedData.sellerDesc} />
-                        </Form.Field>
-                        <Form.Field>
                             <label>Item Description</label>
                             <TextArea required value={selectedData.itemDesc} />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Seller Description</label>
+                            <TextArea required value={selectedData.sellerDesc} />
                         </Form.Field>
                         <Form.Field>
                             <label>Upload a Picture</label>
