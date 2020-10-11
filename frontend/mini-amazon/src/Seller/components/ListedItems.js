@@ -7,7 +7,7 @@ function ListedItems() {
     const items = []
 
     for (const [index, value] of data.entries()) {
-        items.push(<SellingItem key={index} item={value} />)
+        items.push(<SellingItem key={value.id} item={value} />)
     }
 
     return (
