@@ -1,8 +1,8 @@
 import React from "react"
-
 import LoginPortal from './LoginPortal'
+import {withRouter} from 'react-router';
 
-function MyLoginPage() {
+function LoginPage() {
     return (
     <div>
       <LoginPortal />
@@ -10,4 +10,4 @@ function MyLoginPage() {
     )
   }
 
-  export default MyLoginPage
+  export default withRouter(LoginPage)
