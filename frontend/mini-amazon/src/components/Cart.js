@@ -1,54 +1,10 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Container, Row, Col, Card} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faPlusCircle, faTimesCircle, faMinusCircle} from "@fortawesome/free-solid-svg-icons";
-const CART_DUMMY = [
-    {
-        itemName: "Macbook Pro",
-        sellerName: "Apple.com Inc.",
-        price: 1500,
-        count: 3,
-        imageUrl: "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
-        description: "Apple MacBook Pro is a macOS laptop with a 13.30-inch display that has a resolution of 2560x1600 pixels. It is powered by a Core i5 processor and it comes with 12GB of RAM. The Apple MacBook Pro packs 512GB of SSD storage."
-    },
-    {
-        itemName: "Macbook Pro",
-        sellerName: "Apple.com Inc.",
-        price: 1500,
-        count: 3,
-        imageUrl: "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
-        description: "Apple MacBook Pro is a macOS laptop with a 13.30-inch display that has a resolution of 2560x1600 pixels. It is powered by a Core i5 processor and it comes with 12GB of RAM. The Apple MacBook Pro packs 512GB of SSD storage."
-
-    },
-    {
-        itemName: "Macbook Pro",
-        sellerName: "Apple.com Inc.",
-        price: 1500,
-        count: 3,
-        imageUrl: "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
-        description: "Apple MacBook Pro is a macOS laptop with a 13.30-inch display that has a resolution of 2560x1600 pixels. It is powered by a Core i5 processor and it comes with 12GB of RAM. The Apple MacBook Pro packs 512GB of SSD storage."
-
-    },
-    {
-        itemName: "Macbook Pro",
-        sellerName: "Apple.com Inc.",
-        price: 1500,
-        count: 3,
-        imageUrl: "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
-        description: "Apple MacBook Pro is a macOS laptop with a 13.30-inch display that has a resolution of 2560x1600 pixels. It is powered by a Core i5 processor and it comes with 12GB of RAM. The Apple MacBook Pro packs 512GB of SSD storage."
-
-    },
-    {
-        itemName: "Macbook Pro",
-        sellerName: "Apple.com Inc.",
-        price: 1500,
-        count: 3,
-        imageUrl: "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
-        description: "Apple MacBook Pro is a macOS laptop with a 13.30-inch display that has a resolution of 2560x1600 pixels. It is powered by a Core i5 processor and it comes with 12GB of RAM. The Apple MacBook Pro packs 512GB of SSD storage."
-    },
-]
+import axios from 'axios';
 const Cart = () => {
-    const [cart, setCart] = useState(CART_DUMMY);
+    const [cart, setCart] = useState(null);
     console.log("reload");
     const handleRemove = (index) => {
         console.log(index)
@@ -57,6 +13,12 @@ const Cart = () => {
         console.log(cartTemp);
         setCart(cartTemp);
     }
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:5000/cart').then((res) => {
+            setCart(res.data);
+        })
+    },[])
 
     const handleIncrement = (index, increment) => {
         let cartTemp = [...cart];
@@ -69,6 +31,7 @@ const Cart = () => {
             <h1>view your cart</h1>
             <Container fluid="lg">
                 {
+                    cart == null ? <h1>Loading</h1> : 
                     cart.map((entry, index) => {
                         return (
                             <Card key={index} className="mb-5">
