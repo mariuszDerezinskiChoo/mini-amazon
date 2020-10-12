@@ -9,6 +9,7 @@ import LoginPage from "./Login/LoginPage";
 import App from "./App"
 import "bootstrap/dist/css/bootstrap.min.css"
 import * as serviceWorker from './serviceWorker';
+import Review from "./components/Review";
 import Navbar from './NavBar';
 import 'semantic-ui-css/semantic.min.css';
 
@@ -17,12 +18,11 @@ ReactDOM.render(
     <BrowserRouter>
     <Navbar/>
       <Switch>
-      <Route exact path="/cart">
-        <Cart/>
-      </Route>
+      <Route exact path="/cart" component={Cart}/>
         <Route path="/login" component={LoginPage} />
         <Route path="/test-api" component={App} />
         <Route exact path="/" component={HomePage} />
+        <Route exact path="/addReview" component={Review}/>
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,

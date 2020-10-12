@@ -20,7 +20,7 @@ class NavBar extends React.Component {
       <Nav.Link href="/">Home</Nav.Link>
       <Nav.Link href="/seller">Seller</Nav.Link>
       <Nav.Link href="/cart">Cart</Nav.Link>
-      <Nav.Link href="/review">Review</Nav.Link>
+      <Nav.Link href="/addReview">Review</Nav.Link>
       <Form inline>
       <FormControl type="text" placeholder="Search" className="mr-sm-2" />
       <Button >Search</Button>
