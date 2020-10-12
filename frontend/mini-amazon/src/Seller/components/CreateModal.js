@@ -19,14 +19,16 @@ function CreateModal() {
                         <label>Item Name</label>
                         <input required placeholder='Name' />
                     </Form.Field>
-                    <Form.Field>
-                        <label>Price</label>
-                        <Input required label='$' type='number' />
-                    </Form.Field>
-                    <Form.Field>
-                        <label>Quantity</label>
-                        <input required placeholder='Quantity' />
-                    </Form.Field>
+                    <Form.Group widths='equal'>
+                        <Form.Field>
+                            <label>Price</label>
+                            <Input required label='$' type='number' />
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Quantity</label>
+                            <input required placeholder='Quantity' type='number' />
+                        </Form.Field>
+                    </Form.Group>
                     <Form.Field>
                         <label>Item Description</label>
                         <TextArea required placeholder='Description' />

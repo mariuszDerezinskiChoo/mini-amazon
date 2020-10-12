@@ -37,14 +37,16 @@ function ModifyModal() {
                             <label>Item Name</label>
                             <input required value={selectedData.name} />
                         </Form.Field>
-                        <Form.Field>
-                            <label>Price</label>
-                            <Input required label='$' type='number' value={selectedData.price} />
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Quantity</label>
-                            <input required value={selectedData.quantity} />
-                        </Form.Field>
+                        <Form.Group widths={2}>
+                            <Form.Field>
+                                <label>Price</label>
+                                <Input required label='$' type='number' value={selectedData.price} />
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Quantity</label>
+                                <input required value={selectedData.quantity} type='number' />
+                            </Form.Field>
+                        </Form.Group>
                         <Form.Field>
                             <label>Item Description</label>
                             <TextArea required value={selectedData.itemDesc} />
