@@ -1,138 +1,126 @@
 from flask import *
+from flask_sqlalchemy import SQLAlchemy
+import models
+import forms
 import sqlite3, hashlib, os
-from werkzeug.utils import secure_filename
-from forms import ItemSearchForm
+# from werkzeug.utils import secure_filename
+# from forms import ItemSearchForm
 
 app = Flask(__name__)
-app.secret_key = 'random string'
-UPLOAD_FOLDER = 'static/uploads'
-ALLOWED_EXTENSIONS = set(['jpeg', 'jpg', 'png', 'gif'])
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SECRET_KEY'] = 'asdf'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+# UPLOAD_FOLDER = 'static/uploads'
+# ALLOWED_EXTENSIONS = set(['jpeg', 'jpg', 'png', 'gif'])
+# app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+db = SQLAlchemy(app, session_options={'autocommit': False})
 
-# all of the following method are required to be implemented
-# there will be some function not included but required to be done
-# follow the project description for detail
+@app.route('/')
+@app.route('/home')
+def home():
+	return render_template('home.html')
 
-# my implementation is based on sqlite3, you are free to change it to sqlAlchemy
+@app.route('/recommended')
+def recommended():
+	# technology = Item.query.filter_by(category='technology').all()
+	# # technology = Item.query.filter_by(category='technology').order_by(Item.rating).all()
+	# produce = Item.query.filter_by(category='produce').all()
+	return render_template('recommended.html', category1=technology, category2=produce)
 
+@app.route('/review/new', methods=['GET', 'POST'])
+# @login_required
+def new_review():
+	# May need to import classes from *.models if in separate files
+	form = forms.ReviewForm()
+	if form.validate_on_submit():
+		review = models.Reviews(
+			# id will populate automatically
+			buyer_email=form.buyer_email.data,
+			seller_email=form.seller_email.data,
+			# datetime_submitted is automatically populated - no need here, no need on form
+			item_id=form.item_id.data,
+			rating_item=form.rating_item.data,
+			rating_seller=form.rating_seller.data,
+			review=form.review.data
+			)
+		db.session.add(review)
+		db.session.commit()
+		flash('Your review has been submitted!', 'success')
+		return redirect(url_for('home'))
+	return render_template('create_review.html', title='Write Review', form=form, 
+							legend='Write Review')
 
-def getLoginDetails():
-    with sqlite3.connect('database.db') as conn:
-        pass
-        #
-    conn.close()
-    return (loggedIn, firstName, noOfItems)
+# review_id is Reviews(id)
+@app.route('/review/<int:review_id>', methods=['GET', 'POST'])
+def review(review_id):
+	review = Reviews.query.get_or_404(review_id)
+	return render_template('review.html', title='See Review', review=review)
+	# TODO: Create HTML template for looking at review, offer button that will take user
+	# to the update page V
 
-@app.route('/', methods=['GET', 'POST'])
-def root():
-    placetaker = ''
-    return render_template('home.html', placetaker =placetaker)
-
-@app.route('/results', methods=['GET', 'POST'])
-def search_results(search):
-    placetaker = ''
-    return render_template('result.html', placetaker =placetaker)
-
-@app.route("/add")
-def admin():
-    placetaker = ''
-    return render_template('add.html', placetaker =placetaker)
-
-@app.route("/addItem", methods=["GET", "POST"])
-def addItem():
-    print(msg)
-    return redirect(url_for('root'))
-
-@app.route("/remove")
-def remove():
-    data = ''
-    return render_template('remove.html', data=data)
-
-@app.route("/removeItem")
-def removeItem():
-    print(msg)
-    return redirect(url_for('root'))
-
-@app.route("/displayCategory")
-def displayCategory():
-    placetaker = ''
-    return render_template('displayCategory.html', placetaker =placetaker)
-
-@app.route("/account/profile")
-def profileHome():
-    placetaker = ''
-    return render_template("profileHome.html", placetaker =placetaker)
-
-@app.route("/account/profile/edit")
-def editProfile():
-    placetaker = ''
-    return render_template("editProfile.html", placetaker =placetaker)
-
-@app.route("/account/profile/changePassword", methods=["GET", "POST"])
-def changePassword():
-    placetaker = ''
-    return render_template("changePassword.html", placetaker =placetaker)
-
-@app.route("/updateProfile", methods=["GET", "POST"])
-def updateProfile():
-    return redirect(url_for('editProfile'))
-
-@app.route("/loginForm")
-def loginForm():
-    return render_template('login.html', error='')
-
-@app.route("/login", methods = ['POST', 'GET'])
-def login():
-    if True:
-
-        return redirect(url_for('root'))
-    else:
-        error = 'Invalid UserId / Password'
-        return render_template('login.html', error=error)
-
-@app.route("/productDescription", methods=['GET', 'POST'])
-def productDescription():
-    placetaker = ''
-    return render_template("productDescription.html", placetaker =placetaker)
-
-@app.route("/addToCart")
-def addToCart():
-    print('')
-    return redirect(url_for('root'))
-
-@app.route("/cart", methods=['GET', 'POST'])
-def cart():
-    placetaker = ''
-    return render_template("cart.html", placetaker =placetaker)
-
-@app.route("/removeFromCart")
-def removeFromCart():
-
-    return redirect(url_for('root'))
-
-@app.route("/logout")
-def logout():
-
-    return redirect(url_for('root'))
-
-def is_valid(email, password):
-    if True:
-        return True
-    return False
-
-@app.route("/register", methods = ['GET', 'POST'])
-def register():
-    msg = ''
-    return render_template("login.html", error=msg)
-
-@app.route("/registerationForm")
-def registrationForm():
-    return render_template("register.html")
+@app.route('/review/<int:review_id>/update', methods=['GET', 'POST'])
+# @login_required
+def update_review(review_id):
+	review = Reviews.query.get_or_404(review_id)
+	# TODO: Figure out how tf current_user works
+	# if review.buyer_email != current_user:
+	# 	abort(403)
+	form = ReviewForm()
+	if form.validate_on_submit():
+		review = Reviews(
+			# id will populate automatically
+			buyer_email=form.buyer_email.data,
+			seller_email=form.seller_email.data,
+			# datetime_submitted is automatically populated - no need here, no need on form
+			item_id=form.item_id.data,
+			rating_item=form.rating_item.data,
+			rating_seller=form.rating_seller.data,
+			review=form.review.data
+			)
+		# No db.session.add(review) necessary
+		db.session.commit()
+		flash('Your review has been updated!', 'success')
+		return redirect(url_for('review', review_id=review.id))
+	# Rewatch videos (before 8) for why this is here
+	elif request.method == 'GET':
+		form.buyer_email.data = review.buyer_email
+		form.seller_email.data = review.seller_email
+		form.item_id.data = review.item_id
+		form.rating_item.data = review.rating_item
+		form.rating_seller.data = review.rating_seller
+		form.review.data = review.review
+		# In the example, he didn't worry about anything outside of the form fields
+	return render_template('create_review.html', title='Update Review', review=review, 
+							legend='Update Review')
 
 
-def parse(data):
-    ans = []
-    return ans
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+

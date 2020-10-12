@@ -2,12 +2,7 @@
 # https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
 # https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/
 from datetime import datetime
-from amazon import db # Rename as necessary
-# from flaskblog import db, login_manager
-# from flask_login import UserMixin
-
-
-
+from app import db
 
 # Somebody else is doing Item, this is just my go at it so I can reference it in my Reviews schema
 class Item(db.Model):
@@ -29,7 +24,6 @@ class User(db.Model):
 	is_seller = db.Column(db.Boolean)
 
 # Using Karoline's User class information
-# For what properties we know we want, this order: db.Column(type, nullable, etc, fk, pk)
 # Reviews doesn't use one-to-many relations (i.e., no db.relationship('Table', backref='author', lazy=True))
 # https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/#one-to-many-relationships
 class Reviews(db.Model):
@@ -44,7 +38,7 @@ class Reviews(db.Model):
 	seller_email = db.Column(db.String(30), db.ForeignKey('user.email'))
 	datetime_submitted = db.Column(db.DateTime, default=datetime.utcnow)
 
-	item_id = db.Column(db.Integer, nullable=False, db.ForeignKey('item.id'))
+	item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
 	rating_item = db.Column(db.Integer, nullable=False)
 	rating_seller = db.Column(db.Integer)
 	review = db.Column(db.Text, nullable=False)

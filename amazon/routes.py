@@ -1,21 +1,23 @@
-from flask import Flask, render_template, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
-import models
-import forms
+from flask import Flask, render_template, redirect, url_for, flash, request, abort
+from amazon import app, db, bcrypt
 
-import sqlite3, hashlib, os
-from werkzeug.utils import secure_filename
-from forms import ItemSearchForm
+# from flask_sqlalchemy import SQLAlchemy
+from amazon.models import User, Item, Reviews
+from amazon.forms import ReviewForm
 
 from flask_login import login_user, current_user, logout_user, login_required
 
+import sqlite3, hashlib, os
+from werkzeug.utils import secure_filename
+# from forms import ItemSearchForm
+
+# Extra crap
+import os
+import secrets
+from PIL import Image
 
 
 
-app = Flask(__name__)
-app.secret_key = 's3cr3t'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db = SQLAlchemy(app, session_options={'autocommit': False})
 
 # Reviews = [
 # 	{
@@ -32,10 +34,14 @@ db = SQLAlchemy(app, session_options={'autocommit': False})
 @app.route('/')
 @app.route('/home')
 def home():
+	return render_template('home.html')
+
+@app.route('/recommended')
+def recommended():
 	technology = Item.query.filter_by(category='technology').all()
 	# technology = Item.query.filter_by(category='technology').order_by(Item.rating).all()
 	produce = Item.query.filter_by(category='produce').all()
-	return render_template('home.html', category1=technology, category2=produce)
+	return render_template('recommended.html', category1=technology, category2=produce)
 
 @app.route('/review/new', methods=['GET', 'POST'])
 # @login_required

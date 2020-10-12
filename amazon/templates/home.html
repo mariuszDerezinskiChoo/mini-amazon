@@ -5,37 +5,8 @@
 {% block content %}
 
 
-    <!-- MAKE THIS AN HTML COLUMN -->
-    <h1>All Technology Items</h1>>
-    {% for item in category1 %}
-        <article class="media content-section">
-          <!-- <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"> -->
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for(productDescription) }}">{{ item.id }}</a>
-              <small class="text-muted">{{ item.category }}</small>
-            </div>
-            <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ item.name }}<a></h2>
-            <p class="article-content">{{ item.description }}</p>
-          </div>
-        </article>
-    {% endfor %}
-
-    <!-- MAKE THIS AN HTML COLUMN -->
-    <h1>All Produce Items</h1>>
-    {% for item in category2 %}
-        <article class="media content-section">
-          <!-- <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"> -->
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for(productDescription) }}">{{ item.id }}</a>
-              <small class="text-muted">{{ item.category }}</small>
-            </div>
-            <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ item.name }}<a></h2>
-            <p class="article-content">{{ item.description }}</p>
-          </div>
-        </article>
-    {% endfor %}
+    <!-- This will eventually contain everything in recommended.html -->
+    <h1>Home Page</h1>
 
 
 {% endblock content %}

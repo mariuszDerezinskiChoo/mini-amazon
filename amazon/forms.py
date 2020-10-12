@@ -1,9 +1,9 @@
 # forms.py
-from models import Reviews, Item, User # Is "models" correct? How would you include that file here?
+import models
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, TextAreaField, IntegerField
-from wtforms.validators import DataRequired, Optional, NumberRange, Length, Email, ValidationError
 from flask_login import current_user
+from wtforms import StringField, SubmitField, TextAreaField, IntegerField
+from wtforms.validators import DataRequired, Optional, NumberRange, Length, Email, ValidationError
 
 class ReviewForm(FlaskForm):
 	buyer_email = StringField('Buyer Email', validators=[DataRequired(), Email()])
