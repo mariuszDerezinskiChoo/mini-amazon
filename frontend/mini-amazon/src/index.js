@@ -1,12 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Cart from "./components/Cart";
+import Home from "./components/Home";
+import "bootstrap/dist/css/bootstrap.min.css"
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Switch>
+      <Route exact path="/cart">
+        <Cart/>
+      </Route>
+      <Route path="/">
+        <Home/>
+      </Route>
+      </Switch>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
