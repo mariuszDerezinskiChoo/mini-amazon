@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import data from '../dummyData.js';
 import { Segment, Card } from 'semantic-ui-react';
 import SellingItem from './SellingItem.js';
+import axios from 'axios';
 
 function ListedItems() {
     const items = []
 
     for (const [index, value] of data.entries()) {
-        items.push(<SellingItem key={value.id} item={value} />)
+        items.push(<SellingItem key={index} item={value} />)
     }
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:5000/seller')
+            .then((res) => {
+                console.log(res);
+            })
+    })
 
     return (
         <Segment.Group raised>

@@ -1,7 +1,7 @@
 
 from flask import Blueprint, jsonify, request
 from . import db 
-from .models import User
+from .models import User, Item, Selling
 
 main = Blueprint('main', __name__)
 
@@ -81,3 +81,19 @@ def cart():
     }
 ]
     return jsonify(result)
+
+@main.route('/seller', methods=['POST', 'PUT', 'GET'])
+def seller():
+    if request.method == 'POST':
+        # item_name = request.form[]
+        req = request.json
+        print(req)
+        return 'new item submitted'
+    elif request.method == 'PUT':
+        #DB QUERY
+        return 'edit submitted'
+    else:
+        # listings = Selling.query.filter_by(seller_email='{THIS USERS EMAIL}')
+        # items = Item.query.filter_by(item_id={EACH ID IN LISTINGS})
+        random = Item.query.filter_by(id=6).first()
+        return random.name
