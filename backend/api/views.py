@@ -110,7 +110,7 @@ def add_review():
     db.session.add(new_review)
     db.session.commit()
     # flash('Your review has been submitted!', 'success')
-	return render_template('create_review.html', title='Write Review', form=form, legend='Write Review')
+    return render_template('create_review.html', title='Write Review', form=form, legend='Write Review')
 
 @main.route('/add_user', methods=['POST'])
 def add_user():
