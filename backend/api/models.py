@@ -17,15 +17,15 @@ class Storefront(db.Model):
     name = db.Column(db.String(30),nullable=False)
     balance = db.Column(db.Integer, nullable=False)
     photo_url = db.Column(db.String(100),nullable=False)
-    description = db.Column(db.Text),nullable=False)
+    description = db.Column(db.Text,nullable=False)
 
 class Item(db.Model):
 	# This is automatically populated for every valid entry made into the db
     __tablename__ = 'item'
-	id = db.Column(db.Integer, primary_key=True)
-	category = db.Column(db.String(30), nullable=False)
-	name = db.Column(db.String(30), nullable=False)
-	description = db.Column(db.Text, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(30), nullable=False)
+    name = db.Column(db.String(30), nullable=False)
+    description = db.Column(db.Text, nullable=False)
 	# image_url
 
 class Reviews(db.Model):
