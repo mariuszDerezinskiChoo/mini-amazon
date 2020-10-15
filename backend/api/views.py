@@ -88,9 +88,13 @@ def seller():
         # item_name = request.form[]
         req = request.json
         print(req)
+        print(req['price'])
         return 'new item submitted'
     elif request.method == 'PUT':
         #DB QUERY
+        req = request.json
+        print(req)
+        print(req['price'])
         return 'edit submitted'
     else:
         # listings = Selling.query.filter_by(seller_email='{THIS USERS EMAIL}')

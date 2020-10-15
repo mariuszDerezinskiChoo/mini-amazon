@@ -5,13 +5,53 @@ import axios from 'axios';
 
 function CreateModal() {
     const [open, setOpen] = useState(false)
+    const [name, setName] = useState("")
+    const [price, setPrice] = useState("")
+    const [quantity, setQuantity] = useState("")
+    const [item_desc, setItemDesc] = useState("")
+    const [sell_desc, setSellerDesc] = useState("")
+    const [picture, setPicture] = useState("")
+
+    const initialState = {
+        open: false,
+        name: "",
+        price: "",
+        quantity: "",
+        item_desc: "",
+        seller_desc: "",
+        picture: ""
+    };
+
+    //const [{ open, name, price, quantity, item_desc, seller_desc, picture }, setState] = useState(initialState)
 
     function handleSubmit() {
-        axios.post('http://127.0.0.1:5000/seller')
+        const data = {
+            name: name,
+            price: price,
+            quantity: quantity,
+            item_desc: item_desc,
+            sell_desc: sell_desc,
+            picture: picture
+        }
+        axios.post('http://127.0.0.1:5000/seller', data)
             .then((res) => {
                 console.log(res);
+                console.log(res.status);
             })
+        setOpen(initialState.open)
+        setName(initialState.name)
+        setPrice(initialState.price)
+        setQuantity(initialState.quantity)
+        setItemDesc(initialState.item_desc)
+        setSellerDesc(initialState.seller_desc)
+        setPicture(initialState.picture)
     }
+
+    // function handleChange(e) {
+    //     const { name, value } = e.target
+    //     setState(prevState => ({ ...prevState, [name]: value }));
+    //     console.log(this.state.name)
+    // }
 
     return (
         <Modal
@@ -26,25 +66,53 @@ function CreateModal() {
             <Modal.Content>
                 <Form.Field>
                     <label>Item Name</label>
-                    <input required placeholder='Name' />
+                    <input
+                        required
+                        placeholder='Name'
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                    />
                 </Form.Field>
                 <Form.Group widths='equal'>
                     <Form.Field>
                         <label>Price</label>
-                        <Input required label='$' type='number' />
+                        <Input
+                            required
+                            label='$'
+                            placeholder='Price'
+                            type='number'
+                            value={price}
+                            onChange={e => setPrice(e.target.value)}
+                        />
                     </Form.Field>
                     <Form.Field>
                         <label>Quantity</label>
-                        <input required placeholder='Quantity' type='number' />
+                        <input
+                            required
+                            placeholder='Quantity'
+                            type='number'
+                            value={quantity}
+                            onChange={e => setQuantity(e.target.value)}
+                        />
                     </Form.Field>
                 </Form.Group>
                 <Form.Field>
                     <label>Item Description</label>
-                    <TextArea required placeholder='Description' />
+                    <TextArea
+                        required
+                        placeholder='Description'
+                        value={item_desc}
+                        onChange={e => setItemDesc(e.target.value)}
+                    />
                 </Form.Field>
                 <Form.Field>
                     <label>Seller Description</label>
-                    <TextArea required placeholder='Describe Yourself' />
+                    <TextArea
+                        required
+                        placeholder='Describe Yourself'
+                        value={sell_desc}
+                        onChange={e => setSellerDesc(e.target.value)}
+                    />
                 </Form.Field>
                 <Form.Field>
                     <label>Upload a Picture</label>
