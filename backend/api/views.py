@@ -1,38 +1,38 @@
 
 from flask import Blueprint, jsonify, request
 from . import db 
-from .models import User
+from .models import Buyer
 
 main = Blueprint('main', __name__)
 
-@main.route('/add_user', methods=['POST'])
-def add_user():
-    user_data = request.get_json()
+@main.route('/add_buyer', methods=['POST'])
+def add_buyer():
+    buyer_data = request.get_json()
 
-    new_user = User(email = user_data['email'],
-                    password = user_data['password'], 
-                    first_name = user_data['first_name'],
-                    last_name = user_data['last_name'],
-                    balance = user_data['balance'], 
+    new_buyer = Buyer(email = buyer_data['email'],
+                    password = buyer_data['password'], 
+                    first_name = buyer_data['first_name'],
+                    last_name = buyer_data['last_name'],
+                    balance = buyer_data['balance'], 
                     )
-    db.session.add(new_user)
+    db.session.add(new_buyer)
     db.session.commit()
 
     return 'Done', 201
 
-@main.route('/users')
-def users():
-    user_list = User.query.all()
-    users = []
+@main.route('/buyers')
+def buyers():
+    buyer_list = Buyer.query.all()
+    buyers = []
 
-    for user in user_list:
-        users.append({'email': user.email, 
-                    'password': user.password, 
-                    'first_name':user.first_name, 
-                    'last_name': user.last_name, 
-                    'balance': user.balance})
+    for buyer in buyer_list:
+        buyers.append({'email': buyer.email, 
+                    'password': buyer.password, 
+                    'first_name':buyer.first_name, 
+                    'last_name': buyer.last_name, 
+                    'balance': buyer.balance})
 
-    return jsonify({'users' : users})
+    return jsonify({'buyers' : buyers})
 
 @main.route('/cart')
 def cart():
