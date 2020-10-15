@@ -39,7 +39,7 @@ class Reviews(db.Model):
 	seller_email = db.Column(db.String(30), db.ForeignKey('storefront.email'))
 	datetime_submitted = db.Column(db.DateTime, default=datetime.utcnow, primary_key=True)
 
-	item_id = db.Column(db.Integer, db.ForeignKey('item.id'),nullable=False)
+	item_id = db.Column(db.Integer, db.ForeignKey('item.id'))
 	rating_item = db.Column(db.Integer, nullable=False)
 	rating_seller = db.Column(db.Integer)
 	review = db.Column(db.Text, nullable=False)
@@ -56,7 +56,7 @@ class Purchase(db.Model):
     buyer_email = db.Column(db.String(30), db.ForeignKey('buyer.email'),primary_key=True)
     price = db.Column(db.Integer,nullable=False)
     quantity = db.Column(db.Integer,nullable=False)
-    date = db.Column(db.DateTime, default=datetime.utcnow,nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow,primary_key=True)
 
 class Cart(db.Model):
     seller_email = db.Column(db.String(30), db.ForeignKey('storefront.email'),primary_key=True)
