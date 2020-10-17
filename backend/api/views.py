@@ -1,7 +1,6 @@
-
 from flask import Blueprint, jsonify, request
 from . import db 
-from .models import User, Item, Selling, Buyer
+from .models import Buyer, Item, Storefront, Listing
 
 main = Blueprint('main', __name__)
 
@@ -85,7 +84,6 @@ def cart():
 @main.route('/seller', methods=['POST', 'PUT', 'GET'])
 def seller():
     if request.method == 'POST':
-        # item_name = request.form[]
         req = request.json
         print(req)
         print(req['price'])
@@ -97,10 +95,20 @@ def seller():
         print(req['price'])
         return 'edit submitted'
     else:
-        # listings = Selling.query.filter_by(seller_email='{THIS USERS EMAIL}')
+        # listings = Listing.query.filter_by(seller_email='{THIS USERS EMAIL}')
         # items = Item.query.filter_by(item_id={EACH ID IN LISTINGS})
-        random = Item.query.filter_by(id=6).first()
-        return random.name
+        listings_list = []
+        listings = Listing.query.filter_by(storefront_email="storefront_email1@gmail.com").all() # TODO: make this seller specific
+        for listing in listings:
+            data = {}
+            item = Item.query.filter_by(id=listing.item_id).first()
+            data['id'] = listing.item_id
+            data['name'] = item.name
+            data['price'] = listing.price
+            data['quantity'] = listing.quantity
+            listings_list.append(data)
+
+        return jsonify({'listings':listings_list})
 
 # @main.route('/recommended')
 # def recommended():
