@@ -26,15 +26,6 @@ def login():
             return redirect(url_for("search"))
         return render_template("login.html")
 
-@app.route("/user")
-def user():
-    if "user" in session:
-        user = session["user"]
-        q= Item.query.filter_by(name = 'Harry Potter').all()
-        return render_template("harry.html")
-    else:
-        return redirect(url_for("login"))
-
 @app.route("/search", methods= ['GET', 'POST'])
 def search():
     if "user" in session:
@@ -58,6 +49,15 @@ def search_results(search):
         return redirect('/')
     else:
         return render_template('results.html', results= results)
+
+@app.route("/user")
+def user():
+    if "user" in session:
+        user = session["user"]
+        q= Item.query.filter_by(name = 'Harry Potter').all()
+        return render_template("harry.html")
+    else:
+        return redirect(url_for("login"))
 
 
 @app.route("/admin")

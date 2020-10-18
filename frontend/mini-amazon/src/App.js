@@ -1,18 +1,24 @@
 import React, {Component, useEffect, useState} from 'react';
 import './App.css';
-import {Users} from "./components/Users";
+import {Listings} from "./components/Listings";
 import {UserForm} from "./components/UserForm";
 
 function App() {
-   const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    fetch('/users').then(response =>
+  const [listings, setListings] = useState([]);
+  
+  useEffect( () => {
+    fetch('/listings').then(response =>
       response.json().then(data => {
-        setUsers(data.users);
+        setListings(data.listings);
       })
     );
   }, []);
+
+  return (
+    <div className= "App" >
+      <Listings listings= {listings} />
+    </div>
+  );
 }
 
 export default App;
