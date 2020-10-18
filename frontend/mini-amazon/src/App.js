@@ -7,7 +7,7 @@ function App() {
    const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch('/users').then(response =>
+    fetch('/buyers').then(response =>
       response.json().then(data => {
         setUsers(data.users);
       })
