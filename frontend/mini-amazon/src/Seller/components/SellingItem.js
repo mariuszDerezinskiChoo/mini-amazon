@@ -1,6 +1,7 @@
 import React from 'react';
-import pic from '../placeholder.png';
-import { Image, Button, Icon, Header, Card, Modal } from 'semantic-ui-react';
+import placeholder from '../placeholder.png';
+import picLocations from '../picLocations.js';
+import { Button, Icon, Header, Card, Modal } from 'semantic-ui-react';
 import '../styles/sellingItem.css';
 
 function SellingItem(props) {
@@ -8,7 +9,7 @@ function SellingItem(props) {
 
     return (
         <Card>
-            <Image src={pic} size='medium' />
+            <img src={picLocations.find(el => el.id === props.item.id)["location"]} height={400} alt={placeholder} />
 
             <Card.Content>
                 <Card.Header>{props.item.name}</Card.Header>

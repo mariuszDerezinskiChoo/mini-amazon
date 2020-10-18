@@ -1,18 +1,7 @@
 import React, {Component, useEffect, useState} from 'react';
 import './App.css';
-import {Users} from "./components/Users";
-import {UserForm} from "./components/UserForm";
+import {Buyers} from "./components/Buyer/Buyers";
+import {BuyerForm} from "./components/Buyer/BuyerForm";
 
-function App() {
-   const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    fetch('/users').then(response =>
-      response.json().then(data => {
-        setUsers(data.users);
-      })
-    );
-  }, []);
-}
-
+function App() {}
 export default App;

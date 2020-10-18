@@ -1,7 +1,6 @@
-
 from flask import Blueprint, jsonify, request
 from . import db 
-from .models import Buyer
+from .models import Buyer, Item, Storefront, Listing
 from sqlalchemy import text
     # This allows for plain SQL queries to be held in python variables
     # https://stackoverflow.com/questions/17972020/how-to-execute-raw-sql-in-flask-sqlalchemy-app
@@ -86,6 +85,37 @@ def cart():
 ]
     return jsonify(result)
 
+eventually, ideally clicking on an item on purchase history page should href to a url like
+/loggedin-buyer_email/purchase-datetime/add_review (where buyer_email, datetime make a purchase primary key)
+@main.route('/seller', methods=['POST', 'PUT', 'GET'])
+def seller():
+    if request.method == 'POST':
+        req = request.json
+        print(req)
+        print(req['price'])
+        return 'new item submitted'
+    elif request.method == 'PUT':
+        #DB QUERY
+        req = request.json
+        print(req)
+        print(req['price'])
+        return 'edit submitted'
+    else:
+        # listings = Listing.query.filter_by(seller_email='{THIS USERS EMAIL}')
+        # items = Item.query.filter_by(item_id={EACH ID IN LISTINGS})
+        listings_list = []
+        listings = Listing.query.filter_by(storefront_email="storefront_email1@gmail.com").all() # TODO: make this seller specific
+        for listing in listings:
+            data = {}
+            item = Item.query.filter_by(id=listing.item_id).first()
+            data['id'] = listing.item_id
+            data['name'] = item.name
+            data['price'] = listing.price
+            data['quantity'] = listing.quantity
+            listings_list.append(data)
+
+        return jsonify({'listings':listings_list})
+
 @main.route('/recommended')
 def recommended():
     # A more sophisticated page would for-loop over a query of every unique category in item
@@ -115,8 +145,8 @@ def recommended():
 	# food = Item.query.filter_by(category='food').all()
     # render_template('recommended.html', category1=technology, category2=produce)
 
-eventually, ideally clicking on an item on purchase history page should href to a url like
-/loggedin-buyer_email/purchase-datetime/add_review (where buyer_email, datetime make a purchase primary key)
+# eventually, ideally clicking on an item on purchase history page should href to a url like
+# /loggedin-buyer_email/purchase-datetime/add_review (where buyer_email, datetime make a purchase primary key)
 @main.route('/add_review', methods=['GET', 'POST'])
 # @login_required
 def add_review():
@@ -136,28 +166,13 @@ def add_review():
     # flash('Your review has been submitted!', 'success')
     return render_template('create_review.html', title='Write Review', form=form, legend='Write Review')
 
-# @main.route('/add_user', methods=['POST'])
-# def add_user():
-#     user_data = request.get_json()
-
-#     new_user = User(email = user_data['email'],
-#                     password = user_data['password'], 
-#                     first_name = user_data['first_name'],
-#                     last_name = user_data['last_name'],
-#                     balance = user_data['balance'], 
-#                     )
-#     db.session.add(new_user)
-#     db.session.commit()
-
-#     return 'Done', 201
-
-review_id is Reviews(id)
-@main.route('/reviews/<int:review_id>', methods=['GET', 'POST'])
-def review(review_id):
-	review = Reviews.query.get_or_404(review_id)
-	return render_template('review.html', title='See Review', review=review)
-	# TODO: Create HTML template for looking at review, offer button that will take user
-	# to the update page V
+# # review_id is Reviews(id)
+# @main.route('/reviews/<int:review_id>', methods=['GET', 'POST'])
+# def review(review_id):
+# 	review = Reviews.query.get_or_404(review_id)
+# 	return render_template('review.html', title='See Review', review=review)
+# 	# TODO: Create HTML template for looking at review, offer button that will take user
+# 	# to the update page V
 
 # AFTER MS2 DO REVIEW-UPDATE FEATURE! FOR NOW DWBI.
 # @main.route('/review/<int:review_id>/update', methods=['GET', 'POST'])
