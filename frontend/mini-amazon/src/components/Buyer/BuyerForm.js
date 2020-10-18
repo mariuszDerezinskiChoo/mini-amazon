@@ -49,7 +49,7 @@ export const UserForm = ({onNewUser}) => {
         <button
           onClick={async () => {
             const user = { email, password, first_name, last_name, balance };
-            const response = await fetch("/add_user", {
+            const response = await fetch("/add_buyer", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json"
