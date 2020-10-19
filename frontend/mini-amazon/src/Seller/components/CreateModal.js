@@ -8,6 +8,7 @@ function CreateModal() {
     const [name, setName] = useState("")
     const [price, setPrice] = useState("")
     const [quantity, setQuantity] = useState("")
+    const [category, setCategory] = useState("")
     const [item_desc, setItemDesc] = useState("")
     const [sell_desc, setSellerDesc] = useState("")
     const [picture, setPicture] = useState("")
@@ -17,6 +18,7 @@ function CreateModal() {
         name: "",
         price: "",
         quantity: "",
+        category: "",
         item_desc: "",
         seller_desc: "",
         picture: ""
@@ -29,6 +31,7 @@ function CreateModal() {
             name: name,
             price: price,
             quantity: quantity,
+            category: category,
             item_desc: item_desc,
             sell_desc: sell_desc,
             picture: picture
@@ -42,9 +45,11 @@ function CreateModal() {
         setName(initialState.name)
         setPrice(initialState.price)
         setQuantity(initialState.quantity)
+        setCategory(initialState.category)
         setItemDesc(initialState.item_desc)
         setSellerDesc(initialState.seller_desc)
         setPicture(initialState.picture)
+        window.location.reload();
     }
 
     // function handleChange(e) {
@@ -61,6 +66,7 @@ function CreateModal() {
             onOpen={() => setOpen(true)}
             open={open}
             trigger={<Button primary>Create</Button>}
+            id='Semantic-Modal'
         >
             <Modal.Header>Add New Item</Modal.Header>
             <Modal.Content>
@@ -96,6 +102,15 @@ function CreateModal() {
                         />
                     </Form.Field>
                 </Form.Group>
+                <Form.Field>
+                    <label>Category</label>
+                    <input
+                        required
+                        placeholder='Category'
+                        value={category}
+                        onChange={e => setCategory(e.target.value)}
+                    />
+                </Form.Field>
                 <Form.Field>
                     <label>Item Description</label>
                     <TextArea
