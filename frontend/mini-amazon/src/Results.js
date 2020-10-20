@@ -8,7 +8,7 @@ function Results(props) {
     console.log(props.match.params.search);
 
     useEffect( () => {
-      fetch('/listings').then(response =>
+      fetch('http://127.0.0.1:5000/listings/' + props.match.params.search).then(response =>
         response.json().then(data => {
           setListings(data.listings);
         })
