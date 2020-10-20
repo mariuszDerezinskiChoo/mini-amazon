@@ -44,6 +44,7 @@ function ModifyModal() {
                 onClose={() => setOpen(false)}
                 onOpen={() => setOpen(true)}
                 open={open}
+                id='Semantic-Modal'
             >
                 <Modal.Header>Modify Listing</Modal.Header>
                 <Modal.Content>
