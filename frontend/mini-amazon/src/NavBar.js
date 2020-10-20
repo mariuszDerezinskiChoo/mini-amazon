@@ -4,6 +4,10 @@ import {FormControl, Form, Button} from 'react-bootstrap';
 
 
 class NavBar extends React.Component {
+  //componentDidMount() {
+  //  this.textInput = React.createRef(); 
+  //}
+
   render() {
     const signInStyle = {
         position: 'absolute',
@@ -23,7 +27,7 @@ class NavBar extends React.Component {
       <Nav.Link href="/addReview">Review</Nav.Link>
       <Nav.Link href="/results">Results</Nav.Link>
       <Form inline>
-      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+      <FormControl ref={this.textInput} type="text" placeholder="Search" className="mr-sm-2" />
       <Button >Search</Button>
     </Form>
 

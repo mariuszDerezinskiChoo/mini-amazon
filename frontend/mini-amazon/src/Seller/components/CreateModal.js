@@ -1,12 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Modal, Form, Input, TextArea } from 'semantic-ui-react';
 import FileUpload from './FileUpload';
+import axios from 'axios';
 
 function CreateModal() {
-    const [open, setOpen] = React.useState(false)
+    const [open, setOpen] = useState(false)
+    const [name, setName] = useState("")
+    const [price, setPrice] = useState("")
+    const [quantity, setQuantity] = useState("")
+    const [item_desc, setItemDesc] = useState("")
+    const [sell_desc, setSellerDesc] = useState("")
+    const [picture, setPicture] = useState("")
+
+    const initialState = {
+        open: false,
+        name: "",
+        price: "",
+        quantity: "",
+        item_desc: "",
+        seller_desc: "",
+        picture: ""
+    };
+
+    //const [{ open, name, price, quantity, item_desc, seller_desc, picture }, setState] = useState(initialState)
+
+    function handleSubmit() {
+        const data = {
+            name: name,
+            price: price,
+            quantity: quantity,
+            item_desc: item_desc,
+            sell_desc: sell_desc,
+            picture: picture
+        }
+        axios.post('http://127.0.0.1:5000/seller', data)
+            .then((res) => {
+                console.log(res);
+                console.log(res.status);
+            })
+        setOpen(initialState.open)
+        setName(initialState.name)
+        setPrice(initialState.price)
+        setQuantity(initialState.quantity)
+        setItemDesc(initialState.item_desc)
+        setSellerDesc(initialState.seller_desc)
+        setPicture(initialState.picture)
+    }
+
+    // function handleChange(e) {
+    //     const { name, value } = e.target
+    //     setState(prevState => ({ ...prevState, [name]: value }));
+    //     console.log(this.state.name)
+    // }
 
     return (
         <Modal
+            as={Form}
+            onSubmit={(() => handleSubmit())}
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
             open={open}
@@ -14,33 +64,61 @@ function CreateModal() {
         >
             <Modal.Header>Add New Item</Modal.Header>
             <Modal.Content>
-                <Form>
-                    <Form.Field>
-                        <label>Item Name</label>
-                        <input required placeholder='Name' />
-                    </Form.Field>
+                <Form.Field>
+                    <label>Item Name</label>
+                    <input
+                        required
+                        placeholder='Name'
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                    />
+                </Form.Field>
+                <Form.Group widths='equal'>
                     <Form.Field>
                         <label>Price</label>
-                        <Input required label='$' type='number' />
+                        <Input
+                            required
+                            label='$'
+                            placeholder='Price'
+                            type='number'
+                            value={price}
+                            onChange={e => setPrice(e.target.value)}
+                        />
                     </Form.Field>
                     <Form.Field>
                         <label>Quantity</label>
-                        <input required placeholder='Quantity' />
+                        <input
+                            required
+                            placeholder='Quantity'
+                            type='number'
+                            value={quantity}
+                            onChange={e => setQuantity(e.target.value)}
+                        />
                     </Form.Field>
-                    <Form.Field>
-                        <label>Item Description</label>
-                        <TextArea required placeholder='Description' />
-                    </Form.Field>
-                    <Form.Field>
-                        <label>Seller Description</label>
-                        <TextArea required placeholder='Describe Yourself' />
-                    </Form.Field>
-                    <Form.Field>
-                        <label>Upload a Picture</label>
-                        <FileUpload />
-                    </Form.Field>
-                    <Button primary type='submit'>Create</Button>
-                </Form>
+                </Form.Group>
+                <Form.Field>
+                    <label>Item Description</label>
+                    <TextArea
+                        required
+                        placeholder='Description'
+                        value={item_desc}
+                        onChange={e => setItemDesc(e.target.value)}
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <label>Seller Description</label>
+                    <TextArea
+                        required
+                        placeholder='Describe Yourself'
+                        value={sell_desc}
+                        onChange={e => setSellerDesc(e.target.value)}
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <label>Upload a Picture</label>
+                    <FileUpload />
+                </Form.Field>
+                <Button primary type='submit'>Submit</Button>
             </Modal.Content>
             <Modal.Actions>
                 <Button onClick={() => setOpen(false)}>

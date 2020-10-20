@@ -1,11 +1,7 @@
 from flask import Blueprint, jsonify, request
 from . import db 
 from .models import Buyer
-from .models import Listing
-from .models import Item
-import sqlite3
-conn = sqlite3.connect('./database.db')
-c = conn.cursor()
+from .models import Buyer, Item, Storefront, Listing
 
 main = Blueprint('main', __name__)
 
@@ -85,6 +81,35 @@ def cart():
     }
 ]
     return jsonify(result)
+
+@main.route('/seller', methods=['POST', 'PUT', 'GET'])
+def seller():
+    if request.method == 'POST':
+        req = request.json
+        print(req)
+        print(req['price'])
+        return 'new item submitted'
+    elif request.method == 'PUT':
+        #DB QUERY
+        req = request.json
+        print(req)
+        print(req['price'])
+        return 'edit submitted'
+    else:
+        # listings = Listing.query.filter_by(seller_email='{THIS USERS EMAIL}')
+        # items = Item.query.filter_by(item_id={EACH ID IN LISTINGS})
+        listings_list = []
+        listings = Listing.query.filter_by(storefront_email="storefront_email1@gmail.com").all() # TODO: make this seller specific
+        for listing in listings:
+            data = {}
+            item = Item.query.filter_by(id=listing.item_id).first()
+            data['id'] = listing.item_id
+            data['name'] = item.name
+            data['price'] = listing.price
+            data['quantity'] = listing.quantity
+            listings_list.append(data)
+
+        return jsonify({'listings':listings_list})
 
 # @main.route('/recommended')
 # def recommended():
