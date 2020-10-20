@@ -7,9 +7,21 @@ import '../styles/sellingItem.css';
 function SellingItem(props) {
     const [open, setOpen] = React.useState(false)
 
+    function inArray(id) {
+        return picLocations.some((el) => {
+            return el.id === id;
+          });
+    }
+
+    const location = inArray(props.item.id) ? picLocations.find(el => el.id === props.item.id)["location"] : placeholder
+
     return (
         <Card>
-            <img src={picLocations.find(el => el.id === props.item.id)["location"]} height={400} alt={placeholder} />
+            <img
+                src={location}
+                height={400}
+                alt={placeholder}
+            />
 
             <Card.Content>
                 <Card.Header>{props.item.name}</Card.Header>
@@ -41,6 +53,7 @@ function SellingItem(props) {
                             <Icon name='trash alternate outline' />
                         </Button>
                     }
+                    id='Semantic-Modal'
                 >
                     <Modal.Header>Delete Listing</Modal.Header>
                     <Modal.Content>

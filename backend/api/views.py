@@ -85,8 +85,15 @@ def cart():
 def seller():
     if request.method == 'POST':
         req = request.json
-        print(req)
-        print(req['price'])
+        new_item = Item(name=req['name'], description=req['item_desc'], category=req['category'])
+        db.session.add(new_item)
+        db.session.commit()
+        item = Item.query.filter_by(name=req['name'], description=req['item_desc']).first()
+        item_id = item.id
+        new_listing = Listing(item_id=item_id, quantity=req['quantity'], price=req['price'], storefront_email="storefront_email1@gmail.com") # TODO: make this seller specific
+        db.session.add(new_listing)
+        db.session.commit()
+
         return 'new item submitted'
     elif request.method == 'PUT':
         #DB QUERY

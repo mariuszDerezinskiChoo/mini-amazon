@@ -8,3 +8,7 @@
   margin: 25px;
   margin-top: 15px;
 }
+
+#Semantic-Modal {
+  position: relative;
+}
