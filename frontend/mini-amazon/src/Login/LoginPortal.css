@@ -8,4 +8,19 @@
       margin: 0 auto;
       max-width: 320px;
     }
+    .Register {
+      padding: 60px 80px;
+    }
+  
+    .Register form {
+      margin: 0 auto;
+      max-width: 320px;
+    }
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 100px;
+    align-items: center;
   }
