@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from . import db 
+from .models import Buyer
 from .models import Buyer, Item, Storefront, Listing
 
 main = Blueprint('main', __name__)
@@ -188,3 +189,23 @@ def update_review(review_id):
 		form.review.data = review.review
 		# In the example, he didn't worry about anything outside of the form fields
 	return render_template('create_review.html', title='Update Review', review=review, legend='Update Review')
+
+
+#get info from search bar
+@main.route('/listings')
+def listings():
+    listing_list = Listing.query.all()
+    item_list = Item.query.all() #filterby item.name = search
+    listings = []
+
+    for listing in listing_list:
+        listings.append({'item_id': listing.item_id,
+                    'quantity': listing.quantity, 
+                    'price': listing.price, 
+                    'storefront_email': listing.storefront_email})
+    for l in listings:
+        for i in item_list:
+            if l['item_id'] == i.id:
+                l['name'] = i.name
+
+    return jsonify({'listings' : listings})

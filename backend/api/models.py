@@ -35,6 +35,7 @@ class Item(db.Model):
     # photo_url = db.Column(db.String(100),nullable=False)
 
 class Listing(db.Model):
+    __tablename__ = 'listing'
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), primary_key=True)
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Integer, nullable=False)

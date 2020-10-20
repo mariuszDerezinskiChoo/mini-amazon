@@ -4,6 +4,10 @@ import {FormControl, Form, Button} from 'react-bootstrap';
 
 
 class NavBar extends React.Component {
+  //componentDidMount() {
+  //  this.textInput = React.createRef(); 
+  //}
+
   render() {
     const signInStyle = {
         position: 'absolute',
@@ -21,13 +25,14 @@ class NavBar extends React.Component {
       <Nav.Link href="/seller">Seller</Nav.Link>
       <Nav.Link href="/cart">Cart</Nav.Link>
       <Nav.Link href="/addReview">Review</Nav.Link>
+      <Nav.Link href="/results">Results</Nav.Link>
       <Form inline>
-      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+      <FormControl ref={this.textInput} type="text" placeholder="Search" className="mr-sm-2" />
       <Button >Search</Button>
     </Form>
-
       <NavDropdown title="Actions" id="basic-nav-dropdown" style={signInStyle} >
         <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+        <NavDropdown.Item href="/signup">create an account</NavDropdown.Item>
         <NavDropdown.Item href="/test-api">Test-api</NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item href="#action/3.4">log out</NavDropdown.Item>

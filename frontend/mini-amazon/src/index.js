@@ -12,6 +12,7 @@ import Navbar from './NavBar';
 import Seller from './components/Seller';
 import './App.css';
 import 'semantic-ui-css/semantic.min.css';
+import Results from "./Results";
 import TestAPI from './Login/testAPI';
 import BuyerForm from './Login/BuyerForm';
 
@@ -27,6 +28,7 @@ ReactDOM.render(
         <Route exact path="/seller" component={Seller} />
         <Route exact path="/addReview" component={Review} />
         <Route exact path="/register" component={BuyerForm} />
+        <Route exact path="/results" component={Results}/>
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,
