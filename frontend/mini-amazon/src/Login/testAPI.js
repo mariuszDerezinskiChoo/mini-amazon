@@ -1,5 +1,6 @@
 import React from "react";
 import axios from 'axios';
+import { noAuto } from "@fortawesome/fontawesome-svg-core";
 
 class testAPI extends React.Component {
     // State will apply to the posts object which is set to loading by default
@@ -39,10 +40,7 @@ class testAPI extends React.Component {
                 const { email, first_name, last_name, balance, password } = buyer;
                 return (
 
-                    <div className="container">
-                    <div className="col-xs-8">
-                      <div className="card">
-                       <div className="card-body">
+                    <div style={{ justifyContent: 'center', marginLeft:100}}>
                            <h5 className="card-title">{email}</h5>
                           <h6 className="card-subtitle mb-2 text-muted">
                           {first_name}             
@@ -57,9 +55,6 @@ class testAPI extends React.Component {
                           {balance}             
                           </h6>
                         </div>
-                      </div>
-                    </div>
-                   </div>
                 );
               })
             ) : (

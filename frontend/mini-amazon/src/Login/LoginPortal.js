@@ -15,29 +15,33 @@ export default function LoginPortal() {
   }
 
   return (
-    <div className="Login">
-      <form onSubmit={handleSubmit}>
-        <FormGroup controlId="email" bsSize="large">
-          <FormLabel>Email</FormLabel>
-          <FormControl
-            autoFocus
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
-        </FormGroup>
-        <FormGroup controlId="password" bsSize="large">
-          <FormLabel>Password</FormLabel>
-          <FormControl
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            type="password"
-          />
-        </FormGroup>
-        <Button block bsSize="large" disabled={!validateForm()} type="submit">
+    <div className="Register">
+    <form onSubmit={handleSubmit}>
+      <FormGroup controlId="email" bssize="large">
+        <FormLabel>Email</FormLabel>
+        <FormControl
+          autoFocus
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+      </FormGroup>
+      <FormGroup controlId="password" bssize="large">
+        <FormLabel>Password</FormLabel>
+        <FormControl
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          type="password"
+        />
+      </FormGroup>
+        <Button block disabled={!validateForm()} type="submit" href="/home">
           Login
         </Button>
+
+      <p>Don't have an account?</p>
+    <Button size="sm" variant="light" href="/register">Register</Button>  
       </form> 
     </div>
+
   );
 }
