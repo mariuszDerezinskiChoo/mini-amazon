@@ -1,5 +1,9 @@
 # Mini Amazon
 
+## MS2 Submission
+
+MS2 deliverables can be found in the root directory of the repository as MS2.mp4 and MS2.pdf
+
 ## Frontend
 
 The frontend is written in react. to run locally:
