@@ -195,11 +195,9 @@ def update_review(review_id):
 @main.route('/listings/<search>')
 def listings(search):
     if search == "all":
-        #item_list = Item.query.filter_by(name = search)
         item_list = Item.query.all()
     else:
         item_list = Item.query.filter_by(name = search)
-        #item_list = Item.query.all()
     listing_list = Listing.query.all()
     listings = []
 
