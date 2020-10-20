@@ -28,7 +28,7 @@ ReactDOM.render(
         <Route exact path="/seller" component={Seller} />
         <Route exact path="/addReview" component={Review} />
         <Route exact path="/register" component={BuyerForm} />
-        <Route exact path="/results" component={Results}/>
+        <Route exact path="/results/:search" component={Results}/>
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,

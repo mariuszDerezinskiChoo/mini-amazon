@@ -4,15 +4,39 @@ import {FormControl, Form, Button} from 'react-bootstrap';
 
 
 class NavBar extends React.Component {
-  //componentDidMount() {
-  //  this.textInput = React.createRef(); 
-  //}
+
+  constructor(props, context){
+    super(props,context);
+
+    this.handleChange = this.handleChange.bind(this);
+
+    this.state = {
+      value: ''
+    }
+  }
+
+
+  componentDidMount() {
+   this.textInput = React.createRef(); 
+  }
+
+  handleChange(e) {
+    this.setState({ value: e.target.value });
+  }
+
+
 
   render() {
     const signInStyle = {
         position: 'absolute',
         right: 90,
       };
+
+
+    const handleClick = (e) => {
+      e.preventDefault();
+      console.log(this.state.value);
+    }
     return (
       <div>
 
@@ -27,8 +51,8 @@ class NavBar extends React.Component {
       <Nav.Link href="/addReview">Review</Nav.Link>
       <Nav.Link href="/results">Results</Nav.Link>
       <Form inline>
-      <FormControl ref={this.textInput} type="text" placeholder="Search" className="mr-sm-2" />
-      <Button >Search</Button>
+      <FormControl onChange={this.handleChange} value={this.state.value} type="text" placeholder="Search" className="mr-sm-2" />
+      <Button href={"/results/" + this.state.value}>Search</Button>
     </Form>
       <NavDropdown title="Actions" id="basic-nav-dropdown" style={signInStyle} >
         <NavDropdown.Item href="/login">Login</NavDropdown.Item>
