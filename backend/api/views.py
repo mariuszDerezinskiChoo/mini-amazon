@@ -192,20 +192,25 @@ def update_review(review_id):
 
 
 #get info from search bar
-@main.route('/listings')
-def listings():
+@main.route('/listings/<search>')
+def listings(search):
+    if search == "all":
+        #item_list = Item.query.filter_by(name = search)
+        item_list = Item.query.all()
+    else:
+        item_list = Item.query.filter_by(name = search)
+        #item_list = Item.query.all()
     listing_list = Listing.query.all()
-    item_list = Item.query.all() #filterby item.name = search
     listings = []
 
-    for listing in listing_list:
-        listings.append({'item_id': listing.item_id,
-                    'quantity': listing.quantity, 
-                    'price': listing.price, 
-                    'storefront_email': listing.storefront_email})
-    for l in listings:
-        for i in item_list:
-            if l['item_id'] == i.id:
-                l['name'] = i.name
+    for item in item_list:
+        listings.append({'id': item.id,
+                    'name': item.name})
+
+    for i in listings:
+        for l in listing_list:
+            if i['id'] == l.item_id:
+                i['quantity'] = l.quantity
+                i['price'] = l.price
 
     return jsonify({'listings' : listings})
