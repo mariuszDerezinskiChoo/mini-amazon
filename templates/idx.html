@@ -1,0 +1,23 @@
+<doctype html="">
+    <title>Search Page</title>
+<h2>Mini-Amazon</h2>
+{% from "_formhelpers.html" import render_field %}
+<form method="post">
+    <h1> Welcome {{usr}}! </h1>
+  <dl>
+    {{ render_field(form.select) }}
+    <p>
+    {{ render_field(form.search) }}
+  </p></dl>
+  <p><input type="submit" value="Search">
+</p></form>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flashes">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+</doctype>

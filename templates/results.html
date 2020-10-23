@@ -1,0 +1,43 @@
+{% extends "base.html"%}
+{% block title %}Login Page{% endblock%}
+
+{% from "_formhelpers.html" import render_field %}
+<form method="post">
+    <h1> Welcome {{usr}}! </h1>
+  <dl>
+    {{ render_field(form.select) }}
+    <p>
+    {{ render_field(form.search) }}
+  </p></dl>
+  <p><input type="submit" value="Search">
+</p></form>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flashes">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+{% block content %}
+    <div class="container">
+    <h1>Results</h1>
+      {% for item in results %}
+        <ul id="item.id">
+          <li>
+              <span class="field-name">Name:</span>
+              <span class="field-value">{{ item.name }}</span>
+          </li>
+          <li>
+              <span class="field-name">Category:</span>
+              <span class="field-value">{{ item.category }}</span>
+          </li>
+          <li>
+              <span class="field-name">Description:</span>
+              <span class="field-value">{{ item.description }}</span>
+          </li>
+        </ul>
+      {% endfor %}
+    </div>
+{% endblock %}

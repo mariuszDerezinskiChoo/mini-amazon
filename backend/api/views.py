@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from . import db 
+from .models import Buyer
 from .models import Buyer, Item, Storefront, Listing
 
 main = Blueprint('main', __name__)
@@ -36,50 +37,35 @@ def buyers():
 @main.route('/cart')
 def cart():
     # sql query
-    # format data
-    result = [
-    {
-        "itemName": "Macbook Pro",
-        "sellerName": "Apple.com Inc.",
-        "price": 1500,
-        "count": 3,
-        "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
-        "description": "Apple MacBook Pro is a macOS laptop with a 13.30-inch display that has a resolution of 2560x1600 pixels. It is powered by a Core i5 processor and it comes with 12GB of RAM. The Apple MacBook Pro packs 512GB of SSD storage."
-    },
-    {
-        "itemName": "Macbook Pro",
-        "sellerName": "Apple.com Inc.",
-        "price": 1500,
-        "count": 3,
-        "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
-        "description": "Apple MacBook Pro is a macOS laptop with a 13.30-inch display that has a resolution of 2560x1600 pixels. It is powered by a Core i5 processor and it comes with 12GB of RAM. The Apple MacBook Pro packs 512GB of SSD storage."
-    },
-        {
-        "itemName": "Macbook Pro",
-        "sellerName": "Apple.com Inc.",
-        "price": 1500,
-        "count": 3,
-        "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
-        "description": "Apple MacBook Pro is a macOS laptop with a 13.30-inch display that has a resolution of 2560x1600 pixels. It is powered by a Core i5 processor and it comes with 12GB of RAM. The Apple MacBook Pro packs 512GB of SSD storage."
-    },
-        {
-        "itemName": "Macbook Pro",
-        "sellerName": "Apple.com Inc.",
-        "price": 1500,
-        "count": 3,
-        "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
-        "description": "Apple MacBook Pro is a macOS laptop with a 13.30-inch display that has a resolution of 2560x1600 pixels. It is powered by a Core i5 processor and it comes with 12GB of RAM. The Apple MacBook Pro packs 512GB of SSD storage."
-    },
-        {
-        "itemName": "Macbook Pro",
-        "sellerName": "Apple.com Inc.",
-        "price": 1500,
-        "count": 3,
-        "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
-        "description": "Apple MacBook Pro is a macOS laptop with a 13.30-inch display that has a resolution of 2560x1600 pixels. It is powered by a Core i5 processor and it comes with 12GB of RAM. The Apple MacBook Pro packs 512GB of SSD storage."
-    }
-]
-    return jsonify(result)
+    query_text = """select i.name, i.description, i.category, l.price, c.quantity, c.item_id, s.name as sellername, s.email as selleremail, i.id as item_id
+                    from item i, listing l, cart c, storefront s
+                    where c.item_id = l.item_id and i.id = l.item_id and c.storefront_email = l.storefront_email and s.email = l.storefront_email;"""
+    res = db.engine.execute(query_text)
+    response = []
+    for row in res:
+        response.append({
+            "itemId" : row.item_id,
+            "itemName" : row.name,
+            "sellerName": row.sellername,
+            "price" : row.price,
+            "quantity" : row.quantity,
+            "sellerEmail": row.selleremail,
+            "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
+            "description": row.description
+        })
+    return jsonify(response)
+
+@main.route('/updateCart', methods = ['POST'])
+def update_cart():
+    req = request.json
+    buyer_email = 'buyer_email1@gmail.com'
+    item_id = req['itemId']
+    seller_email = req['sellerEmail']
+    new_quantity = req['quantity']
+    # todo: validate size
+    db.engine.execute('UPDATE cart SET quantity = {} where storefront_email = "{}" and item_id = "{}" and buyer_email = "{}";'.format(new_quantity,seller_email,item_id,buyer_email))
+
+    return 'Done', 201
 
 @main.route('/seller', methods=['POST', 'PUT', 'GET'])
 def seller():
@@ -203,3 +189,28 @@ def update_review(review_id):
 		form.review.data = review.review
 		# In the example, he didn't worry about anything outside of the form fields
 	return render_template('create_review.html', title='Update Review', review=review, legend='Update Review')
+
+
+#get info from search bar
+@main.route('/listings/<search>')
+def listings(search):
+    if search == "all":
+        #item_list = Item.query.filter_by(name = search)
+        item_list = Item.query.all()
+    else:
+        item_list = Item.query.filter_by(name = search)
+        #item_list = Item.query.all()
+    listing_list = Listing.query.all()
+    listings = []
+
+    for item in item_list:
+        listings.append({'id': item.id,
+                    'name': item.name})
+
+    for i in listings:
+        for l in listing_list:
+            if i['id'] == l.item_id:
+                i['quantity'] = l.quantity
+                i['price'] = l.price
+
+    return jsonify({'listings' : listings})
