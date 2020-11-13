@@ -20,11 +20,11 @@ class NavBar extends React.Component {
       <Nav.Link href="/">Home</Nav.Link>
       <Nav.Link href="/seller">Seller</Nav.Link>
       <Nav.Link href="/cart">Cart</Nav.Link>
-      <Nav.Link href="/addReview">Review</Nav.Link>
+      <Nav.Link href="/review">Manage Reviews</Nav.Link>
       <Form inline>
-      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-      <Button >Search</Button>
-    </Form>
+        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+        <Button >Search</Button>
+      </Form>
 
       <NavDropdown title="Sign in" id="basic-nav-dropdown" style={signInStyle} >
         <NavDropdown.Item href="/login">login</NavDropdown.Item>

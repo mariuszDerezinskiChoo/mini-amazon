@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from . import db 
-from .models import Buyer, Item, Storefront, Listing
+from .models import Buyer, Storefront, Item, Listing, Cart, Purchase, Reviews
 from sqlalchemy import text
     # This allows for plain SQL queries to be held in python variables
     # https://stackoverflow.com/questions/17972020/how-to-execute-raw-sql-in-flask-sqlalchemy-app
@@ -85,8 +85,6 @@ def cart():
 ]
     return jsonify(result)
 
-eventually, ideally clicking on an item on purchase history page should href to a url like
-/loggedin-buyer_email/purchase-datetime/add_review (where buyer_email, datetime make a purchase primary key)
 @main.route('/seller', methods=['POST', 'PUT', 'GET'])
 def seller():
     if request.method == 'POST':
@@ -116,96 +114,57 @@ def seller():
 
         return jsonify({'listings':listings_list})
 
-@main.route('/recommended')
-def recommended():
-    # A more sophisticated page would for-loop over a query of every unique category in item
-    # sql = text('SELECT DISTINCT category FROM item')
-    
-    # This method means we manually manage each category-column displayed on the page
-    books_query = text('''
-    WITH itemavg AS (
-        SELECT item_id, AVG(rating_item) AS average_score
-        FROM Reviews
-        GROUP BY item_id)
-    SELECT item_id, average_score
-    FROM item, itemavg
-    WHERE item.id = itemavg.item_id AND category = 'books'
-    ORDER BY average_score DESC
-    ''')
-        # .headers ON <- to see column names
-    books_table = db.engine.execute(books_query)
-        # Returns a table of average rating per item in a category, sorted high-low
-        # Books(item_id, average_score), high-low
-    print(row[0] for row in books_table)
+@main.route('/review', methods=['GET', 'PUT', 'POST'])
+def review():
+    if request.method == 'POST':
+        review_data = request.get_json()
+        new_review = Reviews(item_id=review_data['item_id'],
+                                storefront_email=review_data['storefront_email'],
+                                buyer_email=review_data['buyer_email'],
+                                rating_item=review_data['rating_item'],
+                                rating_storefront=review_data['rating_storefront'],
+                                review=review_data['review']
+                            )
+        db.session.add(new_review)
+        db.session.commit()
+        return 'Done', 201
+        # Works! But only for tuples that satisfy the input conditions (here, PK is id-storefront-buyer w/ FK considerations)
+        # If the commit doesn't work, how can we show the user that it didn't get added to db?
+        # The form can check data types, but only a request to db can ensure if PK/FK are satisfied
+    elif request.method == 'PUT':
+        
 
 
-    # As with Amazon, we decide what categories exist.
-    # A variable for each category stores a query re
-	# books = Item.query.filter_by(category='books').order_by(Item.rating).all()
-	# food = Item.query.filter_by(category='food').all()
-    # render_template('recommended.html', category1=technology, category2=produce)
 
-# eventually, ideally clicking on an item on purchase history page should href to a url like
-# /loggedin-buyer_email/purchase-datetime/add_review (where buyer_email, datetime make a purchase primary key)
-@main.route('/add_review', methods=['GET', 'POST'])
-# @login_required
-def add_review():
-    review_data = request.get_json()
-    
-    new_review = Reviews(
-        buyer_email=form.buyer_email.data,
-        seller_email=form.seller_email.data,
-        # datetime_submitted is automatically populated?
-        item_id=form.item_id.data,
-        rating_item=form.rating_item.data,
-        rating_seller=form.rating_seller.data,
-        review=form.review.data
-        )
-    db.session.add(new_review)
-    db.session.commit()
-    # flash('Your review has been submitted!', 'success')
-    return render_template('create_review.html', title='Write Review', form=form, legend='Write Review')
+        # OR IS THIS BELOW CODE FOR "GET" REQUEST?
+        # username = login_session_username... (e.g., buyer_email1@gmail.com)
+        username = "buyer_email1@gmail.com"
+        sql = text('SELECT * FROM Reviews WHERE buyer_email = ?', username)
+        result = db.engine.execute(sql)
+        reviews = []
+        for row in result:
+            reviews.append({'item_id' : row.item_id, 
+                            'storefront_email' : row.storefront_email, 
+                            'buyer_email' : row.buyer_email, 
+                            'rating_item' : row.rating_item, 
+                            'rating_storefront' : row.rating_storefront, 
+                            'review' : row.review
+            })
+        return jsonify({'reviews' : reviews})
 
-# # review_id is Reviews(id)
-# @main.route('/reviews/<int:review_id>', methods=['GET', 'POST'])
-# def review(review_id):
-# 	review = Reviews.query.get_or_404(review_id)
-# 	return render_template('review.html', title='See Review', review=review)
-# 	# TODO: Create HTML template for looking at review, offer button that will take user
-# 	# to the update page V
+    else: # FROM ROBERT'S SELLER PAGE, THIS IS FOR LISTINGS
+        # listings = Listing.query.filter_by(seller_email='{THIS USERS EMAIL}')
+        # items = Item.query.filter_by(item_id={EACH ID IN LISTINGS})
+        listings_list = []
+        listings = Listing.query.filter_by(storefront_email="storefront_email1@gmail.com").all() # TODO: make this seller specific
+        for listing in listings:
+            data = {}
+            item = Item.query.filter_by(id=listing.item_id).first()
+            data['id'] = listing.item_id
+            data['name'] = item.name
+            data['price'] = listing.price
+            data['quantity'] = listing.quantity
+            listings_list.append(data)
 
-# AFTER MS2 DO REVIEW-UPDATE FEATURE! FOR NOW DWBI.
-# @main.route('/review/<int:review_id>/update', methods=['GET', 'POST'])
-# # @login_required
-# def update_review(review_id):
-# 	review = Reviews.query.get_or_404(review_id)
-# 	# TODO: Figure out how tf current_user works
-# 	# if review.buyer_email != current_user:
-# 	# 	abort(403)
-# 	form = ReviewForm()
-# 	if form.validate_on_submit():
-# 		review = Reviews(
-# 			# id will populate automatically
-# 			buyer_email=form.buyer_email.data,
-# 			seller_email=form.seller_email.data,
-# 			# datetime_submitted is automatically populated - no need here, no need on form
-# 			item_id=form.item_id.data,
-# 			rating_item=form.rating_item.data,
-# 			rating_seller=form.rating_seller.data,
-# 			review=form.review.data
-# 			)
-# 		# No db.session.add(review) necessary
-# 		db.session.commit()
-# 		flash('Your review has been updated!', 'success')
-# 		return redirect(url_for('review', review_id=review.id))
-# 	# Rewatch videos (before 8) for why this is here
-# 	elif request.method == 'GET':
-# 		form.buyer_email.data = review.buyer_email
-# 		form.seller_email.data = review.seller_email
-# 		form.item_id.data = review.item_id
-# 		form.rating_item.data = review.rating_item
-# 		form.rating_seller.data = review.rating_seller
-# 		form.review.data = review.review
-# 		# In the example, he didn't worry about anything outside of the form fields
-# 	return render_template('create_review.html', title='Update Review', review=review, legend='Update Review')
+        return jsonify({'listings':listings_list})
 

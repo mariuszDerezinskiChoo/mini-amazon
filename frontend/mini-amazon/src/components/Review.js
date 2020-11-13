@@ -1,13 +1,21 @@
 import React from "react";
+import '../App.css';
+import AddModifyReview from '../Review/components/AddModifyReview.js';
+import PastReviews from '../Review/components/PastReviews.js';
 
 
-
-const Review = () => {
-    return (
-        <>
-        <h1>Hello</h1>
-        </>
-    )
-};
-
+function Review() {
+  return (
+    <div>
+      <div id='add-modify'>
+        <AddModifyReview />
+      </div>
+      <br />
+      <div id='past-reviews'>
+        <PastReviews />
+      </div>
+    </div>
+  );
+}
 export default Review;
+

@@ -25,7 +25,7 @@ ReactDOM.render(
         <Route path="/test-api" component={TestAPI} />
         <Route exact path="/" component={HomePage} />
         <Route exact path="/seller" component={Seller} />
-        <Route exact path="/addReview" component={Review} />
+        <Route exact path="/review" component={Review} />
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,
