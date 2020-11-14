@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from . import db 
 from .models import Buyer
-from .models import Buyer, Item, Storefront, Listing
+from .models import Buyer, Item, Storefront, Listing, Cart
 
 main = Blueprint('main', __name__)
 
@@ -54,6 +54,21 @@ def cart():
             "description": row.description
         })
     return jsonify(response)
+
+@main.route('/add_cart', methods=['POST'])
+def add_cart():
+    cart_data = request.get_json()
+
+    new_cart = Cart(item_id = cart_data['id'],
+                    quantity = cart_data['quantity'], 
+                    storefront_email = cart_data['selleremail'],
+                    buyer_email = cart_data['buyeremail'],
+                    )
+
+    db.session.add(new_cart)
+    db.session.commit()
+
+    return 'Done', 201
 
 @main.route('/updateCart', methods = ['POST'])
 def update_cart():
@@ -194,21 +209,45 @@ def update_review(review_id):
 #get info from search bar
 @main.route('/listings/<search>')
 def listings(search):
-    if search == "all":
-        item_list = Item.query.all()
-    else:
-        item_list = Item.query.filter_by(name = search)
-    listing_list = Listing.query.all()
+    text = search
+    res = db.engine.execute('SELECT i.id, i.name, l.quantity, l.price, s.name as sellername FROM item i, listing l, storefront s WHERE i.name LIKE "%{}%" and i.id = l.item_id and l.storefront_email = s.email;'.format(text))
     listings = []
-
-    for item in item_list:
-        listings.append({'id': item.id,
-                    'name': item.name})
-
-    for i in listings:
-        for l in listing_list:
-            if i['id'] == l.item_id:
-                i['quantity'] = l.quantity
-                i['price'] = l.price
+    for row in res:
+        listings.append({
+            "id" : row.id,
+            "name" : row.name,
+            "price" : row.price,
+            "quantity" : row.quantity,
+            "seller" : row.sellername
+        })
+    if not listings:
+        return jsonify(listings)
 
     return jsonify({'listings' : listings})
+
+@main.route('/item/<item>/<seller>/<item_id>')
+def item(item, seller, item_id):
+    res = db.engine.execute('WITH a AS (SELECT * FROM listing l, item i WHERE l.item_id = {} and i.name = "{}"), b AS (SELECT a.item_id, a.name, a.description, a.category, a.storefront_email, a.price, a.quantity, s.name as sellername FROM a INNER JOIN storefront s ON a.storefront_email = s.email) SELECT * FROM b WHERE sellername = "{}";'.format(item_id, item, seller))
+    items = []
+    for row in res:
+        items.append({
+            "id" : row.item_id,
+            "name" : row.name,
+            "description" : row.description,
+            "category" : row.category,
+            "selleremail" : row.storefront_email,
+            "seller" : row.sellername,
+            "price" : row.price,
+            "quantity" : row.quantity,
+        })
+    semail = items[0]["selleremail"]
+    rate = db.engine.execute('SELECT COUNT(*) as total, AVG(rating_item) as rating, r.buyer_email, r.rating_item, r.review FROM reviews r WHERE r.item_id = {} and r.storefront_email = "{}";'.format(item_id, semail))
+    for row in rate:
+        for item in items:
+            item["avg_rating"] = row.rating
+            item["total_reviews"] = row.total
+            #item["buyer"] = row.buyer_email
+            #item["rating"] = row.rating_item
+            #item["review"] = row.review
+
+    return jsonify({'items' : items})
