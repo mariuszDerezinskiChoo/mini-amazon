@@ -57,12 +57,6 @@ function CreateModal() {
         // setDatetime(initialState.datetime)
     }
 
-    // function handleChange(e) {
-    //     const { name, value } = e.target
-    //     setState(prevState => ({ ...prevState, [name]: value }));
-    //     console.log(this.state.name)
-    // }
-
     return (
         <Modal
             as={Form}
@@ -71,6 +65,7 @@ function CreateModal() {
             onOpen={() => setOpen(true)}
             open={open}
             trigger={<Button primary>Create</Button>}
+            id='Semantic-Modal'
         >
             <Modal.Header>Add New Review</Modal.Header>
             <Modal.Content>

@@ -1,14 +1,13 @@
 import React from "react";
 import '../App.css';
-import AddModifyReview from '../Review/components/AddModifyReview.js';
+import AddReview from '../Review/components/AddReview.js';
 import PastReviews from '../Review/components/PastReviews.js';
-
 
 function Review() {
   return (
     <div>
       <div id='add-modify'>
-        <AddModifyReview />
+        <AddReview />
       </div>
       <br />
       <div id='past-reviews'>
