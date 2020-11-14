@@ -4,6 +4,7 @@ import FileUpload from './FileUpload';
 import dummyData from '../dummyData';
 import axios from 'axios';
 
+// ****************************************************************************************** DEPRECATED ******************************************************************************************
 function ModifyModal() {
     const [open, setOpen] = useState(false)
     const [selectedData, setData] = useState([])
@@ -79,7 +80,7 @@ function ModifyModal() {
                 <Modal.Actions>
                     <Button onClick={() => setOpen(false)}>
                         Cancel
-                </Button>
+                    </Button>
                 </Modal.Actions>
             </Modal>
         </div>

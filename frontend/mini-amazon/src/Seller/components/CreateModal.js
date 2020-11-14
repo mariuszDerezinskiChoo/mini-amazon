@@ -10,7 +10,7 @@ function CreateModal() {
     const [quantity, setQuantity] = useState("")
     const [category, setCategory] = useState("")
     const [item_desc, setItemDesc] = useState("")
-    const [sell_desc, setSellerDesc] = useState("")
+    const [seller_desc, setSellerDesc] = useState("")
     const [picture, setPicture] = useState("")
 
     const initialState = {
@@ -33,14 +33,16 @@ function CreateModal() {
             quantity: quantity,
             category: category,
             item_desc: item_desc,
-            sell_desc: sell_desc,
+            seller_desc: seller_desc,
             picture: picture
         }
+
         axios.post('http://127.0.0.1:5000/seller', data)
             .then((res) => {
                 console.log(res);
                 console.log(res.status);
             })
+
         setOpen(initialState.open)
         setName(initialState.name)
         setPrice(initialState.price)
@@ -51,12 +53,6 @@ function CreateModal() {
         setPicture(initialState.picture)
         window.location.reload();
     }
-
-    // function handleChange(e) {
-    //     const { name, value } = e.target
-    //     setState(prevState => ({ ...prevState, [name]: value }));
-    //     console.log(this.state.name)
-    // }
 
     return (
         <Modal
@@ -125,7 +121,7 @@ function CreateModal() {
                     <TextArea
                         required
                         placeholder='Describe Yourself'
-                        value={sell_desc}
+                        value={seller_desc}
                         onChange={e => setSellerDesc(e.target.value)}
                     />
                 </Form.Field>
