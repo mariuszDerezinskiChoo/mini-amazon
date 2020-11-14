@@ -11,13 +11,13 @@ export const BuyerForm = ({onNewBuyer}) => {
 
   return (
     <div className="container">
-      <h2>Register here to make your first purchase!</h2>
-    <form>
+      <h1 style={{ color: '#007bff'}}>SIGN UP</h1>
       <ul>
         <input
           placeholder="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+          required
         />
       </ul>
       <ul>
@@ -25,6 +25,7 @@ export const BuyerForm = ({onNewBuyer}) => {
           placeholder="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
+        required
         />
       </ul>
       <ul>
@@ -32,6 +33,7 @@ export const BuyerForm = ({onNewBuyer}) => {
           placeholder="First Name"
           value={first_name}
           onChange={e => setFirstName(e.target.value)}
+        required
         />
       </ul>
       <ul>
@@ -39,6 +41,7 @@ export const BuyerForm = ({onNewBuyer}) => {
           placeholder="Last Name"
           value={last_name}
           onChange={e => setLastName(e.target.value)}
+        required
         />
       </ul>
       <ul>
@@ -50,7 +53,9 @@ export const BuyerForm = ({onNewBuyer}) => {
       </ul>
 
       <label>
-        <button
+      <div className="form-group text-center">
+        <input 
+        type="submit" className="button success" value="Submit"
           onClick={async () => {
             const buyer = { email, password, first_name, last_name, balance };
             const response = await fetch("/add_buyer", {
@@ -63,7 +68,7 @@ export const BuyerForm = ({onNewBuyer}) => {
 
             if (response.ok) {
               console.log("response worked!");
-              onNewBuyer(buyer);
+              //onNewBuyer(buyer);
               setEmail("");
               setPassword("");
               setFirstName("");
@@ -71,13 +76,11 @@ export const BuyerForm = ({onNewBuyer}) => {
               setBalance(0);
             }
           }}
-        >
-          submit
-        </button>
-        <p>Already have an account?</p>
-    <Button size="sm" variant="light" href="/login">Login</Button>  
+          />
+        </div>
+
+        <p>Already have an account?<a size="sm" variant="light" href="/login"> Click here to login</a> </p>
       </label>
-    </form>
     </div>
   );
 };

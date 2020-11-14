@@ -20,19 +20,35 @@ def add_buyer():
 
     return 'Done', 201
 
-@main.route('/buyers')
-def buyers():
-    buyer_list = Buyer.query.all()
-    buyers = []
 
-    for buyer in buyer_list:
-        buyers.append({'email': buyer.email, 
-                    'password': buyer.password, 
+
+@main.route('/buyers', methods = ['GET','POST'])
+def buyers():
+    if request.method == 'POST':
+        buyer_list = Buyer.query.all()
+        buyer_info = []
+        req = request.json
+        for buyer in buyer_list:
+            if buyer.email == req['email']:
+                if buyer.password == req['password']:
+                    buyer_info.append({'email': buyer.email, 
                     'first_name':buyer.first_name, 
                     'last_name': buyer.last_name, 
                     'balance': buyer.balance})
+        return jsonify({'buyer' : buyer_info})
 
-    return jsonify({'buyers' : buyers})
+    if request.method == 'GET':
+        buyer_list = Buyer.query.all()
+        buyers = []
+
+        for buyer in buyer_list:
+            buyers.append({'email': buyer.email, 
+                        'password': buyer.password, 
+                        'first_name':buyer.first_name, 
+                        'last_name': buyer.last_name, 
+                        'balance': buyer.balance})
+
+        return jsonify({'buyers' : buyers})
 
 @main.route('/cart')
 def cart():
