@@ -4,6 +4,7 @@ import './index.css';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Cart from "./components/Cart";
 import Home from "./components/Home";
+import Balance from "./components/Balance";
 import LoginPortal from "./Login/LoginPortal";
 import "bootstrap/dist/css/bootstrap.min.css"
 import * as serviceWorker from './serviceWorker';
@@ -28,6 +29,7 @@ ReactDOM.render(
         <Route exact path="/seller" component={Seller} />
         <Route exact path="/addReview" component={Review} />
         <Route exact path="/register" component={BuyerForm} />
+        <Route exact path="/balance" component={Balance} />
         <Route exact path="/results/:search" component={Results}/>
       </Switch>
     </BrowserRouter>

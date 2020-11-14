@@ -55,6 +55,18 @@ def cart():
         })
     return jsonify(response)
 
+@main.route('/getbalance')
+def get_balance():
+    email = 'buyer_email1@gmail.com'
+    res = db.engine.execute('SELECT balance from buyer where email="{}"'.format(email))
+    balance = res.fetchone()[0]
+    print(balance)
+    response = {
+        'balance': balance
+    }
+    return jsonify(response)
+
+
 @main.route('/updateCart', methods = ['POST'])
 def update_cart():
     req = request.json
