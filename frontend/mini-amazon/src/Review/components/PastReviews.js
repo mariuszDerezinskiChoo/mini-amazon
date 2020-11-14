@@ -11,7 +11,7 @@ function PastReviews() {
             .then((res) => {
                 const list = []
                 for (const [index, value] of res.data.reviews_endpt.entries()) {
-                    list.push(<ReviewUnique key={index} review={value} />) // Is "item" react's term?
+                    list.push(<ReviewUnique key={index} review={value} />)
                 }
                 setReviews(list)
             })

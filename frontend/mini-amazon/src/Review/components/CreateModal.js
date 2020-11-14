@@ -99,7 +99,7 @@ function CreateModal() {
                 </Form.Field>
                 <Form.Group widths='equal'>
                     <Form.Field>
-                        <label>Item Rating</label>
+                        <label>Item Rating (Only accepts integers 0-5!)</label>
                         <Input
                             required
                             label='*'
@@ -112,7 +112,7 @@ function CreateModal() {
                         />
                     </Form.Field>
                     <Form.Field>
-                        <label>Storefront Rating</label>
+                        <label>Storefront Rating (Only accepts integers 0-5!)</label>
                         <input
                             required
                             label='*'
