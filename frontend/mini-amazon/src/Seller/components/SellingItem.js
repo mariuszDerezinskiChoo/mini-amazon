@@ -18,16 +18,6 @@ function SellingItem(props) {
     const [seller_desc, setSellerDesc] = useState(props.item.seller_desc)
     const [picture, setPicture] = useState(props.item.picture)
 
-    const initialState = {
-        name: props.item.name,
-        price: props.item.price,
-        quantity: props.item.quantity,
-        category: props.item.category,
-        item_desc: props.item.item_desc,
-        seller_desc: props.item.seller_desc,
-        picture: props.item.picture
-    };
-
     function inArray(id) {
         return picLocations.some((el) => {
             return el.id === id;
@@ -54,13 +44,19 @@ function SellingItem(props) {
             })
 
         setEditOpen(false)
-        setName(initialState.name)
-        setPrice(initialState.price)
-        setQuantity(initialState.quantity)
-        setCategory(initialState.category)
-        setItemDesc(initialState.item_desc)
-        setSellerDesc(initialState.seller_desc)
-        setPicture(initialState.picture)
+        window.location.reload();
+    }
+
+    function handleDelete() {
+        const data = {
+            id: props.item.id,
+            name: name
+        }
+        axios.post('http://127.0.0.1:5000/delete_listing', data)
+            .then((res) => {
+                console.log(res);
+            })
+        setDelOpen(false)
         window.location.reload();
     }
 
@@ -195,7 +191,7 @@ function SellingItem(props) {
                         <Button onClick={() => setDelOpen(false)}>
                             Cancel
                         </Button>
-                        <Button color='red' onClick={() => setDelOpen(false)}>
+                        <Button color='red' onClick={() => handleDelete()}>
                             Delete
                         </Button>
                     </Modal.Actions>

@@ -310,6 +310,17 @@ def seller():
         print(req)
 
         return 'edit submitted'
+    elif request.method == 'DELETE':
+        req = request.json
+        print(req)
+        print(req['id'])
+        # TODO: make this seller specific
+        listing = Listing.query.filter_by(
+            item_id=req['id'], storefront_email="storefront_email1@gmail.com").first()
+        db.session.delete(listing)
+        db.session.commit()
+
+        return 'listing deleted'
     else:
         # listings = Listing.query.filter_by(seller_email='{THIS USERS EMAIL}')
         # items = Item.query.filter_by(item_id={EACH ID IN LISTINGS})
@@ -332,7 +343,6 @@ def seller():
             # data['picture'] = item.photo_url
 
             listings_list.append(data)
-
         return jsonify({'listings': listings_list})
 
 
@@ -411,6 +421,21 @@ def review():
         #                     'review' : row.review
         #     })
         # return jsonify({'reviews' : reviews})
+        return jsonify({'listings': listings_list})
+
+
+@main.route('/delete_listing', methods=['POST'])
+def delete_listing():
+    req = request.json
+    print(req)
+    print(req['id'])
+    # TODO: make this seller specific
+    listing = Listing.query.filter_by(
+        item_id=req['id'], storefront_email="storefront_email1@gmail.com").first()
+    db.session.delete(listing)
+    db.session.commit()
+
+    return 'listing deleted'
 
 
 @main.route('/listings/<search>')
