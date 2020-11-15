@@ -5,10 +5,13 @@ from .models import Buyer, Item, Storefront, Listing, Cart
 
 main = Blueprint('main', __name__)
 
+@main.route('/home')
+def home():
+    res= db.engine.execute('Select AVG(rating_item) as rating, r.storefront_email, r.item_id from reviews r group by r.item_id, r.storefront_email order by rating DESC LIMIT 3;')
+    
 @main.route('/add_buyer', methods=['POST'])
 def add_buyer():
     buyer_data = request.get_json()
-
     new_buyer = Buyer(email = buyer_data['email'],
                     password = buyer_data['password'], 
                     first_name = buyer_data['first_name'],
@@ -252,7 +255,5 @@ def item(item, seller, item_id):
     for row in rate2:
         for item in items:
             item["reviews"].append({"email" : row.buyer_email, "rating" : row.rating_item, "review" : row.review})
-            #item["reviews"].append("rating" : row.rating_item)
-            #item["reviews"].append("review" : row.review)
 
     return jsonify({'items' : items})
