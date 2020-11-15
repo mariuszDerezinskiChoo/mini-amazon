@@ -66,6 +66,17 @@ def buyersedit():
         buyer_new_password, buyer_email))
     return 'Password Updated'
 
+@main.route('/buyerseditprofile', methods=['POST'])
+def buyerseditprofile():
+    req = request.json
+    buyer_email = req['email']
+    buyer_new_password = req['newPass']
+    buyer_first_name = req['first_name']
+    buyer_last_name = req['last_name']
+    db.engine.execute('UPDATE Buyer SET password = "{}" where email = "{}";'.format(buyer_new_password,buyer_email))
+    db.engine.execute('UPDATE Buyer SET first_name = "{}" where email = "{}";'.format(buyer_first_name,buyer_email))
+    db.engine.execute('UPDATE Buyer SET last_name = "{}" where email = "{}";'.format(buyer_last_name,buyer_email))
+    return 'Profile Updated'
 
 @main.route('/buyerssecurity', methods=['POST'])
 def buyerssecurity():
@@ -154,6 +165,17 @@ def storefrontsedit():
         storefront_new_password, storefront_email))
     return 'Done'
 
+@main.route('/storefrontseditprofile', methods=['POST'])
+def storefrontseditprofile():
+    req = request.json
+    storefront_email = req['email']
+    storefront_new_password = req['newPass']
+    storefront_name = req['name']
+    storefront_description = req['description']
+    db.engine.execute('UPDATE Storefront SET password = "{}" where email = "{}";'.format(storefront_new_password,storefront_email))
+    db.engine.execute('UPDATE Storefront SET name = "{}" where email = "{}";'.format(storefront_name,storefront_email))
+    db.engine.execute('UPDATE Storefront SET description = "{}" where email = "{}";'.format(storefront_description,storefront_email))
+    return 'Profile Updated'
 
 @main.route('/cart')
 def cart():

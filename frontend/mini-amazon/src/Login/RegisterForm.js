@@ -1,6 +1,7 @@
 import React, { Component, useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel} from "react-bootstrap";
 import "./LoginPortal.css";
+import backend from "../config"
 
 class RegisterForm extends Component {
   _isMounted = false;
@@ -68,7 +69,7 @@ handleSubmit = e => {
     if (errors.length == 0) {
       
       if (this.state.isStorefront == false) {
-        fetch('http://localhost:5000/add_buyer', {
+        fetch(backend +'/add_buyer', {
             method: 'POST',
             body: JSON.stringify(this.state),
             headers: {
@@ -85,7 +86,7 @@ handleSubmit = e => {
    
       
       else {
-        fetch('http://localhost:5000/add_storefront', {
+        fetch(backend + 'add_storefront', {
           method: 'POST',
           body: JSON.stringify(this.state),
           headers: {
@@ -120,189 +121,153 @@ render() {
     && this.state.first_name.length > 0 && this.state.last_name.length > 0 && 
     this.state.security_answer.length > 0 && this.state.balance.length > 0;
     ;
-      content = <div className="container">
+      content = <div id="formContent">
      
-
+     <h2 >Account Sign Up</h2>
+     <div id="form">
+      <input 
+      name= "isStorefront" 
+      id="checkbox"
+      type="checkbox" 
+      checked={this.state.isStorefront} 
+      onChange={this.handleInputChange}/>
+      Register as Storefront
       { this.state.Message &&
-        <h3 className="error"> {this.state.Message} </h3> }
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>First Name: </label>
+        <h3 > {this.state.Message} </h3> }
+
       <input
               value={this.state.first_name}
               onChange={evt => this.setState({ first_name: evt.target.value })}
               type="text"
               placeholder="First Name"
             />
-      </div>
       
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Last Name: </label>
       <input
               value={this.state.last_name}
               onChange={evt => this.setState({ last_name: evt.target.value })}
               type="text"
               placeholder="Last Name"
             />
-      </div>
-      
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Email: </label>
             <input
               value={this.state.email}
               onChange={evt => this.setState({ email: evt.target.value })}
               type="text"
               placeholder="Email"
             />
-      </div>
-      
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Password: </label>
+ 
             <input
               value={this.state.password}
               onChange={evt => this.setState({ password: evt.target.value })}
               type="password"
               placeholder="Password"
             />
-      </div>
-      
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Security Question: 
+<label>Please select a security question:</label>
       <select security_question= {this.state.security_question} onChange={this.handleChange}>
                   <option value="what primary school did you attend?">What primary school did you attend?</option>
                   <option value="What was your childhood nickname?" >What was your childhood nickname?</option>
                   <option value="In what city or town was your first job?">In what city or town was your first job?</option>
                   <option value="what is the name of your favorite childhood friend?">What is the name of your favorite childhood friend?</option>
       </select>
-      </label>
-      </div>
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Answer: </label>
+  
             <input
               value={this.state.security_answer}
               onChange={evt => this.setState({ security_answer: evt.target.value })}
               type="text"
               placeholder="Answer to Security Question"
             />
-      </div>
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Balance: </label>
+
             <input
               value={this.state.balance}
               onChange={evt => this.setState({ balance: evt.target.value })}
               type="number"
               placeholder="Balance"
             />
-      </div>
       {errors.map(error => (
               <p key={error} style={{color: 'red'}}>Error: {error}</p>
             ))}
-      
-      <div className="form-group text-center">
-            <input type="submit" className="button success" value="Register" onClick={this.handleSubmit} className="input" disabled={!isEnabled}/> 
-      </div>
     
+            <input type="submit" className="button success" value="Register" onClick={this.handleSubmit} className="input" disabled={!isEnabled}/> 
+          </div>
           </div>;
     } else {
 
       const isEnabled = this.state.email.length > 0 && this.state.password.length > 0
   && this.state.name.length > 0 && this.state.description.length > 0 && 
   this.state.security_answer.length > 0 && this.state.balance.length > 0;
-      content = <div className="container">
-      <form>
-    
-      { this.state.Message &&
-        <h3 className="error"> {this.state.Message} </h3> }
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Name: </label>
+      content = <div id="formContent">
+      <h2 >Account Sign Up</h2>
+      <div id="form">
+      <div id="checkbox">
+      <input 
+      name= "isStorefront" 
+      id="checkbox"
+      type="checkbox" 
+      checked={this.state.isStorefront} 
+      onChange={this.handleInputChange}/>
+      <p> &nbsp;  Register as Storefront </p></div>
       <input
               value={this.state.name}
               onChange={evt => this.setState({ name: evt.target.value })}
               type="text"
               placeholder="Name"
             />
-      </div>
-      
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Description: </label>
       <input
               value={this.state.description}
               onChange={evt => this.setState({ description: evt.target.value })}
-              type="textarea"
+              type="text"
               placeholder="Description"
             />
-      </div>
-      
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Email: </label>
+
             <input
               value={this.state.email}
               onChange={evt => this.setState({ email: evt.target.value })}
               type="text"
               placeholder="Email"
             />
-      </div>
-      
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Password: </label>
+
             <input
               value={this.state.password}
               onChange={evt => this.setState({ password: evt.target.value })}
               type="password"
               placeholder="Password"
             />
-      </div>
-      
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Security Question: 
+    <label>Please select a security question:</label>
       <select security_question= {this.state.security_question} onChange={this.handleChange}>
                   <option value="what primary school did you attend?">What primary school did you attend?</option>
                   <option value="What was your childhood nickname?" >What was your childhood nickname?</option>
                   <option value="In what city or town was your first job?">In what city or town was your first job?</option>
                   <option value="what is the name of your favorite childhood friend?">What is the name of your favorite childhood friend?</option>
       </select>
-      </label>
-      </div>
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Answer: </label>
+
             <input
               value={this.state.security_answer}
               onChange={evt => this.setState({ security_answer: evt.target.value })}
               type="text"
               placeholder="Answer to Security Question"
             />
-      </div>
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Balance: </label>
+
             <input
               value={this.state.balance}
               onChange={evt => this.setState({ balance: evt.target.value })}
               type="number"
               placeholder="Balance"
             />
-      </div>
       {errors.map(error => (
               <p key={error} style={{color: 'red'}}>Error: {error}</p>
             ))}
-      
-      <div className="form-group text-center">
+  
             <input type="submit" className="button success" value="Register" onClick={this.handleSubmit} className="input" disabled={!isEnabled}/> 
-      </div>
-      </form>  
+      { this.state.Message &&
+        <h3 id="error"> {this.state.Message} </h3> }
+      </div> 
         </div>;
     }
 
-
   return (
     <div>
-      <div className="container"><h1 style={{ color: '#007bff'}}>REGISTER</h1>
-      <input 
-      name= "isStorefront" 
-      type="checkbox" 
-      checked={this.state.isStorefront} 
-      onChange={this.handleInputChange}/>
-      Register as Storefront
+      <div className="wrapper">
       {content}
-      <p>Already have an account?<a size="sm" variant="light" href="/login"> Click here to login</a> </p>
+      <p id="registerlink">Already have an account?<a variant="light" href="/login"> &nbsp; Click here to login!</a> </p>
       </div>
   </div>
   );
