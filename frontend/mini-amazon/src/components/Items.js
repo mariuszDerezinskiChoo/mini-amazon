@@ -3,7 +3,6 @@ import {List, Header} from "semantic-ui-react";
 import React, {useState, useEffect} from "react";
 import {Container, Row, Col, Card, Button} from "react-bootstrap";
 import Rating from '@material-ui/lab/Rating';
-import { faGlassMartiniAlt } from "@fortawesome/free-solid-svg-icons";
 
 export const Items = ({ items}) => {
     console.log(items)
