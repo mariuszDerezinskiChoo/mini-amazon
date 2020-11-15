@@ -1,26 +1,21 @@
-
-@media all and (min-width: 480px) {
-    .Login {
-      padding: 60px 80px;
-    }
-  
-    .Login form {
-      margin: 0 auto;
-      max-width: 320px;
-    }
-    .Register {
-      padding: 60px 80px;
-    }
-  
-    .Register form {
-      margin: 0 auto;
-      max-width: 320px;
-    }
-  }
-
-  .container {
+.container {
     display: flex;
     flex-direction: column;
-    padding-top: 100px;
+    margin: 100;
+    padding-top: 50px;
     align-items: center;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .input {
+    border-radius: 10%;
+    width: 200;
+    height: 50;
+    padding: 10;
+    border-width: 1;
+    border-color: 'blue';
+    margin-bottom: 10;
   }

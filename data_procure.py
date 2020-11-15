@@ -76,8 +76,8 @@ for index, row in dataset.iterrows():
                 name = company_name
                 balance = 1000
                 description = lorem.sentence()
-                conn.execute("INSERT into storefront values (?,?,?,?,?)",
-                             (email, password, name, balance, description))
+                conn.execute("INSERT into storefront values (?,?,?,?,?,?,?)",
+                             (email, password, name, balance, description, "What color is the sky?", "blue"))
                 companies[email] = []
             quantity = np.random.randint(1, 100)
             conn.execute("INSERT into listing values (?,?,?,?)",
@@ -98,8 +98,8 @@ for person in reviews:
     email = person['email']
     password = person['password'].replace("-", "")[0:25]
     balance = person['balance']
-    conn.execute("INSERT into buyer values (?,?,?,?,?)",
-                 (email, password, first_name, last_name, balance))
+    conn.execute("INSERT into buyer values (?,?,?,?,?,?,?)",  # TODO: fix
+                 (email, password, first_name, last_name, balance, "What color is the sky?", "blue"))
 
     for review in person['reviews']:
         rating_item = review['rating_item']
