@@ -2,7 +2,10 @@ import React from "react";
 
 const Home = () => {
     return (
-        <a href="/cart">cart page</a>
+        <>
+        <h1>  Welcome User! </h1>
+        <a href="/cart">Go to cart</a>
+        </>
     )
 }
 
