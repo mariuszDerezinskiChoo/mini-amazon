@@ -2,9 +2,9 @@ from . import db
 from datetime import datetime
 
 # python3
-# from api.models import Buyer <- BE ONE DIR UP FROM backend/api/models.py, i.e., backend/
-# from api import db, create_app
-# db.create_all(app=create_app())
+#from api.models import Buyer #<- BE ONE DIR UP FROM backend/api/models.py, i.e., backend/
+#from api import db, create_app
+#db.create_all(app=create_app())
 
 class Buyer(db.Model):
     __tablename__ = 'buyer'

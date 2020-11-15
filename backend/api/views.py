@@ -239,15 +239,20 @@ def item(item, seller, item_id):
             "seller" : row.sellername,
             "price" : row.price,
             "quantity" : row.quantity,
+            "reviews" : []
         })
     semail = items[0]["selleremail"]
     rate = db.engine.execute('SELECT COUNT(*) as total, AVG(rating_item) as rating, r.buyer_email, r.rating_item, r.review FROM reviews r WHERE r.item_id = {} and r.storefront_email = "{}";'.format(item_id, semail))
+    rate2 = db.engine.execute('SELECT * FROM reviews r WHERE r.item_id = {} and r.storefront_email = "{}";'.format(item_id, semail))
     for row in rate:
         for item in items:
             item["avg_rating"] = row.rating
             item["total_reviews"] = row.total
-            #item["buyer"] = row.buyer_email
-            #item["rating"] = row.rating_item
-            #item["review"] = row.review
+
+    for row in rate2:
+        for item in items:
+            item["reviews"].append({"email" : row.buyer_email, "rating" : row.rating_item, "review" : row.review})
+            #item["reviews"].append("rating" : row.rating_item)
+            #item["reviews"].append("review" : row.review)
 
     return jsonify({'items' : items})
