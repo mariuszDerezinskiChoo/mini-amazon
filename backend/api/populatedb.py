@@ -65,6 +65,7 @@ c.execute("INSERT into purchase values (?,?,?,?,?,?)", (8,2,5,'storefront_email2
 c.execute("INSERT into purchase values (?,?,?,?,?,?)", (9,2,5,'storefront_email2@gmail.com','buyer_email2@gmail.com','20120618 10:34:09 AM'))
 c.execute("INSERT into purchase values (?,?,?,?,?,?)", (10,2,5,'storefront_email2@gmail.com','buyer_email2@gmail.com','20120618 10:34:09 AM'))
 
+<<<<<<< HEAD
 c.execute("INSERT into reviews values (?,?,?,?,?,?,?)",(1,'storefront_email1@gmail.com','buyer_email1@gmail.com','20120619 10:34:10 AM',1,1,'Got ripped off WTF.'))
 c.execute("INSERT into reviews values (?,?,?,?,?,?,?)",(2,'storefront_email1@gmail.com','buyer_email1@gmail.com','20120619 10:34:11 AM',1,1,'Got ripped off WTF.'))
 c.execute("INSERT into reviews values (?,?,?,?,?,?,?)",(3,'storefront_email1@gmail.com','buyer_email1@gmail.com','20120619 10:34:12 AM',1,1,'Got ripped off WTF.'))
@@ -89,6 +90,18 @@ c.execute("INSERT into cart values (?,?,?,?)",(8,20,'storefront_email2@gmail.com
 c.execute("INSERT into cart values (?,?,?,?)",(9,3,'storefront_email1@gmail.com','buyer_email1@gmail.com'))
 c.execute("INSERT into cart values (?,?,?,?)",(10,7,'storefront_email2@gmail.com','buyer_email1@gmail.com'))
 
+=======
+c.execute("INSERT into reviews values (?,?,?,?,?,?)",(1,'storefront_email1@gmail.com','buyer_email1@gmail.com',1,1,'Got ripped off WTF.'))
+c.execute("INSERT into reviews values (?,?,?,?,?,?)",(2,'storefront_email1@gmail.com','buyer_email1@gmail.com',1,1,'Got ripped off WTF.'))
+c.execute("INSERT into reviews values (?,?,?,?,?,?)",(3,'storefront_email1@gmail.com','buyer_email1@gmail.com',1,1,'Got ripped off WTF.'))
+c.execute("INSERT into reviews values (?,?,?,?,?,?)",(4,'storefront_email1@gmail.com','buyer_email1@gmail.com',1,1,'Got ripped off WTF.'))
+c.execute("INSERT into reviews values (?,?,?,?,?,?)",(5,'storefront_email1@gmail.com','buyer_email1@gmail.com',1,1,'Got ripped off WTF.'))
+c.execute("INSERT into reviews values (?,?,?,?,?,?)",(6,'storefront_email1@gmail.com','buyer_email1@gmail.com',1,1,'Got ripped off WTF.'))
+c.execute("INSERT into reviews values (?,?,?,?,?,?)",(7,'storefront_email1@gmail.com','buyer_email1@gmail.com',1,1,'Got ripped off WTF.'))
+c.execute("INSERT into reviews values (?,?,?,?,?,?)",(8,'storefront_email1@gmail.com','buyer_email1@gmail.com',1,1,'Got ripped off WTF.'))
+c.execute("INSERT into reviews values (?,?,?,?,?,?)",(9,'storefront_email1@gmail.com','buyer_email1@gmail.com',1,1,'Got ripped off WTF.'))
+c.execute("INSERT into reviews values (?,?,?,?,?,?)",(10,'storefront_email1@gmail.com','buyer_email1@gmail.com',1,1,'Got ripped off WTF.'))
+>>>>>>> b425bbd912ec53bbb9c3497a3abc5898e49fe068
 
 conn.commit()
 

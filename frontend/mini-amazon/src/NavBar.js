@@ -67,18 +67,20 @@ class NavBar extends React.Component {
   <Navbar.Toggle aria-controls="basic-navbar-nav" />
   <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="mr-auto">
-      <Nav.Link href="/home">Home</Nav.Link>
       <Nav.Link href="/seller">Seller</Nav.Link>
       <Nav.Link href="/cart">Cart</Nav.Link>
-      <Nav.Link href="/addReview">Review</Nav.Link>
+      <Nav.Link href="/review">Manage Reviews</Nav.Link>
       <Form inline>
       <FormControl onChange={this.handleChange} value={this.state.value} type="text" placeholder="Search" className="mr-sm-2" />
+      </Form>
       <Button href={"/results/" + this.state.value}>Search</Button>
-    </Form>
       <NavDropdown title="Actions" id="basic-nav-dropdown" style={signInStyle} >
         <NavDropdown.Item href="/profile">View Profile</NavDropdown.Item>
         <NavDropdown.Item href="#">Add Balance</NavDropdown.Item>
         <NavDropdown.Item href="#">Purchase History</NavDropdown.Item>
+        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+        <Button >Search</Button>
+        <NavDropdown.Item href="/signup">create an account</NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item href="/login" onClick={this.logout} className="logout">Logout
         </NavDropdown.Item>

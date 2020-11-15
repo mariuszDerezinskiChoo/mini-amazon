@@ -19,7 +19,7 @@ export const Items = ({ items}) => {
                 const id = item.id;
                 const quantity = item.quantity;
                 const selleremail = item.selleremail;
-                const buyeremail = 'buyer_email1@gmail.com'//JSON.parse(sessionStorage.getItem('email'));
+                const buyeremail = JSON.parse(sessionStorage.getItem('email'));
                 return (
                     <List.Item key= {item.id}>
                         <Header> <h1>{item.name}</h1> </Header>

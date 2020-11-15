@@ -61,10 +61,17 @@ class Purchase(db.Model):
 
 class Reviews(db.Model):
     __tablename__ = 'reviews'
-    item_id = db.Column(db.Integer, db.ForeignKey('item.id'))
-    storefront_email = db.Column(db.String(30), db.ForeignKey('storefront.email'))
+    # item_id = db.Column(db.Integer, db.ForeignKey('item.id'))
+    # storefront_email = db.Column(db.String(30), db.ForeignKey('storefront.email'))
+    # buyer_email = db.Column(db.String(30), db.ForeignKey('buyer.email'), primary_key=True)
+    # datetime_submitted = db.Column(db.DateTime, default=datetime.utcnow, primary_key=True)
+    # rating_item = db.Column(db.Integer, nullable=False)
+    # rating_storefront = db.Column(db.Integer)
+    # review = db.Column(db.Text, nullable=False)
+
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), primary_key=True)
+    storefront_email = db.Column(db.String(30), db.ForeignKey('storefront.email'), primary_key=True)
     buyer_email = db.Column(db.String(30), db.ForeignKey('buyer.email'), primary_key=True)
-    datetime_submitted = db.Column(db.DateTime, default=datetime.utcnow, primary_key=True)
     rating_item = db.Column(db.Integer, nullable=False)
     rating_storefront = db.Column(db.Integer)
     review = db.Column(db.Text, nullable=False)

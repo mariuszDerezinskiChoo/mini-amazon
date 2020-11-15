@@ -101,6 +101,7 @@ for person in reviews:
     conn.execute("INSERT into buyer values (?,?,?,?,?,?,?)",  # TODO: fix
                  (email, password, first_name, last_name, balance, "What color is the sky?", "blue"))
 
+    store_to_item = {}
     for review in person['reviews']:
         rating_item = review['rating_item']
         rating_storefront = review['rating_storefront']
@@ -108,11 +109,19 @@ for person in reviews:
         time_submitted = review['timeSubmitted']
 
         storefront_email = storefront_list[review['storefrontIndex']]
+
+        if storefront_email not in store_to_item:
+            store_to_item[storefront_email] = []
+
         item_id = companies[storefront_email][np.random.randint(
             0, len(companies[storefront_email]))]
-        conn.execute("INSERT into reviews values (?,?,?,?,?,?,?)", (item_id, storefront_email,
-                                                                    email, time_submitted, rating_item, rating_storefront, review_text))
-        continue
+
+        if item_id in store_to_item[storefront_email]:
+            continue
+        store_to_item[storefront_email].append(item_id)
+        conn.execute("INSERT into reviews values (?,?,?,?,?,?)", (item_id, storefront_email,
+                                                                  email, rating_item, rating_storefront, review_text))
+
     for purchase in person['purchase']:
         purchase_time = purchase['time']
         item_ids = []

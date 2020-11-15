@@ -38,7 +38,6 @@ ReactDOM.render(
         <Route exact path="/test-api" component={TestAPI} />
         <Route exact path="/seller" component={Seller} />
         <Route exact path="/profile" component={Profile} />
-        <Route exact path="/addReview" component={Review} />
         <Route exact path="/register" component={RegisterForm} />
         <Route exact path="/balance" component={Balance} />
         <Route exact path="/trade-history" component={TradeHistory} />
@@ -46,6 +45,7 @@ ReactDOM.render(
         <Route exact path="/results/:search" component={Results}/>
         <Route exact path="/item/:item/:seller/:id" component={ItemPage}/>
         <Route exact path="/forgetPassword" component={ForgetPassword}/>
+        <Route exact path="/review" component={Review} />
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,
