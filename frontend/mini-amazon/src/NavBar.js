@@ -49,7 +49,6 @@ class NavBar extends React.Component {
       <Nav.Link href="/seller">Seller</Nav.Link>
       <Nav.Link href="/cart">Cart</Nav.Link>
       <Nav.Link href="/addReview">Review</Nav.Link>
-      <Nav.Link href="/results">Results</Nav.Link>
       <Form inline>
       <FormControl onChange={this.handleChange} value={this.state.value} type="text" placeholder="Search" className="mr-sm-2" />
       <Button href={"/results/" + this.state.value}>Search</Button>

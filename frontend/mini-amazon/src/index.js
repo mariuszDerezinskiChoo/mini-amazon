@@ -18,6 +18,8 @@ import 'semantic-ui-css/semantic.min.css';
 import Results from "./Results";
 import TestAPI from './Login/testAPI';
 import BuyerForm from './Login/BuyerForm';
+import ItemPage from "./ItemPage";
+//import Item from "./components/Item";
 
 ReactDOM.render(
 <React.StrictMode>
@@ -27,7 +29,8 @@ ReactDOM.render(
         <Route exact path="/cart" component={Cart} />
         <Route path="/login" component={LoginPortal} />
         <Route path="/test-api" component={TestAPI} />
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" component={LoginPortal} />
+        <Route exact path="/home" component={Home} />
         <Route exact path="/seller" component={Seller} />
         <Route exact path="/addReview" component={Review} />
         <Route exact path="/register" component={BuyerForm} />
@@ -35,6 +38,7 @@ ReactDOM.render(
         <Route exact path="/trade-history" component={TradeHistory} />
         <Route exact path="/purchase-history" component={PurchaseHistory} />
         <Route exact path="/results/:search" component={Results}/>
+        <Route exact path="/item/:item/:seller/:id" component={ItemPage}/>
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,
