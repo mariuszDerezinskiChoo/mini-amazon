@@ -3,6 +3,7 @@ import {Container, Row, Col, Card, Button} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faPlusCircle, faTimesCircle, faMinusCircle} from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
+import backend from "../config"
 const Cart = () => {
     const [cart, setCart] = useState(null);
     console.log("reload");
@@ -15,7 +16,7 @@ const Cart = () => {
     }
 
     useEffect(() => {
-        axios.get('http://vcm-16363.vm.duke.edu:5000/cart').then((res) => {
+        axios.get(backend + '/cart').then((res) => {
             setCart(res.data);
         })
     },[])
@@ -29,7 +30,7 @@ const Cart = () => {
     const handleUpdate = (index) => {
         const payload = cart[index]
         console.log(payload);
-        axios.post("http://127.0.0.1:5000/updateCart",payload).then((res) => {
+        axios.post(backend + "/updateCart",payload).then((res) => {
             console.log(res.status);
         })
     }
