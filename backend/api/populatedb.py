@@ -3,12 +3,12 @@ import sqlite3
 conn = sqlite3.connect('./database.db')
 c = conn.cursor()
 
-c.execute("INSERT into buyer values (?,?,?,?,?)", ('buyer_email1@gmail.com','password','firstname1','lastname1',0))
-c.execute("INSERT into buyer values (?,?,?,?,?)", ('buyer_email2@gmail.com','password','firstname2','lastname2',0))
-c.execute("INSERT into buyer values (?,?,?,?,?)", ('buyer_email3@gmail.com','password','firstname3','lastname3',0))
+c.execute("INSERT into buyer values (?,?,?,?,?,?,?)", ('buyer_email1@gmail.com','password','firstname1','lastname1',0,'What primary school did you attend?', 'School A'))
+c.execute("INSERT into buyer values (?,?,?,?,?,?,?)", ('buyer_email2@gmail.com','password','firstname2','lastname2',0, 'What was your childhood nickname?', 'Joe'))
+c.execute("INSERT into buyer values (?,?,?,?,?,?,?)", ('buyer_email3@gmail.com','password','firstname3','lastname3',0, 'In what city or town was your first job?', 'Durham'))
 
-c.execute("INSERT into storefront values (?,?,?,?,?)", ('storefront_email1@gmail.com','password','name1',0,'Welcome to our store! We are Store 1.'))
-c.execute("INSERT into storefront values (?,?,?,?,?)", ('storefront_email2@gmail.com','password','name2',0,'Welcome to our store! We are Store 2.'))
+c.execute("INSERT into storefront values (?,?,?,?,?,?,?)", ('storefront_email1@gmail.com','password','name1',0,'Welcome to our store! We are Store 1.', 'What is the name of your favorite childhood friend?', 'Sally'))
+c.execute("INSERT into storefront values (?,?,?,?,?,?,?)", ('storefront_email2@gmail.com','password','name2',0,'Welcome to our store! We are Store 2.', 'What primary school did you attend?','School B'))
 
 c.execute("INSERT into item values (?,?,?,?)", (1,'Harry Potter 1','This is the first book.','books'))
 c.execute("INSERT into item values (?,?,?,?)", (2,'Harry Potter 2','This is the second book.','books'))

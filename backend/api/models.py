@@ -14,6 +14,8 @@ class Buyer(db.Model):
     first_name = db.Column(db.String(20), nullable=False)
     last_name = db.Column(db.String(20), nullable=False)
     balance = db.Column(db.Integer, nullable=False)
+    security_question = db.Column(db.Text, nullable=False)
+    security_answer = db.Column(db.Text, nullable=False)
     # photo_url = db.Column(db.String(100), nullable=False)
 
 class Storefront(db.Model):
@@ -23,6 +25,8 @@ class Storefront(db.Model):
     name = db.Column(db.String(30), nullable=False)
     balance = db.Column(db.Integer, nullable=False)
     description = db.Column(db.Text, nullable=False)
+    security_question = db.Column(db.Text, nullable=False)
+    security_answer = db.Column(db.Text, nullable=False)
     # photo_url = db.Column(db.String(100),nullable=False)
 
 class Item(db.Model):

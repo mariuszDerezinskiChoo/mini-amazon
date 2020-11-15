@@ -14,28 +14,28 @@ def add_buyer():
                     first_name = buyer_data['first_name'],
                     last_name = buyer_data['last_name'],
                     balance = buyer_data['balance'], 
+                    security_question = buyer_data['security_question'],
+                    security_answer = buyer_data['security_answer']
                     )
     db.session.add(new_buyer)
     db.session.commit()
-
-    return 'Done', 201
-
-
+    return 'Buyer Added'
 
 @main.route('/buyers', methods = ['GET','POST'])
 def buyers():
     if request.method == 'POST':
-        buyer_list = Buyer.query.all()
-        buyer_info = []
         req = request.json
-        for buyer in buyer_list:
-            if buyer.email == req['email']:
-                if buyer.password == req['password']:
-                    buyer_info.append({'email': buyer.email, 
-                    'first_name':buyer.first_name, 
-                    'last_name': buyer.last_name, 
-                    'balance': buyer.balance})
-        return jsonify({'buyer' : buyer_info})
+        buyer_email = req['email']
+        buyer_password = req['password']
+        buyer_info = []
+        buyer = db.engine.execute('SELECT email, first_name, balance, last_name, password FROM Buyer WHERE Buyer.email = "{}" AND Buyer.password = "{}";'.format(buyer_email,buyer_password))
+        for b in buyer:
+            buyer_info.append({'email': b.email, 
+                    'first_name': b.first_name, 
+                    'last_name': b.last_name, 
+                    'balance': b.balance,
+                    'password': b.password })
+        return jsonify({'buyer_detail' : buyer_info})
 
     if request.method == 'GET':
         buyer_list = Buyer.query.all()
@@ -43,12 +43,101 @@ def buyers():
 
         for buyer in buyer_list:
             buyers.append({'email': buyer.email, 
-                        'password': buyer.password, 
                         'first_name':buyer.first_name, 
                         'last_name': buyer.last_name, 
-                        'balance': buyer.balance})
+                        'balance': buyer.balance,
+                        'password': buyer.password})
 
         return jsonify({'buyers' : buyers})
+
+@main.route('/buyerseditpassword', methods = ['POST'])
+def buyersedit():
+    req = request.json
+    buyer_email = req['email']
+    buyer_new_password = req['newPass']
+    db.engine.execute('UPDATE Buyer SET password = "{}" where email = "{}";'.format(buyer_new_password,buyer_email))
+    return 'Password Updated'
+
+
+@main.route('/buyerssecurity', methods = ['POST'])
+def buyerssecurity():
+    req = request.json
+    buyersecurity_email = req['email']
+    buyersecurity_info = []
+    buyer_security = db.engine.execute('SELECT b.email, b.password, b.security_question, b.security_answer FROM Buyer b WHERE b.email = "{}";'.format(buyersecurity_email))
+    for i in buyer_security:
+        buyersecurity_info.append({'email': i.email, 
+            'password': i.password,
+            'security_question': i.security_question,
+            'security_answer': i.security_answer})
+    return jsonify({'buyer_security' : buyersecurity_info})
+
+@main.route('/storefronts', methods = ['GET','POST'])
+def storefronts():
+    if request.method == 'POST':
+        req = request.json
+        storefront_email = req['email']
+        storefront_password = req['password']
+        storefront_info = []
+        storefront = db.engine.execute('SELECT s.email, s.name, s.balance, s.description, s.password FROM Storefront s WHERE s.email = "{}" and s.password = "{}";'.format(storefront_email,storefront_password))
+        for s in storefront:
+            storefront_info.append({'email': s.email, 
+                    'name': s.name, 
+                    'description': s.description, 
+                    'balance': s.balance,
+                    'password': s.password })
+        return jsonify({'storefronts' : storefront_info})
+
+    if request.method == 'GET':
+        storefront_list = Storefront.query.all()
+        storefronts = []
+
+        for storefront in storefront_list:
+            storefronts.append({'email': storefront.email, 
+                        'name':storefront.name, 
+                        'description': storefront.description, 
+                        'balance': storefront.balance,
+                        'password': storefront.password})
+
+        return jsonify({'storefronts' : storefronts})
+
+@main.route('/add_storefront', methods=['POST'])
+def add_storefront():
+    storefront_data = request.get_json()
+
+    new_storefront = Storefront(email = storefront_data['email'],
+                    password = storefront_data['password'], 
+                    name = storefront_data['name'],
+                    description = storefront_data['description'],
+                    security_question = storefront_data['security_question'],
+                    security_answer = storefront_data['security_answer'],
+                    balance = storefront_data['balance'], 
+                    )
+    db.session.add(new_storefront)
+    db.session.commit()
+    return 'Storefront added'
+    
+@main.route('/storefrontssecurity', methods = ['POST'])
+def storefrontssecurity():
+    req = request.json
+    storefrontsecurity_email = req['email']
+    storefrontsecurity_info = []
+    storefront_security = db.engine.execute('SELECT s.email, s.password, s.security_question, s.security_answer FROM Storefront s WHERE s.email = "{}";'.format(storefrontsecurity_email))
+    for i in storefront_security:
+        storefrontsecurity_info.append({'email': i.email, 
+                'password': i.password,
+                'security_question': i.security_question,
+                'security_answer': i.security_answer})
+    return jsonify({'storefront_security' : storefrontsecurity_info})
+
+@main.route('/storefrontseditpassword', methods = ['POST'])
+def storefrontsedit():
+    req = request.json
+    storefront_email = req['email']
+    storefront_new_password = req['newPass']
+    db.engine.execute('UPDATE Storefront SET password = "{}" where email = "{}";'.format(storefront_new_password,storefront_email))
+    return 'Done'
+
 
 @main.route('/cart')
 def cart():

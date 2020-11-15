@@ -1,6 +1,7 @@
 import React, {Component, useEffect, useState} from 'react';
 import './App.css';
 import {Listings} from "./components/Listings";
+import NavBar from './NavBar';
 
 function Results(props) {
     const [listings, setListings] = useState([]);
@@ -17,6 +18,7 @@ function Results(props) {
   
     return (
       <div className= "App" >
+          <NavBar/>
         <Listings listings= {listings} />
       </div>
     );

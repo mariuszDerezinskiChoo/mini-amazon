@@ -16,6 +16,8 @@ import Results from "./Results";
 import TestAPI from './Login/testAPI';
 import BuyerForm from './Login/RegisterForm';
 import Nav from "./components/Nav";
+import Profile from "./Login/Profile";
+import ForgetPassword from './Login/ForgetPassword';
 
 ReactDOM.render(
 <React.StrictMode>
@@ -26,9 +28,11 @@ ReactDOM.render(
         <Route exact path="/login" component={LoginPortal} />
         <Route exact path="/test-api" component={TestAPI} />
         <Route exact path="/seller" component={Seller} />
+        <Route exact path="/profile" component={Profile} />
         <Route exact path="/addReview" component={Review} />
         <Route exact path="/register" component={BuyerForm} />
         <Route exact path="/results/:search" component={Results}/>
+        <Route exact path="/forgetPassword" component={ForgetPassword}/>
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,

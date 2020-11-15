@@ -3,6 +3,7 @@ import {Container, Row, Col, Card, Button} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faPlusCircle, faTimesCircle, faMinusCircle} from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
+import NavBar from '../NavBar';
 const Cart = () => {
     const [cart, setCart] = useState(null);
     console.log("reload");
@@ -36,6 +37,7 @@ const Cart = () => {
 
     return (
         <>
+          <NavBar/>
             <h1>view your cart</h1>
             <Container fluid="lg">
                 {
