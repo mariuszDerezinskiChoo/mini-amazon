@@ -40,10 +40,11 @@ def buyers():
 @main.route('/cart')
 def cart():
     # sql query
+    buyer = "johnstonfigueroa@wrapture.com"
     query_text = """select i.name, i.description, i.category, l.price, c.quantity, c.item_id, s.name as sellername, s.email as selleremail, i.id as item_id
                     from item i, listing l, cart c, storefront s
-                    where c.item_id = l.item_id and i.id = l.item_id and c.storefront_email = l.storefront_email and s.email = l.storefront_email;"""
-    res = db.engine.execute(query_text)
+                    where c.buyer_email = "{}" and c.item_id = l.item_id and i.id = l.item_id and c.storefront_email = l.storefront_email and s.email = l.storefront_email;"""
+    res = db.engine.execute(query_text.format(buyer))
     response = []
     for row in res:
         response.append({
@@ -61,7 +62,7 @@ def cart():
 
 @main.route('/getbalance')
 def get_balance():
-    email = 'buyer_email1@gmail.com'
+    email = "johnstonfigueroa@wrapture.com"
     res = db.engine.execute(
         'SELECT balance from buyer where email="{}"'.format(email))
     balance = res.fetchone()[0]
@@ -69,6 +70,57 @@ def get_balance():
     response = {
         'balance': balance
     }
+    return jsonify(response)
+
+
+@main.route('/getTradeHistory')
+def get_trade_history():
+    email = " uniqueplace-usa @gmail.com"
+    query = """
+    select p.item_id, i.name, p.price, p.quantity, b.first_name, b.last_name, p.datetime
+    from item i, purchase p, buyer b
+    where i.id = p.item_id and p.buyer_email = b.email and p.storefront_email = "{}"
+    order by p.datetime desc;
+    """
+    res = db.engine.execute(
+        query.format(email))
+    response = []
+    for row in res:
+        response.append({
+            "itemId": row.item_id,
+            "itemName": row.name,
+            "price": row.price,
+            "quantity": row.quantity,
+            "firstName": row.first_name,
+            "lastName": row.last_name,
+            "time": row.datetime,
+            "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
+        })
+    return jsonify(response)
+
+
+@main.route('/getOrderHistory')
+def get_order_history():
+    email = "johnstonfigueroa@wrapture.com"
+    query = """
+    select p.item_id, i.name, p.price, p.quantity, s.name, p.datetime
+    from item i, purchase p, storefront s
+    where i.id = p.item_id and p.storefront_email = s.email and p.buyer_email = "{}"
+    order by p.datetime desc;
+    """
+    res = db.engine.execute(
+        query.format(email))
+    response = []
+    for row in res:
+        response.append({
+            "itemId": row.item_id,
+            "itemName": row.name,
+            "price": row.price,
+            "quantity": row.quantity,
+            "name": row.name,
+            "time": row.datetime,
+            "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
+        })
     return jsonify(response)
 
 

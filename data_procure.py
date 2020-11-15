@@ -83,6 +83,8 @@ for index, row in dataset.iterrows():
             conn.execute("INSERT into listing values (?,?,?,?)",
                          (item_id, quantity, company_price, email))
             companies[email].append(item_id)
+        else:
+            print(company_name + " " + company_price)
     item_id += 1
 
 conn.commit()

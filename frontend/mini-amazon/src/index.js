@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Cart from "./components/Cart";
 import Home from "./components/Home";
 import Balance from "./components/Balance";
+import TradeHistory from "./components/TradeHistory";
+import PurchaseHistory from "./components/PurchaseHistory";
 import LoginPortal from "./Login/LoginPortal";
 import "bootstrap/dist/css/bootstrap.min.css"
 import * as serviceWorker from './serviceWorker';
@@ -30,6 +32,8 @@ ReactDOM.render(
         <Route exact path="/addReview" component={Review} />
         <Route exact path="/register" component={BuyerForm} />
         <Route exact path="/balance" component={Balance} />
+        <Route exact path="/trade-history" component={TradeHistory} />
+        <Route exact path="/purchase-history" component={PurchaseHistory} />
         <Route exact path="/results/:search" component={Results}/>
       </Switch>
     </BrowserRouter>

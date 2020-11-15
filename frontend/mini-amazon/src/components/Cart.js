@@ -15,7 +15,7 @@ const Cart = () => {
     }
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/cart').then((res) => {
+        axios.get('http://vcm-16363.vm.duke.edu:5000/cart').then((res) => {
             setCart(res.data);
         })
     },[])
