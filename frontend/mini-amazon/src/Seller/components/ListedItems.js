@@ -20,7 +20,7 @@ function ListedItems() {
     return (
         <Segment.Group raised>
             <Segment><h2>Your Listed Items</h2></Segment>
-            <Segment>
+            <Segment style={{overflow: 'auto', maxHeight: '80vh' }}>
                 <Card.Group centered>
                     {items}
                 </Card.Group>

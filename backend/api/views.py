@@ -289,8 +289,23 @@ def seller():
     elif request.method == 'PUT':
         # DB QUERY
         req = request.json
+        item = Item.query.filter_by(id=req['id']).first()
+        # TODO: make this seller specific
+        listing = Listing.query.filter_by(
+            item_id=req['id'], storefront_email="storefront_email1@gmail.com").first()
+        seller = Storefront.query.filter_by(
+            email="storefront_email1@gmail.com").first()  # TODO: make this seller specific
+
+        item.name = req['name']
+        listing.price = req['price']
+        listing.quantity = req['quantity']
+        item.category = req['category']
+        item.description = req['item_desc']
+        seller.description = req['seller_desc']
+
+        db.session.commit()
         print(req)
-        print(req['price'])
+
         return 'edit submitted'
     else:
         # listings = Listing.query.filter_by(seller_email='{THIS USERS EMAIL}')
@@ -298,7 +313,9 @@ def seller():
         listings_list = []
         # TODO: make this seller specific
         listings = Listing.query.filter_by(
-            storefront_email=" Markdown Mania @gmail.com").all()
+            storefront_email="storefront_email1@gmail.com").all()
+        seller = Storefront.query.filter_by(
+            email="storefront_email1@gmail.com").first()  # TODO: make this seller specific
         for listing in listings:
             data = {}
             item = Item.query.filter_by(id=listing.item_id).first()
@@ -306,6 +323,11 @@ def seller():
             data['name'] = item.name
             data['price'] = listing.price
             data['quantity'] = listing.quantity
+            data['category'] = item.category
+            data['item_desc'] = item.description
+            data['seller_desc'] = seller.description
+            # data['picture'] = item.photo_url
+
             listings_list.append(data)
 
         return jsonify({'listings': listings_list})
