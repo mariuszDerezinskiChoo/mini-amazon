@@ -1,0 +1,41 @@
+[
+    '{{repeat(500, 501)}}',
+    {
+      balance: '{{floating(1000, 4000,2)}}',
+      firstName: '{{firstName()}}',
+      lastName: '{{surname()}}',
+      email: '{{email()}}',
+      password: '{{guid()}}',
+      reviews: [
+        '{{repeat(50,51)}}',
+        {
+          rating_item: '{{integer(1,5)}}',
+          rating_storefront: '{{integer(1,5)}}',
+          review: '{{lorem(3)}}',
+          storefrontIndex: '{{integer(1,3920)}}',
+          timeSubmitted: '{{date(new Date(2010, 0, 1), new Date(),"YYYYMMdd hh:mm:ss A")}}'
+        }
+      ],
+      purchase: [
+        '{{repeat(3,5)}}',
+        {
+          time: '{{date(new Date(2010, 0, 1), new Date(),"YYYYMMdd hh:mm:ss A")}}',
+          items: [
+              '{{repeat(3,5)}}',
+              {
+                  storefrontIndex: '{{integer(1,3920)}}',
+                  quantity: '{{integer(1,10)}}'
+              }
+          ]
+          
+        }
+        ],
+      cart: [
+        '{{repeat(5,10)}}',
+        {
+          storefrontIndex: '{{integer(1,3920)}}',
+          quantity: '{{integer(1,10)}}'
+        }
+        ]
+    }
+  ]
