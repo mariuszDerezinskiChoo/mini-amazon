@@ -1,6 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import { noAuto } from "@fortawesome/fontawesome-svg-core";
+import backend from "../config"
 
 class testAPI extends React.Component {
     // State will apply to the posts object which is set to loading by default
@@ -13,7 +14,7 @@ class testAPI extends React.Component {
     getBuyers() {
       axios
         // This is where the data is hosted
-        .get("http://127.0.0.1:5000/buyers")
+        .get(backend + "/buyers")
         // Once we get a response and store data, let's change the loading state
         .then(response => {
           this.setState({
