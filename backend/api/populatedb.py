@@ -75,6 +75,8 @@ c.execute("INSERT into reviews values (?,?,?,?,?,?,?)",(7,'storefront_email1@gma
 c.execute("INSERT into reviews values (?,?,?,?,?,?,?)",(8,'storefront_email1@gmail.com','buyer_email1@gmail.com','20120619 10:34:17 AM',1,1,'Got ripped off WTF.'))
 c.execute("INSERT into reviews values (?,?,?,?,?,?,?)",(9,'storefront_email1@gmail.com','buyer_email1@gmail.com','20120619 10:34:18 AM',1,1,'Got ripped off WTF.'))
 c.execute("INSERT into reviews values (?,?,?,?,?,?,?)",(10,'storefront_email1@gmail.com','buyer_email1@gmail.com','20120619 10:34:19 AM',1,1,'Got ripped off WTF.'))
+c.execute("INSERT into reviews values (?,?,?,?,?,?,?)",(1,'storefront_email1@gmail.com','buyer_email2@gmail.com','20120619 10:34:10 AM',4,1,'Not bad'))
+c.execute("INSERT into reviews values (?,?,?,?,?,?,?)",(1,'storefront_email2@gmail.com','buyer_email3@gmail.com','20120619 10:34:10 AM',5,1,'Awesome'))
 
 c.execute("INSERT into cart values (?,?,?,?)",(1,10,'storefront_email1@gmail.com','buyer_email1@gmail.com'))
 c.execute("INSERT into cart values (?,?,?,?)",(2,8,'storefront_email2@gmail.com','buyer_email1@gmail.com'))
