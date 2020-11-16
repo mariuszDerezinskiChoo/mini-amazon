@@ -1,5 +1,8 @@
 import React from "react";
 import { Image } from 'semantic-ui-react';
+import imgur from "imgur-file-upload";
+
+imgur.setClientId('c7cbb16d550b502');
 
 function FileUpload() {
     const [file, setFile] = React.useState("");
@@ -15,15 +18,20 @@ function FileUpload() {
         const formData = new FormData()
         formData.append('type', 'file')
         formData.append('image', test)
-        const response = await fetch('https://api.imgur.com/3/upload', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                Authorization: 'Client-ID c7cbb16d550b502'
-            },
-            body: formData
-        })
-        console.log(response)
+
+        imgur.uploadImgur(test).then((result) => {
+            console.log(result);
+          });
+
+        // const response = await fetch('https://api.imgur.com/3/upload', {
+        //     method: 'POST',
+        //     headers: {
+        //         Accept: 'application/json',
+        //         Authorization: 'Client-ID c7cbb16d550b502'
+        //     },
+        //     body: formData
+        // })
+        // console.log(response)
     }
 
     return (
