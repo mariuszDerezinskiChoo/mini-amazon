@@ -196,8 +196,9 @@ if (this.state.errors[0] == 'Correct') {
      return (
 
       <div className="wrapper">
-
-    <Button href="../login" variant="outline-primary">Go back to Login</Button>
+        <div className="padding"></div>
+        <div className="padding"></div>
+    <Button href="../login" variant="outline-primary">Go back to Sign in</Button>
       <h1 style={{ color: '#007bff'}}></h1>
       <div className="form-group text-center">
       <label style={{ padding: 5}}>Enter your Email: </label>
