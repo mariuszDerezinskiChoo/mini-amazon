@@ -155,14 +155,14 @@ def storefrontsedit():
     return 'Done'
 
 
-@main.route('/cart')
+@main.route('/cart', methods=['GET'])
 def cart():
-    # sql query
-    buyer = "johnstonfigueroa@wrapture.com"
+    req = request.args
+    buyer = req.get("buyerEmail")
     query_text = """select i.name, i.description, i.category, l.price, c.quantity, c.item_id, s.name as sellername, s.email as selleremail, i.id as item_id
                     from item i, listing l, cart c, storefront s
-                    where c.buyer_email = "{}" and c.item_id = l.item_id and i.id = l.item_id and c.storefront_email = l.storefront_email and s.email = l.storefront_email;"""
-    res = db.engine.execute(query_text.format(buyer))
+                    where c.buyer_email = ? and c.item_id = l.item_id and i.id = l.item_id and c.storefront_email = l.storefront_email and s.email = l.storefront_email;"""
+    res = db.engine.execute(query_text, (buyer))
     response = []
     for row in res:
         response.append({
@@ -178,13 +178,36 @@ def cart():
     return jsonify(response)
 
 
-@main.route('/getbalance')
-def get_balance():
-    email = "johnstonfigueroa@wrapture.com"
+@main.route('/addBalance', methods=['POST'])
+def update_balance():
+    req = request.json
+
+    adding = req['adding']
+    email = req["email"]
+    print(email)
     res = db.engine.execute(
-        'SELECT balance from buyer where email="{}"'.format(email))
+        'SELECT balance from buyer where email= ?', (email))
     balance = res.fetchone()[0]
-    print(balance)
+
+    new_balance = balance + adding
+
+    db.engine.execute(
+        "UPDATE buyer SET balance = ? WHERE email = ?", (new_balance, email))
+
+    db.session.commit()
+    response = {
+        'newBalance': new_balance
+    }
+    return jsonify(response)
+
+
+@main.route('/getbalance', methods=['GET'])
+def get_balance():
+    req = request.args
+    email = req.get("email")
+    res = db.engine.execute(
+        'SELECT balance from buyer where email= ?', (email))
+    balance = res.fetchone()[0]
     response = {
         'balance': balance
     }
@@ -261,7 +284,7 @@ def add_cart():
 @main.route('/updateCart', methods=['POST'])
 def update_cart():
     req = request.json
-    buyer_email = 'buyer_email1@gmail.com'
+    buyer_email = req['buyerEmail']
     item_id = req['itemId']
     seller_email = req['sellerEmail']
     new_quantity = req['quantity']

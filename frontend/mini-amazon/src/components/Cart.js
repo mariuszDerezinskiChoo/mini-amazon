@@ -7,17 +7,14 @@ import backend from "../config"
 import NavBar from '../NavBar';
 const Cart = () => {
     const [cart, setCart] = useState(null);
-    console.log("reload");
+
     const handleRemove = (index) => {
-        console.log(index)
         let cartTemp = [...cart];
-        console.log(cartTemp.splice(index,1));
-        console.log(cartTemp);
         setCart(cartTemp);
     }
 
     useEffect(() => {
-        axios.get(backend + '/cart').then((res) => {
+        axios.get(backend + '/cart',{ params: { "buyerEmail": JSON.parse(sessionStorage.getItem('email')) } }).then((res) => {
             setCart(res.data);
         })
     },[])
@@ -29,7 +26,7 @@ const Cart = () => {
     }
 
     const handleUpdate = (index) => {
-        const payload = cart[index]
+        const payload = {...cart[index], "buyerEmail": JSON.parse(sessionStorage.getItem('email'))};
         console.log(payload);
         axios.post(backend + "/updateCart",payload).then((res) => {
             console.log(res.status);

@@ -9,8 +9,10 @@ function CreateModal() {
     // Ideally, these 3 attributes are automatically prepared when user clicks on the purchase history tuple he wants to review
     // Right now, anyone can write anything; at least check if user is logged in?
     const [item_id, setItemID] = useState("")
+    let localBuyerEmail = JSON.parse(sessionStorage.getItem('email'));
+    console.log(localBuyerEmail);
     const [storefront_email, setStorefrontEmail] = useState("")
-    const [buyer_email, setBuyerEmail] = useState("")
+    const [buyer_email, setBuyerEmail] = useState(localBuyerEmail);
 
     const [rating_item, setRatingItem] = useState("")
     const [rating_storefront, setRatingStorefront] = useState("")
