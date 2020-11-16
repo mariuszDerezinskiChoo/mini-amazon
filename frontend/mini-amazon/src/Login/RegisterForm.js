@@ -77,7 +77,7 @@ handleSubmit = e => {
             }
           })
           .then(res => res.json)
-          .then(response => this.setState({Message: "You have been registered!"}))
+          .then(response => this.setState({Message: "You have been registered! Please proceed to login page!"}))
           .catch(error => {
             this.setState({Message: "Unsuccessful: email has already been used"});
           })
@@ -94,7 +94,7 @@ handleSubmit = e => {
           }
         })
         .then(res => res.json)
-        .then(response => this.setState({Message: "You have been registered! Please proceed to login page"}))
+        .then(response => this.setState({Message: "You have been registered! Please proceed to login page!"}))
         .catch(error => {
           this.setState({Message: "Unsuccessful: email has already been used"});
         })
@@ -122,7 +122,6 @@ render() {
     this.state.security_answer.length > 0 && this.state.balance.length > 0;
     ;
       content = <div id="formContent">
-     
      <h2 >Account Sign Up</h2>
      <div id="form">
       <input 
@@ -131,9 +130,8 @@ render() {
       type="checkbox" 
       checked={this.state.isStorefront} 
       onChange={this.handleInputChange}/>
-      Register as Storefront
-      { this.state.Message &&
-        <h3 > {this.state.Message} </h3> }
+      <p>Register as Storefront</p>
+    
 
       <input
               value={this.state.first_name}
@@ -161,6 +159,7 @@ render() {
               type="password"
               placeholder="Password"
             />
+            <div className="pad"></div>
 <label>Please select a security question:</label>
       <select security_question= {this.state.security_question} onChange={this.handleChange}>
                   <option value="what primary school did you attend?">What primary school did you attend?</option>
@@ -175,7 +174,7 @@ render() {
               type="text"
               placeholder="Answer to Security Question"
             />
-
+           <div className="pad"></div>
             <input
               value={this.state.balance}
               onChange={evt => this.setState({ balance: evt.target.value })}
@@ -197,14 +196,13 @@ render() {
       content = <div id="formContent">
       <h2 >Account Sign Up</h2>
       <div id="form">
-      <div id="checkbox">
       <input 
       name= "isStorefront" 
       id="checkbox"
       type="checkbox" 
       checked={this.state.isStorefront} 
       onChange={this.handleInputChange}/>
-      <p> &nbsp;  Register as Storefront </p></div>
+      <p> &nbsp;  Register as Storefront </p>
       <input
               value={this.state.name}
               onChange={evt => this.setState({ name: evt.target.value })}
@@ -217,20 +215,19 @@ render() {
               type="text"
               placeholder="Description"
             />
-
             <input
               value={this.state.email}
               onChange={evt => this.setState({ email: evt.target.value })}
               type="text"
               placeholder="Email"
             />
-
             <input
               value={this.state.password}
               onChange={evt => this.setState({ password: evt.target.value })}
               type="password"
               placeholder="Password"
             />
+    <div className="pad"></div>
     <label>Please select a security question:</label>
       <select security_question= {this.state.security_question} onChange={this.handleChange}>
                   <option value="what primary school did you attend?">What primary school did you attend?</option>
@@ -245,7 +242,7 @@ render() {
               type="text"
               placeholder="Answer to Security Question"
             />
-
+         <div className="pad"></div>
             <input
               value={this.state.balance}
               onChange={evt => this.setState({ balance: evt.target.value })}
@@ -257,8 +254,7 @@ render() {
             ))}
   
             <input type="submit" className="button success" value="Register" onClick={this.handleSubmit} className="input" disabled={!isEnabled}/> 
-      { this.state.Message &&
-        <h3 id="error"> {this.state.Message} </h3> }
+  
       </div> 
         </div>;
     }
@@ -266,6 +262,9 @@ render() {
   return (
     <div>
       <div className="wrapper">
+      <div className="padding"></div>
+      { this.state.Message &&
+        <h3 > {this.state.Message} </h3> }
       {content}
       <p id="registerlink">Already have an account?<a variant="light" href="/login"> &nbsp; Click here to login!</a> </p>
       </div>
