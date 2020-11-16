@@ -9,7 +9,7 @@ function PastReviews() {
 
     useEffect(() => {
         // axios.get(backend + '/review')
-        axios.get('http://127.0.0.1:5000/review')
+        axios.get(backend + '/review')
             .then((res) => {
                 const list = []
                 for (const [index, value] of res.data.reviews_endpt.entries()) {

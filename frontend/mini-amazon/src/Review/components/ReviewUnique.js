@@ -42,7 +42,7 @@ function ReviewUnique(props) {
         }
 
         // axios.put(backend + '/review', data)
-        axios.put('http://127.0.0.1:5000/review', data)
+        axios.put(backend + '/review', data)
             .then((res) => {
                 console.log(res);
             })

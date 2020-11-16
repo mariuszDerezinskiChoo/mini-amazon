@@ -46,7 +46,7 @@ function CreateModal() {
             // datetime:datetime
         }
         // axios.post(backend + '/review', data)
-        axios.post('http://127.0.0.1:5000/review', data)
+        axios.post(backend + '/review', data)
             .then((res) => {
                 console.log(res);
                 console.log(res.status);
