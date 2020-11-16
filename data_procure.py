@@ -62,8 +62,13 @@ for index, row in dataset.iterrows():
         row['Category'] = "Unknown"
     row['Category'] = row['Category'].split("›")[0].strip()
 
-    conn.execute("INSERT into item values (?,?,?,?)", (item_id,
-                                                       row['Title'], str(row['Description']), row['Category']))
+    image_url = ""
+    if str(row['Image Url']) == None or str(row['Image Url']) == 'nan':
+        image_url = 'Unknown'
+    else:
+        image_url = row['Image Url'].split('|')[0]
+    conn.execute("INSERT into item values (?,?,?,?,?)", (item_id,
+                                                         row['Title'], str(row['Description']), row['Category'], image_url))
 
     for seller_pair in seller_pairs:
         company_name = str(row[seller_pair[0]])
