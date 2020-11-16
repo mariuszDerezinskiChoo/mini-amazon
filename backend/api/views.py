@@ -443,7 +443,6 @@ def review():
         #                     'review' : row.review
         #     })
         # return jsonify({'reviews' : reviews})
-        return jsonify({'listings': listings_list})
 
 
 @main.route('/delete_listing', methods=['POST'])

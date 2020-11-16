@@ -6,6 +6,7 @@ import { Image, Item } from 'semantic-ui-react'
 import '../styles/sellingItem.css';
 import FileUpload from './FileUpload';
 import axios from 'axios';
+import backend from "../../config"
 
 function ReviewUnique(props) {
     const [delOpen, setDelOpen] = useState(false)
@@ -40,6 +41,7 @@ function ReviewUnique(props) {
             review: review
         }
 
+        // axios.put(backend + '/review', data)
         axios.put('http://127.0.0.1:5000/review', data)
             .then((res) => {
                 console.log(res);
@@ -53,6 +55,21 @@ function ReviewUnique(props) {
         setRatingStorefront(initialState.rating_storefront)
         setReview(initialState.review)
     }
+
+    // function handleDelete() {
+    //     const data = {
+    //         item_id: props.review.item_id,
+    //         storefront_email: props.review.storefront_email,
+    //         buyer_email: props.review.buyer_email,
+    //     }
+    //     // axios.post(backend + '/delete_review', data)
+    //     axios.post('http://127.0.0.1:5000/delete_review', data)
+    //         .then((res) => {
+    //             console.log(res);
+    //         })
+    //     setDelOpen(false)
+    //     window.location.reload();
+    // }
 
     return (
         // <Item>

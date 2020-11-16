@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal, Form, Input, TextArea } from 'semantic-ui-react';
 import FileUpload from './FileUpload';
 import axios from 'axios';
+import backend from "../../config"
 
 function CreateModal() {
     const [open, setOpen] = useState(false)
@@ -42,6 +43,7 @@ function CreateModal() {
             review: review,
             // datetime:datetime
         }
+        // axios.post(backend + '/review', data)
         axios.post('http://127.0.0.1:5000/review', data)
             .then((res) => {
                 console.log(res);
