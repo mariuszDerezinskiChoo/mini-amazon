@@ -8,9 +8,22 @@ function FileUpload() {
         return <Image src={URL.createObjectURL(image)} alt={image.name} size='medium' />;
     };
 
-    function handleUpload(event) {
+    async function handleUpload(event) {
+        const test = event.target.files[0]
         setFile(event.target.files[0]);
-
+        console.log(test)
+        const formData = new FormData()
+        formData.append('type', 'file')
+        formData.append('image', test)
+        const response = await fetch('https://api.imgur.com/3/upload', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                Authorization: 'Client-ID c7cbb16d550b502'
+            },
+            body: formData
+        })
+        console.log(response)
     }
 
     return (

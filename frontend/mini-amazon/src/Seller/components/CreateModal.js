@@ -51,7 +51,7 @@ function CreateModal() {
         setItemDesc(initialState.item_desc)
         setSellerDesc(initialState.seller_desc)
         setPicture(initialState.picture)
-        window.location.reload();
+        //window.location.reload();
     }
 
     return (
