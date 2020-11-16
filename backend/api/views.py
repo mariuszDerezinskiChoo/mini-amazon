@@ -295,8 +295,8 @@ def update_cart():
     return 'Done', 201
 
 
-@main.route('/seller', methods=['POST', 'PUT', 'GET'])
-def seller():
+@main.route('/seller/<email>', methods=['POST', 'PUT', 'GET'])
+def seller(email):
     if request.method == 'POST':
         req = request.json
         new_item = Item(
@@ -307,20 +307,18 @@ def seller():
             name=req['name'], description=req['item_desc']).first()
         item_id = item.id
         new_listing = Listing(item_id=item_id, quantity=req['quantity'], price=req['price'],
-                              storefront_email="storefront_email1@gmail.com")  # TODO: make this seller specific
+                              storefront_email=email)
         db.session.add(new_listing)
         db.session.commit()
 
         return 'new item submitted'
     elif request.method == 'PUT':
-        # DB QUERY
         req = request.json
         item = Item.query.filter_by(id=req['id']).first()
-        # TODO: make this seller specific
         listing = Listing.query.filter_by(
-            item_id=req['id'], storefront_email="storefront_email1@gmail.com").first()
+            item_id=req['id'], storefront_email=email).first()
         seller = Storefront.query.filter_by(
-            email="storefront_email1@gmail.com").first()  # TODO: make this seller specific
+            email=email).first()
 
         item.name = req['name']
         listing.price = req['price']
@@ -333,26 +331,12 @@ def seller():
         print(req)
 
         return 'edit submitted'
-    elif request.method == 'DELETE':
-        req = request.json
-        print(req)
-        print(req['id'])
-        # TODO: make this seller specific
-        listing = Listing.query.filter_by(
-            item_id=req['id'], storefront_email="storefront_email1@gmail.com").first()
-        db.session.delete(listing)
-        db.session.commit()
-
-        return 'listing deleted'
     else:
-        # listings = Listing.query.filter_by(seller_email='{THIS USERS EMAIL}')
-        # items = Item.query.filter_by(item_id={EACH ID IN LISTINGS})
         listings_list = []
-        # TODO: make this seller specific
         listings = Listing.query.filter_by(
-            storefront_email="storefront_email1@gmail.com").all()
+            storefront_email=email).all()
         seller = Storefront.query.filter_by(
-            email="storefront_email1@gmail.com").first()  # TODO: make this seller specific
+            email=email).first()
         for listing in listings:
             data = {}
             item = Item.query.filter_by(id=listing.item_id).first()
@@ -363,7 +347,7 @@ def seller():
             data['category'] = item.category
             data['item_desc'] = item.description
             data['seller_desc'] = seller.description
-            # data['picture'] = item.photo_url
+            data['picture'] = item.photo_url
 
             listings_list.append(data)
         return jsonify({'listings': listings_list})
@@ -447,14 +431,14 @@ def review():
         return jsonify({'listings': listings_list})
 
 
-@main.route('/delete_listing', methods=['POST'])
-def delete_listing():
+@main.route('/delete_listing/<email>', methods=['POST'])
+def delete_listing(email):
     req = request.json
     print(req)
     print(req['id'])
     # TODO: make this seller specific
     listing = Listing.query.filter_by(
-        item_id=req['id'], storefront_email="storefront_email1@gmail.com").first()
+        item_id=req['id'], storefront_email=email).first()
     db.session.delete(listing)
     db.session.commit()
 

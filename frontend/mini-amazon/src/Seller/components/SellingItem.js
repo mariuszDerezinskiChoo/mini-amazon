@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import placeholder from '../placeholder.png';
 import picLocations from '../picLocations.js';
-import { Button, Icon, Header, Card, Modal, Form, Input, TextArea } from 'semantic-ui-react';
+import { Button, Icon, Header, Card, Modal, Form, Input, TextArea, Image } from 'semantic-ui-react';
 import '../styles/sellingItem.css';
-import FileUpload from './FileUpload';
 import axios from 'axios';
+import imgur from "imgur-file-upload";
 
 function SellingItem(props) {
     const [delOpen, setDelOpen] = useState(false)
@@ -17,6 +17,14 @@ function SellingItem(props) {
     const [item_desc, setItemDesc] = useState(props.item.item_desc)
     const [seller_desc, setSellerDesc] = useState(props.item.seller_desc)
     const [picture, setPicture] = useState(props.item.picture)
+
+    const [file, setFile] = useState("");
+
+    const ImageThumb = ({ image }) => {
+        return <Image src={URL.createObjectURL(image)} alt={image.name} size='medium' />;
+    };
+    
+    const user_email = JSON.parse(sessionStorage.getItem('email'));
 
     function inArray(id) {
         return picLocations.some((el) => {
@@ -38,7 +46,7 @@ function SellingItem(props) {
             picture: picture
         }
 
-        axios.put('http://127.0.0.1:5000/seller', data)
+        axios.put('http://127.0.0.1:5000/seller/' + user_email, data)
             .then((res) => {
                 console.log(res);
             })
@@ -52,12 +60,25 @@ function SellingItem(props) {
             id: props.item.id,
             name: name
         }
-        axios.post('http://127.0.0.1:5000/delete_listing', data)
+        axios.post('http://127.0.0.1:5000/delete_listing/' + user_email, data)
             .then((res) => {
                 console.log(res);
             })
         setDelOpen(false)
         window.location.reload();
+    }
+
+    async function handleUpload(event) {
+        const test = event.target.files[0]
+        setFile(event.target.files[0]);
+        console.log(test)
+        const formData = new FormData()
+        formData.append('type', 'file')
+        formData.append('image', test)
+
+        imgur.uploadImgur(test).then((result) => {
+            setPicture(result);
+          });
     }
 
     return (
@@ -161,7 +182,10 @@ function SellingItem(props) {
                         </Form.Field>
                         <Form.Field>
                             <label>Upload a Picture</label>
-                            <FileUpload />
+                            <div id="upload-box">
+                                <input type="file" accept="image/*" onChange={handleUpload} />
+                                {file && <ImageThumb image={file} />}
+                            </div>
                         </Form.Field>
                         <Button primary type='submit'>Submit</Button>
                     </Modal.Content>

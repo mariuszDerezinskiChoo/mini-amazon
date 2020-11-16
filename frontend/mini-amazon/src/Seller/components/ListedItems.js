@@ -6,8 +6,10 @@ import axios from 'axios';
 function ListedItems() {
     const [items, setItems] = useState([])
 
+    const email = JSON.parse(sessionStorage.getItem('email'));
+
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/seller')
+        axios.get('http://127.0.0.1:5000/seller/' + email)
             .then((res) => {
                 const listings = []
                 for (const [index, value] of res.data.listings.entries()) {
