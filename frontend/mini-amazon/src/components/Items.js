@@ -3,22 +3,34 @@ import {List, Header} from "semantic-ui-react";
 import React, {useState, useEffect} from "react";
 import {Container, Row, Col, Card, Button} from "react-bootstrap";
 import Rating from '@material-ui/lab/Rating';
+import NavBar from '../NavBar';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faPlusCircle, faMinusCircle} from "@fortawesome/free-solid-svg-icons";
 
 export const Items = ({ items}) => {
     console.log(items)
+    const [item, setItem] = useState(null);
     if (!items) {
         return (
             <h1> No results found!</h1> 
         )
     }
+    const index = 1;
+    const handleIncrement = (index, increment) => {
+        let itemTemp = [...item];
+        itemTemp[index].quantity += increment;
+        setItem(itemTemp);
+    }
+
     return (
         <>
+        <NavBar/>
         <List>
             {items.map(item => {
                 const id = item.id;
-                const quantity = item.quantity;
+                const quantity = index;
                 const selleremail = item.selleremail;
-                const buyeremail = 'buyer_email1@gmail.com'//JSON.parse(sessionStorage.getItem('email'));
+                const buyeremail = JSON.parse(sessionStorage.getItem('email'));
                 return (
                     <List.Item key= {item.id}>
                         <Header> <h1>{item.name}</h1> </Header>
@@ -33,6 +45,17 @@ export const Items = ({ items}) => {
                         <h2> Price: ${item.price}</h2>
                         <h2> {item.quantity} in stock </h2>
                         <h2> Description: {item.description}</h2>
+                        <Col xs={2}>
+                            <div className="float-center mr-3 mt-3 mb-3">
+                        <Row>
+                            <FontAwesomeIcon size="2x" color="#09B049" onClick={() => handleIncrement(index,1)} icon={faPlusCircle}/>
+                        </Row>
+                        <Row> {index} </Row>
+                        <Row>
+                            <FontAwesomeIcon size="2x" color="#FF0000" onClick={() => handleIncrement(index,-1)} icon={faMinusCircle}/>
+                        </Row>
+                            </div>
+                        </Col>
                         <button
                             onClick={async () => {
                             const addCart = { id, quantity, selleremail, buyeremail};
@@ -73,15 +96,3 @@ export const Items = ({ items}) => {
         </>
     )
 } 
-
-/*import React from "react";
-
-const Item = () => {
-    return (
-        <>
-        <h1>Item Page</h1>
-        </>
-    )
-};
-
-export default Item;*/

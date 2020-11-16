@@ -1,13 +1,21 @@
 import React from "react";
+import NavBar from '../NavBar';
+import '../App.css';
+import AddReview from '../Review/components/AddReview.js';
+import PastReviews from '../Review/components/PastReviews.js';
 
-
-
-const Review = () => {
-    return (
-        <>
-        <h1>Hello</h1>
-        </>
-    )
-};
-
+function Review() {
+  return (
+    <div>
+      <NavBar/>
+      <div id='add-modify'>
+        <AddReview />
+      </div>
+      <br />
+      <div id='past-reviews'>
+        <PastReviews />
+      </div>
+    </div>
+  );
+}
 export default Review;

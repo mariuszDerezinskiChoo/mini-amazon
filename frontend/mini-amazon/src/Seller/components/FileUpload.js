@@ -11,13 +11,11 @@ function FileUpload() {
     function handleUpload(event) {
         setFile(event.target.files[0]);
 
-        // Add code here to upload file to server
-        // ...
     }
 
     return (
         <div id="upload-box">
-            <input type="file" onChange={handleUpload} />
+            <input type="file" accept="image/*" onChange={handleUpload} />
             {file && <ImageThumb image={file} />}
         </div>
     );

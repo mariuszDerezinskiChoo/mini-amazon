@@ -14,6 +14,8 @@ class Buyer(db.Model):
     first_name = db.Column(db.String(20), nullable=False)
     last_name = db.Column(db.String(20), nullable=False)
     balance = db.Column(db.Integer, nullable=False)
+    security_question = db.Column(db.Text, nullable=False)
+    security_answer = db.Column(db.Text, nullable=False)
     # photo_url = db.Column(db.String(100), nullable=False)
 
 class Storefront(db.Model):
@@ -23,6 +25,8 @@ class Storefront(db.Model):
     name = db.Column(db.String(30), nullable=False)
     balance = db.Column(db.Integer, nullable=False)
     description = db.Column(db.Text, nullable=False)
+    security_question = db.Column(db.Text, nullable=False)
+    security_answer = db.Column(db.Text, nullable=False)
     # photo_url = db.Column(db.String(100),nullable=False)
 
 class Item(db.Model):
@@ -57,10 +61,17 @@ class Purchase(db.Model):
 
 class Reviews(db.Model):
     __tablename__ = 'reviews'
-    item_id = db.Column(db.Integer, db.ForeignKey('item.id'))
-    storefront_email = db.Column(db.String(30), db.ForeignKey('storefront.email'))
+    # item_id = db.Column(db.Integer, db.ForeignKey('item.id'))
+    # storefront_email = db.Column(db.String(30), db.ForeignKey('storefront.email'))
+    # buyer_email = db.Column(db.String(30), db.ForeignKey('buyer.email'), primary_key=True)
+    # datetime_submitted = db.Column(db.DateTime, default=datetime.utcnow, primary_key=True)
+    # rating_item = db.Column(db.Integer, nullable=False)
+    # rating_storefront = db.Column(db.Integer)
+    # review = db.Column(db.Text, nullable=False)
+
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'), primary_key=True)
+    storefront_email = db.Column(db.String(30), db.ForeignKey('storefront.email'), primary_key=True)
     buyer_email = db.Column(db.String(30), db.ForeignKey('buyer.email'), primary_key=True)
-    datetime_submitted = db.Column(db.DateTime, default=datetime.utcnow, primary_key=True)
     rating_item = db.Column(db.Integer, nullable=False)
     rating_storefront = db.Column(db.Integer)
     review = db.Column(db.Text, nullable=False)

@@ -9,7 +9,7 @@ function ItemPage(props) {
     console.log(props.match.params.item);
 
     useEffect( () => {
-      fetch('http://127.0.0.1:5000/item/' + props.match.params.item + '/' + props.match.params.seller + "/" + props.match.params.id).then(response =>
+      fetch('http://127.0.0.1:5000/item/' + props.match.params.seller + "/" + props.match.params.id).then(response =>
         response.json().then(data => {
           setItems(data.items);
         })
