@@ -25,8 +25,6 @@ import Profile from "./Login/Profile";
 import ForgetPassword from './Login/ForgetPassword';
 import ProtectedRoute from './ProtectedRoute';
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
 ReactDOM.render(
 <React.StrictMode>
     <BrowserRouter>

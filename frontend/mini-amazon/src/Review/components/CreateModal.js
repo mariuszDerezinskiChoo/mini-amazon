@@ -4,23 +4,16 @@ import FileUpload from './FileUpload';
 import axios from 'axios';
 import backend from "../../config"
 
-function CreateModal() {
+function CreateModal(props) {
     const [open, setOpen] = useState(false)
-    const [item_id, setItemID] = useState("")
-    const [storefront_email, setStorefrontEmail] = useState("")
-    // const [buyer_email, setBuyerEmail] = useState("");
     const [rating_item, setRatingItem] = useState("")
     const [rating_storefront, setRatingStorefront] = useState("")
     const [review, setReview] = useState("")
 
     const buyer_email = JSON.parse(sessionStorage.getItem('email'));
-    // console.log(localBuyerEmail);
 
     const initialState = {
         open: false,
-        item_id: "",
-        storefront_email: "",
-        // buyer_email: "",
         rating_item: "",
         rating_storefront: "",
         review: "",
@@ -28,26 +21,23 @@ function CreateModal() {
 
     function handleSubmit() {
         const data = {
-            item_id: item_id,
-            storefront_email: storefront_email,
+            item_id: props.item_id,
+            storefront_email: props.selleremail,
             buyer_email: buyer_email,
             rating_item: rating_item,
             rating_storefront: rating_storefront,
             review: review,
         }
-        // axios.post(backend + '/review', data)
         axios.post(backend + '/review/', data)
             .then((res) => {
                 console.log(res);
                 console.log(res.status);
             })
         setOpen(initialState.open)
-        setItemID(initialState.item_id)
-        setStorefrontEmail(initialState.storefront_email)
-        // setBuyerEmail(initialState.buyer_email)
         setRatingItem(initialState.rating_item)
         setRatingStorefront(initialState.rating_storefront)
         setReview(initialState.review)
+        window.location.reload();
     }
 
     return (
@@ -57,39 +47,11 @@ function CreateModal() {
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
             open={open}
-            trigger={<Button primary>Create</Button>}
+            trigger={<Button primary>Create New Review</Button>}
             id='Semantic-Modal'
         >
             <Modal.Header>Add New Review</Modal.Header>
             <Modal.Content>
-                <Form.Field>
-                    <label>Item ID (Refer to item_id in product URL)</label>
-                    <input
-                        required
-                        placeholder='Item ID'
-                        type='number'
-                        value={item_id}
-                        onChange={e => setItemID(e.target.value)}
-                    />
-                </Form.Field>
-                <Form.Field>
-                    <label>Storefront Email</label>
-                    <input
-                        required
-                        placeholder='Who sold you this item?'
-                        value={storefront_email}
-                        onChange={e => setStorefrontEmail(e.target.value)}
-                    />
-                </Form.Field>
-                {/* <Form.Field>
-                    <label>Buyer Email</label>
-                    <input
-                        required
-                        placeholder='What is your email?'
-                        value={buyer_email}
-                        onChange={e => setBuyerEmail(e.target.value)}
-                    />
-                </Form.Field> */}
                 <Form.Group widths='equal'>
                     <Form.Field>
                         <label>Item Rating (Only accepts integers 0-5!)</label>

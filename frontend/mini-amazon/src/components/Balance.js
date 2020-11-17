@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import axios from 'axios';
-import {Form, Button}  from "react-bootstrap";
+import {Form, Button, Container, Row, Col}  from "react-bootstrap";
 import backend from "../config";
+import NavBar from "../NavBar"
 
 const Balance = (props) => {
     const [balance, setBalance] = useState(0);
@@ -26,12 +27,21 @@ const Balance = (props) => {
 
     return (
         <>
-            <h1>Balance: ${balance}</h1>
-            <Form.Group>
-            <Form.Control value={addBalance} onChange={e => setAddBalance(e.target.value)}size="lg" type="text" placeholder="Add to Balance" />
-            <br />
-            <Button onClick={submit}>Add Balance</Button>
-            </Form.Group>
+        <NavBar></NavBar>
+        <Container>
+            <Row className="justify-content-center">
+                <h1>Balance: ${balance}</h1>
+            </Row>
+            <Row className="justify-content-center">
+                <Form.Group className="ml-4">
+                    <Form.Control value={addBalance} onChange={e => setAddBalance(e.target.value)}size="lg" type="text" placeholder="Add to Balance" />
+                </Form.Group>
+            </Row>
+            <Row className="justify-content-center">
+                <Button className="mt-2" onClick={submit}>Add Balance</Button>
+            </Row>
+        </Container>
+
         </>
     )
 }

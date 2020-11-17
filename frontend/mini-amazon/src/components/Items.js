@@ -7,6 +7,7 @@ import NavBar from '../NavBar';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faPlusCircle, faMinusCircle} from "@fortawesome/free-solid-svg-icons";
 import Quantity from './Quantity';
+import CreateModal from "../Review/components/CreateModal";
 
 
 export const Items = ({ items}) => {
@@ -72,6 +73,7 @@ export const Items = ({ items}) => {
                         Add to Cart
                         </button>
                         <h3>Product Reviews</h3>
+                        <CreateModal item_id={item.id} selleremail={selleremail}/>
                         <Container fluid="lg">
                             { item.reviews.map(review => {
                                 return (
