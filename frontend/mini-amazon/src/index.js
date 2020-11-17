@@ -42,8 +42,8 @@ ReactDOM.render(
         <ProtectedRoute exact path="/balance" component={Balance} />
         <ProtectedRoute exact path="/trade-history" component={TradeHistory} />
         <ProtectedRoute exact path="/purchase-history" component={PurchaseHistory} />
-        <ProtectedRoute exact path="/results/:search" component={Results}/>
-        <ProtectedRoute exact path="/item/:item/:seller/:id" component={ItemPage}/>
+        <Route exact path="/results/:search" component={Results}/>
+        <Route exact path="/item/:item/:seller/:id" component={ItemPage}/>
         <Route exact path="/forgetPassword" component={ForgetPassword}/>
         <ProtectedRoute exact path="/review" component={Review} />
       </Switch>

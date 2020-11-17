@@ -6,7 +6,7 @@ class ProtectedRoute extends React.Component {
     render(props) {
         const Component = this.props.component;
         const isAuthenticated = sessionStorage.getItem('isAuthenticated');
-        console.log(props);
+        console.log(props)
         return isAuthenticated ? (
             <Component {...props}/>
         ) : (
