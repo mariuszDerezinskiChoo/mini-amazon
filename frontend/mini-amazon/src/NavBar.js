@@ -69,22 +69,25 @@ class NavBar extends React.Component {
     <Nav className="mr-auto">
     {
         JSON.parse(sessionStorage.getItem('last_name')) ?
-        <Nav.Link href="/balance">Review Balance</Nav.Link>
-          :
-          JSON.parse(sessionStorage.getItem('email')) ? 
-          <Nav.Link href="/seller">Seller</Nav.Link>
-          :
-          null
-      }
-      
-      <Nav.Link href="/cart">Cart</Nav.Link>
+        (
+          <>
+          <Nav.Link href="/balance">Review Balance</Nav.Link>
+          <Nav.Link href="/cart">Cart</Nav.Link>
       <Nav.Link href="/review">Manage Reviews</Nav.Link>
-      {
-        JSON.parse(sessionStorage.getItem('last_name')) ?
-          <Nav.Link href="/purchase-history">Purchase History</Nav.Link>
+      <Nav.Link href="/purchase-history">Purchase History</Nav.Link>
+          </>
+        )
+        
+
           :
           JSON.parse(sessionStorage.getItem('email')) ? 
-          <Nav.Link href="/trade-history">Order History</Nav.Link>
+          (
+            <>
+            <Nav.Link href="/seller">Seller</Nav.Link>
+          <Nav.Link href="/trade-history">Trade History</Nav.Link>
+            </>
+          )
+          
           :
           null
       }
