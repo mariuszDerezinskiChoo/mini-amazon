@@ -45,7 +45,7 @@ const Cart = () => {
                             <Card key={index} className="mb-5">
                             <Row>
                                 <Col xs={4}>
-                                    <img style={{"width": "300px", "height": "200px"}} src="https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673.png"></img>
+                                    <img style={{"width": "300px", "height": "200px"}} src={entry.imageUrl}></img>
                                 </Col>
                                 <Col xs={6}>
                                         <h2>{entry.itemName}</h2>

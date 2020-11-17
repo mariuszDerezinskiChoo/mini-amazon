@@ -66,6 +66,7 @@ def buyersedit():
         buyer_new_password, buyer_email))
     return 'Password Updated'
 
+
 @main.route('/buyerseditprofile', methods=['POST'])
 def buyerseditprofile():
     req = request.json
@@ -73,10 +74,14 @@ def buyerseditprofile():
     buyer_new_password = req['newPass']
     buyer_first_name = req['first_name']
     buyer_last_name = req['last_name']
-    db.engine.execute('UPDATE Buyer SET password = "{}" where email = "{}";'.format(buyer_new_password,buyer_email))
-    db.engine.execute('UPDATE Buyer SET first_name = "{}" where email = "{}";'.format(buyer_first_name,buyer_email))
-    db.engine.execute('UPDATE Buyer SET last_name = "{}" where email = "{}";'.format(buyer_last_name,buyer_email))
+    db.engine.execute('UPDATE Buyer SET password = "{}" where email = "{}";'.format(
+        buyer_new_password, buyer_email))
+    db.engine.execute('UPDATE Buyer SET first_name = "{}" where email = "{}";'.format(
+        buyer_first_name, buyer_email))
+    db.engine.execute('UPDATE Buyer SET last_name = "{}" where email = "{}";'.format(
+        buyer_last_name, buyer_email))
     return 'Profile Updated'
+
 
 @main.route('/buyerssecurity', methods=['POST'])
 def buyerssecurity():
@@ -165,6 +170,7 @@ def storefrontsedit():
         storefront_new_password, storefront_email))
     return 'Done'
 
+
 @main.route('/storefrontseditprofile', methods=['POST'])
 def storefrontseditprofile():
     req = request.json
@@ -172,16 +178,20 @@ def storefrontseditprofile():
     storefront_new_password = req['newPass']
     storefront_name = req['name']
     storefront_description = req['description']
-    db.engine.execute('UPDATE Storefront SET password = "{}" where email = "{}";'.format(storefront_new_password,storefront_email))
-    db.engine.execute('UPDATE Storefront SET name = "{}" where email = "{}";'.format(storefront_name,storefront_email))
-    db.engine.execute('UPDATE Storefront SET description = "{}" where email = "{}";'.format(storefront_description,storefront_email))
+    db.engine.execute('UPDATE Storefront SET password = "{}" where email = "{}";'.format(
+        storefront_new_password, storefront_email))
+    db.engine.execute('UPDATE Storefront SET name = "{}" where email = "{}";'.format(
+        storefront_name, storefront_email))
+    db.engine.execute('UPDATE Storefront SET description = "{}" where email = "{}";'.format(
+        storefront_description, storefront_email))
     return 'Profile Updated'
+
 
 @main.route('/cart', methods=['GET'])
 def cart():
     req = request.args
     buyer = req.get("buyerEmail")
-    query_text = """select i.name, i.description, i.category, l.price, c.quantity, c.item_id, s.name as sellername, s.email as selleremail, i.id as item_id
+    query_text = """select i.photo_url, i.name, i.description, i.category, l.price, c.quantity, c.item_id, s.name as sellername, s.email as selleremail, i.id as item_id
                     from item i, listing l, cart c, storefront s
                     where c.buyer_email = ? and c.item_id = l.item_id and i.id = l.item_id and c.storefront_email = l.storefront_email and s.email = l.storefront_email;"""
     res = db.engine.execute(query_text, (buyer))
@@ -194,7 +204,7 @@ def cart():
             "price": row.price,
             "quantity": row.quantity,
             "sellerEmail": row.selleremail,
-            "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
+            "imageUrl": row.photo_url,
             "description": row.description
         })
     return jsonify(response)
@@ -238,15 +248,16 @@ def get_balance():
 
 @main.route('/getTradeHistory')
 def get_trade_history():
-    email = " uniqueplace-usa @gmail.com"
+    req = request.args
+    email = req.get("email")
     query = """
-    select p.item_id, i.name, p.price, p.quantity, b.first_name, b.last_name, p.datetime
+    select p.item_id, i.photo_url, i.name, p.price, p.quantity, b.first_name, b.last_name, p.datetime
     from item i, purchase p, buyer b
-    where i.id = p.item_id and p.buyer_email = b.email and p.storefront_email = "{}"
+    where i.id = p.item_id and p.buyer_email = b.email and p.storefront_email = ?
     order by p.datetime desc;
     """
     res = db.engine.execute(
-        query.format(email))
+        query, (email))
     response = []
     for row in res:
         response.append({
@@ -257,22 +268,24 @@ def get_trade_history():
             "firstName": row.first_name,
             "lastName": row.last_name,
             "time": row.datetime,
-            "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
+            "imageUrl": row.photo_url,
         })
     return jsonify(response)
 
 
 @main.route('/getOrderHistory')
 def get_order_history():
-    email = "johnstonfigueroa@wrapture.com"
+    req = request.args
+    email = req.get("email")
+    print(email)
     query = """
-    select p.item_id, i.name, p.price, p.quantity, s.name, p.datetime
+    select p.item_id, i.photo_url, i.name, p.price, p.quantity, s.name, p.datetime
     from item i, purchase p, storefront s
-    where i.id = p.item_id and p.storefront_email = s.email and p.buyer_email = "{}"
+    where i.id = p.item_id and p.storefront_email = s.email and p.buyer_email = ?
     order by p.datetime desc;
     """
     res = db.engine.execute(
-        query.format(email))
+        query, (email))
     response = []
     for row in res:
         response.append({
@@ -282,7 +295,7 @@ def get_order_history():
             "quantity": row.quantity,
             "name": row.name,
             "time": row.datetime,
-            "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
+            "imageUrl": row.photo_url,
         })
     return jsonify(response)
 

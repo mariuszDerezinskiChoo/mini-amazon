@@ -11,7 +11,7 @@ const PurchaseHistory = () => {
     console.log("reload");
 
     useEffect(() => {
-        axios.get(backend + '/getOrderHistory').then((res) => {
+        axios.get(backend + '/getOrderHistory',{ params: { "email": JSON.parse(sessionStorage.getItem('email')) } }).then((res) => {
             console.log(res.data)
             setHistory(res.data);
         })
@@ -28,7 +28,7 @@ const PurchaseHistory = () => {
                             <Card key={index} className="mb-5">
                             <Row>
                                 <Col xs={4}>
-                                    <img style={{"width": "300px", "height": "200px"}} src="https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673.png"></img>
+                                    <img style={{"width": "300px", "height": "200px"}} src={entry.imageUrl}></img>
                                 </Col>
                                 <Col xs={6}>
                                         <h2>{entry.itemName}</h2>

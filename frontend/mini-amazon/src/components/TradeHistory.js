@@ -8,7 +8,7 @@ const TradeHistory = () => {
     console.log("reload");
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/getOrderHistory').then((res) => {
+        axios.get('http://127.0.0.1:5000/getTradeHistory',{ params: { "email": JSON.parse(sessionStorage.getItem('email')) } }).then((res) => {
             console.log(res.data)
             setHistory(res.data);
         })
