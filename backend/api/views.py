@@ -31,7 +31,9 @@ def add_buyer():
                     password = buyer_data['password'], 
                     first_name = buyer_data['first_name'],
                     last_name = buyer_data['last_name'],
-                    balance = buyer_data['balance'], 
+                    balance = buyer_data['balance'],
+                    security_question=  buyer_data['security_question'],
+                    security_answer=  buyer_data['security_answer']
                     )
     db.session.add(new_buyer)
     db.session.commit()
