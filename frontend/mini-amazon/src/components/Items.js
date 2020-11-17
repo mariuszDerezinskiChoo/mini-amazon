@@ -6,7 +6,6 @@ import Rating from '@material-ui/lab/Rating';
 import NavBar from '../NavBar';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faPlusCircle, faMinusCircle} from "@fortawesome/free-solid-svg-icons";
-import Quantity from './Quantity';
 
 
 export const Items = ({ items}) => {
@@ -44,7 +43,7 @@ export const Items = ({ items}) => {
                         <Col xs={2}>
                             <div className="float-center mr-3 mt-3 mb-3">
                         <Row>
-                            <FontAwesomeIcon size="2x" color="#0080FF" onClick={() => setCount(count + 1)} icon={faPlusCircle}/>
+                            <FontAwesomeIcon size="2x" color="#0080FF" onClick={() => setCount( count + 1)} icon={faPlusCircle}/>
                         </Row>
                         <Row>
                             <p>{count}</p>
