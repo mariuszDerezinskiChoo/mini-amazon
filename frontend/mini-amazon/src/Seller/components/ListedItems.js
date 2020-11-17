@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Segment, Card } from 'semantic-ui-react';
 import SellingItem from './SellingItem.js';
 import axios from 'axios';
+import backend from "../../config"
 
 function ListedItems() {
     const [items, setItems] = useState([])
@@ -9,7 +10,7 @@ function ListedItems() {
     const email = JSON.parse(sessionStorage.getItem('email'));
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/seller/' + email)
+        axios.get(backend + '/seller/' + email)
             .then((res) => {
                 const listings = []
                 for (const [index, value] of res.data.listings.entries()) {

@@ -26,6 +26,9 @@ export const Items = ({ items}) => {
                 const quantity = count;
                 const selleremail = item.selleremail;
                 const buyeremail = JSON.parse(sessionStorage.getItem('email'));
+                const newTo = { 
+                    pathname: "/review/" + item.selleremail + "/" + item.id
+                }
                 return (
                     <List.Item key= {item.id}>
                         <Header> <h1>{item.name}</h1> </Header>
@@ -34,7 +37,7 @@ export const Items = ({ items}) => {
                         <Rating name= "half-rating-read" defaultValue={item.avg_rating} precision={0.1} readOnly />
                         <h7>({item.total_reviews} reviews)</h7>
                         <Col xs={4}>
-                            <img style={{"width": "300px", "height": "200px"}} src="https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673.png"></img>
+                            <img style={{"width": "300px", "height": "200px"}} src={item.photo}></img>
                         </Col>
                         <h2> Sold by: {item.seller}</h2>
                         <h2> Price: ${item.price}</h2>
@@ -71,6 +74,7 @@ export const Items = ({ items}) => {
                         Add to Cart
                         </button>
                         <h3>Product Reviews</h3>
+                        <Link to = {newTo}><a>Add Review</a></Link>
                         <Container fluid="lg">
                             { item.reviews.map(review => {
                                 return (

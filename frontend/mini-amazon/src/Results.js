@@ -10,7 +10,7 @@ function Results(props) {
     console.log(props.match.params.search);
 
     useEffect( () => {
-      fetch(backend + 'listings/' + props.match.params.search).then(response =>
+      fetch(backend + '/listings/' + props.match.params.search).then(response =>
         response.json().then(data => {
           setListings(data.listings);
         })

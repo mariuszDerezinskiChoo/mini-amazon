@@ -36,7 +36,7 @@ function CreateModal() {
             review: review,
         }
         // axios.post(backend + '/review', data)
-        axios.post(backend + '/review', data)
+        axios.post(backend + '/review/', data)
             .then((res) => {
                 console.log(res);
                 console.log(res.status);
