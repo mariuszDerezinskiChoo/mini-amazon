@@ -262,10 +262,11 @@ render() {
   return (
     <div>
       <div className="wrapper">
-      <div className="padding"></div>
-      { this.state.Message &&
-        <h3 > {this.state.Message} </h3> }
+      <h1 className="heading">Mini-Amazon</h1>
+      <div></div>
       {content}
+      { this.state.Message &&
+        <h1>{this.state.Message} </h1>}
       <p id="registerlink">Already have an account?<a variant="light" href="/login"> &nbsp; Click here to login!</a> </p>
       </div>
   </div>
