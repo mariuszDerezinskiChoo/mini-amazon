@@ -8,7 +8,6 @@ function PastReviews() {
     const [reviews, setReviews] = useState([])
 
     useEffect(() => {
-        // axios.get(backend + '/review')
         axios.get(backend + '/review', { params: { "buyerEmail": JSON.parse(sessionStorage.getItem('email')) } })
             .then((res) => {
                 const list = []
@@ -23,10 +22,6 @@ function PastReviews() {
         <Segment.Group raised>
             <Segment><h2>Your Past Reviews</h2></Segment>
             <Segment style={{overflow: 'auto', maxHeight: '80vh' }}>
-                
-                {/* <Item.Group centered>
-                    {reviews}
-                </Item.Group> */}
 
                 <Card.Group centered>
                     {reviews}

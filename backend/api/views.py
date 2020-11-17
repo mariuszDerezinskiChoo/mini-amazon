@@ -468,22 +468,18 @@ def review():
                              )
         db.session.add(new_review)
         db.session.commit()
+        print(review_data)
         return 'Done', 201
-        # Works! But only for tuples that satisfy the input conditions (here, PK is id-storefront-buyer w/ FK considerations)
-        # If the commit doesn't work, how can we show the user that it didn't get added to db?
-        # The form can check data types, but only a request to db can ensure if PK/FK are satisfied
 
     elif request.method == 'PUT':
-        # DB QUERY
         req = request.json
 
-        # These three PK values can't be changed on the frontend, so this will always find the intended tuple
         review = Reviews.query.filter_by(
             item_id=req['item_id'], storefront_email=req['storefront_email'], buyer_email=req['buyer_email']).first()
 
-        # review.item_id = req['item_id']
-        # review.storefront_email = req['storefront_email']
-        # review.buyer_email = req['buyer_email']
+        review.item_id = req['item_id']
+        review.storefront_email = req['storefront_email']
+        review.buyer_email = req['buyer_email']
         review.rating_item = req['rating_item']
         review.rating_storefront = req['rating_storefront']
         review.review = req['review']
@@ -492,7 +488,6 @@ def review():
         print(req)
 
         return 'edit submitted'
-        # Ideally, the page automatically refreshes to refetch updated tuples
 
     else:
         req = request.args
@@ -505,9 +500,11 @@ def review():
         for review in reviews:
             data = {}
             item = Item.query.filter_by(id=review.item_id).first()
+            seller = Storefront.query.filter_by(email=review.storefront_email).first()
             data['item_name'] = item.name
             data['item_id'] = review.item_id
             data['storefront_email'] = review.storefront_email
+            data['storefront_name'] = seller.name
             data['buyer_email'] = review.buyer_email
             data['rating_item'] = review.rating_item
             data['rating_storefront'] = review.rating_storefront
@@ -516,22 +513,6 @@ def review():
             reviews_list.append(data)
 
         return jsonify({'reviews_endpt': reviews_list})
-
-        # ALTERNATIVE METHOD
-        # # username = login_session_username... (e.g., buyer_email1@gmail.com)
-        # username = "buyer_email1@gmail.com"
-        # sql = text('SELECT * FROM Reviews WHERE buyer_email = ?', username)
-        # result = db.engine.execute(sql)
-        # reviews = []
-        # for row in result:
-        #     reviews.append({'item_id' : row.item_id,
-        #                     'storefront_email' : row.storefront_email,
-        #                     'buyer_email' : row.buyer_email,
-        #                     'rating_item' : row.rating_item,
-        #                     'rating_storefront' : row.rating_storefront,
-        #                     'review' : row.review
-        #     })
-        # return jsonify({'reviews' : reviews})
 
 
 @main.route('/delete_listing/<email>', methods=['POST'])
