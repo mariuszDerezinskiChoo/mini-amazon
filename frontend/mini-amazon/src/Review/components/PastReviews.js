@@ -9,7 +9,7 @@ function PastReviews() {
 
     useEffect(() => {
         // axios.get(backend + '/review')
-        axios.get(backend + '/review')
+        axios.get(backend + '/review', { params: { "buyerEmail": JSON.parse(sessionStorage.getItem('email')) } })
             .then((res) => {
                 const list = []
                 for (const [index, value] of res.data.reviews_endpt.entries()) {

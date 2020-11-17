@@ -388,7 +388,7 @@ def seller(email):
         return jsonify({'listings': listings_list})
 
 
-@main.route('/review', methods=['GET', 'PUT', 'POST'])
+@main.route('/review/', methods=['GET', 'PUT', 'POST'])
 def review():
     if request.method == 'POST':
         review_data = request.get_json()
@@ -428,11 +428,14 @@ def review():
         # Ideally, the page automatically refreshes to refetch updated tuples
 
     else:
+        req = request.args
+        username = req.get("buyerEmail")
+        reviews = Reviews.query.filter_by(buyer_email=username).all()
+
+
         reviews_list = []
 
         # username = login_session_username... (e.g., buyer_email1@gmail.com)
-        username = "buyer_email1@gmail.com"
-        reviews = Reviews.query.filter_by(buyer_email=username).all()
         for review in reviews:
             data = {}
             item = Item.query.filter_by(id=review.item_id).first()
