@@ -9,17 +9,14 @@ import {Link} from "react-router-dom";
 
 const Cart = () => {
     const [cart, setCart] = useState(null);
-    console.log("reload");
+
     const handleRemove = (index) => {
-        console.log(index)
         let cartTemp = [...cart];
-        console.log(cartTemp.splice(index,1));
-        console.log(cartTemp);
         setCart(cartTemp);
     }
 
     useEffect(() => {
-        axios.get(backend + '/cart').then((res) => {
+        axios.get(backend + '/cart',{ params: { "buyerEmail": JSON.parse(sessionStorage.getItem('email')) } }).then((res) => {
             setCart(res.data);
         })
     },[])
@@ -31,7 +28,7 @@ const Cart = () => {
     }
 
     const handleUpdate = (index) => {
-        const payload = cart[index]
+        const payload = {...cart[index], "buyerEmail": JSON.parse(sessionStorage.getItem('email'))};
         console.log(payload);
         axios.post(backend + "/updateCart",payload).then((res) => {
             console.log(res.status);
@@ -53,7 +50,7 @@ const Cart = () => {
                             <Card key={index} className="mb-5">
                             <Row>
                                 <Col xs={4}>
-                                    <img style={{"width": "300px", "height": "200px"}} src="https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673.png"></img>
+                                    <img style={{"width": "300px", "height": "200px"}} src={entry.imageUrl}></img>
                                 </Col>
                                 <Col xs={6}>
                                         <Link to = {newTo}><h2>{entry.itemName}</h2></Link>

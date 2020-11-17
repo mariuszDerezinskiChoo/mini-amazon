@@ -5,6 +5,7 @@ import {Redirect} from 'react-router-dom';
 import {PostData} from "./PostData";
 import axios from "axios";
 import "./LoginPortal.css";
+import backend from "../config"
 
 class LoginPortal extends Component {
 
@@ -35,7 +36,7 @@ class LoginPortal extends Component {
       if (this.state.isStorefront == false) {
         console.log(this.state.email)
         console.log(this.state.password)
-        axios.post('http://localhost:5000/buyers', this.state)
+        axios.post(backend +'/buyers', this.state)
         .then((res) => {
             console.log(res.data)
             console.log(res.status);
@@ -62,7 +63,7 @@ class LoginPortal extends Component {
       }
     else {
 
-      axios.post('http://localhost:5000/storefronts', this.state)
+      axios.post(backend + '/storefronts', this.state)
       .then((res) => {
           console.log(res.data)
           console.log(res.status);
@@ -132,40 +133,26 @@ class LoginPortal extends Component {
     
 
      return (
-      <div className="container">
-
-      <h1 style={{ color: '#007bff'}}>LOGIN</h1>
-      
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Email: </label>
+       <div>
+      <div className="wrapper">
+      <div id="formContent">
+                <h2> Account Sign In</h2>
+      <div id="form">
       <input type="text" name="email" placeholder="Email" className="input" onChange={this.onChange} />
-      </div>
-      
-      <div className="form-group text-center">
-      <label style={{ padding: 5}}>Password: </label>
-      <input type="password" name="password"  placeholder="Password" className="input" onChange={this.onChange}/>
-      </div>
-  
-     <div> <input name= "isStorefront" type="checkbox" checked={this.state.isStorefront} onChange={this.handleInputChange}/>Login as Storefront </div>
-     <br></br>
-
-      <div className="form-group text-center">
-      <input type="submit" className="button success" value="Login" onClick={this.login} className="input" disabled={!isEnabled}/>
-  
-      </div>
-
-      
-      <div className="form-group text-center" style={{ color: 'red'}}>{message}</div>
-
-
-      <p>Don't have an account?<a size="sm" variant="light" href="/register"> Click here to register</a> </p>
-
-    <a size="sm" variant="light" href="/forgetpassword">Forgot password?</a> 
+      <input type="password" name="password"   placeholder="Password" className="input" onChange={this.onChange}/>
+      <div id="checkbox"><input name= "isStorefront" type="checkbox" checked={this.state.isStorefront} onChange={this.handleInputChange}/> <p> &nbsp;  Login as Storefront </p></div>
+      <input type="submit" className="button success" value="Login" onClick={this.login} disabled={!isEnabled}/> 
+      <div id="error">{message}</div>
+      <div id="formFooter">
+    <a className="underlineHover" href="/forgetpassword">Forgot password?</a> 
+    </div>
+    </div>
    
-      </div>
-     
-
-  
+  </div>
+  </div>
+  <p id="registerlink">Don't have an account? 
+     <a variant="light" href="/register"> &nbsp; Sign up here!</a> </p>
+  </div>
     );
   }
 } export default LoginPortal;

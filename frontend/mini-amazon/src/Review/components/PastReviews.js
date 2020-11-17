@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Segment, Card, Item } from 'semantic-ui-react';
 import ReviewUnique from './ReviewUnique.js';
 import axios from 'axios';
+import backend from "../../config"
 
 function PastReviews() {
     const [reviews, setReviews] = useState([])
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/review')
+        // axios.get(backend + '/review')
+        axios.get(backend + '/review', { params: { "buyerEmail": JSON.parse(sessionStorage.getItem('email')) } })
             .then((res) => {
                 const list = []
                 for (const [index, value] of res.data.reviews_endpt.entries()) {

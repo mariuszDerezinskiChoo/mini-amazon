@@ -79,6 +79,22 @@ def buyersedit():
     return 'Password Updated'
 
 
+@main.route('/buyerseditprofile', methods=['POST'])
+def buyerseditprofile():
+    req = request.json
+    buyer_email = req['email']
+    buyer_new_password = req['newPass']
+    buyer_first_name = req['first_name']
+    buyer_last_name = req['last_name']
+    db.engine.execute('UPDATE Buyer SET password = "{}" where email = "{}";'.format(
+        buyer_new_password, buyer_email))
+    db.engine.execute('UPDATE Buyer SET first_name = "{}" where email = "{}";'.format(
+        buyer_first_name, buyer_email))
+    db.engine.execute('UPDATE Buyer SET last_name = "{}" where email = "{}";'.format(
+        buyer_last_name, buyer_email))
+    return 'Profile Updated'
+
+
 @main.route('/buyerssecurity', methods=['POST'])
 def buyerssecurity():
     req = request.json
@@ -167,14 +183,30 @@ def storefrontsedit():
     return 'Done'
 
 
-@main.route('/cart')
+@main.route('/storefrontseditprofile', methods=['POST'])
+def storefrontseditprofile():
+    req = request.json
+    storefront_email = req['email']
+    storefront_new_password = req['newPass']
+    storefront_name = req['name']
+    storefront_description = req['description']
+    db.engine.execute('UPDATE Storefront SET password = "{}" where email = "{}";'.format(
+        storefront_new_password, storefront_email))
+    db.engine.execute('UPDATE Storefront SET name = "{}" where email = "{}";'.format(
+        storefront_name, storefront_email))
+    db.engine.execute('UPDATE Storefront SET description = "{}" where email = "{}";'.format(
+        storefront_description, storefront_email))
+    return 'Profile Updated'
+
+
+@main.route('/cart', methods=['GET'])
 def cart():
-    # sql query
-    buyer = "johnstonfigueroa@wrapture.com"
-    query_text = """select i.name, i.description, i.category, l.price, c.quantity, c.item_id, s.name as sellername, s.email as selleremail, i.id as item_id
+    req = request.args
+    buyer = req.get("buyerEmail")
+    query_text = """select i.photo_url, i.name, i.description, i.category, l.price, c.quantity, c.item_id, s.name as sellername, s.email as selleremail, i.id as item_id
                     from item i, listing l, cart c, storefront s
-                    where c.buyer_email = "{}" and c.item_id = l.item_id and i.id = l.item_id and c.storefront_email = l.storefront_email and s.email = l.storefront_email;"""
-    res = db.engine.execute(query_text.format(buyer))
+                    where c.buyer_email = ? and c.item_id = l.item_id and i.id = l.item_id and c.storefront_email = l.storefront_email and s.email = l.storefront_email;"""
+    res = db.engine.execute(query_text, (buyer))
     response = []
     for row in res:
         response.append({
@@ -184,19 +216,42 @@ def cart():
             "price": row.price,
             "quantity": row.quantity,
             "sellerEmail": row.selleremail,
-            "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
+            "imageUrl": row.photo_url,
             "description": row.description
         })
     return jsonify(response)
 
 
-@main.route('/getbalance')
-def get_balance():
-    email = "johnstonfigueroa@wrapture.com"
+@main.route('/addBalance', methods=['POST'])
+def update_balance():
+    req = request.json
+
+    adding = req['adding']
+    email = req["email"]
+    print(email)
     res = db.engine.execute(
-        'SELECT balance from buyer where email="{}"'.format(email))
+        'SELECT balance from buyer where email= ?', (email))
     balance = res.fetchone()[0]
-    print(balance)
+
+    new_balance = balance + adding
+
+    db.engine.execute(
+        "UPDATE buyer SET balance = ? WHERE email = ?", (new_balance, email))
+
+    db.session.commit()
+    response = {
+        'newBalance': new_balance
+    }
+    return jsonify(response)
+
+
+@main.route('/getbalance', methods=['GET'])
+def get_balance():
+    req = request.args
+    email = req.get("email")
+    res = db.engine.execute(
+        'SELECT balance from buyer where email= ?', (email))
+    balance = res.fetchone()[0]
     response = {
         'balance': balance
     }
@@ -205,15 +260,16 @@ def get_balance():
 
 @main.route('/getTradeHistory')
 def get_trade_history():
-    email = " uniqueplace-usa @gmail.com"
+    req = request.args
+    email = req.get("email")
     query = """
-    select p.item_id, i.name, p.price, p.quantity, b.first_name, b.last_name, p.datetime
+    select p.item_id, i.photo_url, i.name, p.price, p.quantity, b.first_name, b.last_name, p.datetime
     from item i, purchase p, buyer b
-    where i.id = p.item_id and p.buyer_email = b.email and p.storefront_email = "{}"
+    where i.id = p.item_id and p.buyer_email = b.email and p.storefront_email = ?
     order by p.datetime desc;
     """
     res = db.engine.execute(
-        query.format(email))
+        query, (email))
     response = []
     for row in res:
         response.append({
@@ -224,22 +280,24 @@ def get_trade_history():
             "firstName": row.first_name,
             "lastName": row.last_name,
             "time": row.datetime,
-            "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
+            "imageUrl": row.photo_url,
         })
     return jsonify(response)
 
 
 @main.route('/getOrderHistory')
 def get_order_history():
-    email = "johnstonfigueroa@wrapture.com"
+    req = request.args
+    email = req.get("email")
+    print(email)
     query = """
-    select p.item_id, i.name, p.price, p.quantity, s.name, p.datetime
+    select p.item_id, i.photo_url, i.name, p.price, p.quantity, s.name, p.datetime
     from item i, purchase p, storefront s
-    where i.id = p.item_id and p.storefront_email = s.email and p.buyer_email = "{}"
+    where i.id = p.item_id and p.storefront_email = s.email and p.buyer_email = ?
     order by p.datetime desc;
     """
     res = db.engine.execute(
-        query.format(email))
+        query, (email))
     response = []
     for row in res:
         response.append({
@@ -249,7 +307,7 @@ def get_order_history():
             "quantity": row.quantity,
             "name": row.name,
             "time": row.datetime,
-            "imageUrl": "https://cnet3.cbsistatic.com/img/yjrw7VgWV7a95AvK8Ym0Np4bFXY=/1200x675/2017/06/27/13484418-bfd9-41e2-8f2d-9b4afb072da8/apple-macbook-pro-15-inch-2017-14.jpg",
+            "imageUrl": row.photo_url,
         })
     return jsonify(response)
 
@@ -273,7 +331,7 @@ def add_cart():
 @main.route('/updateCart', methods=['POST'])
 def update_cart():
     req = request.json
-    buyer_email = 'buyer_email1@gmail.com'
+    buyer_email = req['buyerEmail']
     item_id = req['itemId']
     seller_email = req['sellerEmail']
     new_quantity = req['quantity']
@@ -284,8 +342,8 @@ def update_cart():
     return 'Done', 201
 
 
-@main.route('/seller', methods=['POST', 'PUT', 'GET'])
-def seller():
+@main.route('/seller/<email>', methods=['POST', 'PUT', 'GET'])
+def seller(email):
     if request.method == 'POST':
         req = request.json
         new_item = Item(
@@ -296,20 +354,18 @@ def seller():
             name=req['name'], description=req['item_desc']).first()
         item_id = item.id
         new_listing = Listing(item_id=item_id, quantity=req['quantity'], price=req['price'],
-                              storefront_email="storefront_email1@gmail.com")  # TODO: make this seller specific
+                              storefront_email=email)
         db.session.add(new_listing)
         db.session.commit()
 
         return 'new item submitted'
     elif request.method == 'PUT':
-        # DB QUERY
         req = request.json
         item = Item.query.filter_by(id=req['id']).first()
-        # TODO: make this seller specific
         listing = Listing.query.filter_by(
-            item_id=req['id'], storefront_email="storefront_email1@gmail.com").first()
+            item_id=req['id'], storefront_email=email).first()
         seller = Storefront.query.filter_by(
-            email="storefront_email1@gmail.com").first()  # TODO: make this seller specific
+            email=email).first()
 
         item.name = req['name']
         listing.price = req['price']
@@ -322,26 +378,12 @@ def seller():
         print(req)
 
         return 'edit submitted'
-    elif request.method == 'DELETE':
-        req = request.json
-        print(req)
-        print(req['id'])
-        # TODO: make this seller specific
-        listing = Listing.query.filter_by(
-            item_id=req['id'], storefront_email="storefront_email1@gmail.com").first()
-        db.session.delete(listing)
-        db.session.commit()
-
-        return 'listing deleted'
     else:
-        # listings = Listing.query.filter_by(seller_email='{THIS USERS EMAIL}')
-        # items = Item.query.filter_by(item_id={EACH ID IN LISTINGS})
         listings_list = []
-        # TODO: make this seller specific
         listings = Listing.query.filter_by(
-            storefront_email="storefront_email1@gmail.com").all()
+            storefront_email=email).all()
         seller = Storefront.query.filter_by(
-            email="storefront_email1@gmail.com").first()  # TODO: make this seller specific
+            email=email).first()
         for listing in listings:
             data = {}
             item = Item.query.filter_by(id=listing.item_id).first()
@@ -352,13 +394,13 @@ def seller():
             data['category'] = item.category
             data['item_desc'] = item.description
             data['seller_desc'] = seller.description
-            # data['picture'] = item.photo_url
+            data['picture'] = item.photo_url
 
             listings_list.append(data)
         return jsonify({'listings': listings_list})
 
 
-@main.route('/review', methods=['GET', 'PUT', 'POST'])
+@main.route('/review/', methods=['GET', 'PUT', 'POST'])
 def review():
     if request.method == 'POST':
         review_data = request.get_json()
@@ -398,11 +440,14 @@ def review():
         # Ideally, the page automatically refreshes to refetch updated tuples
 
     else:
+        req = request.args
+        username = req.get("buyerEmail")
+        reviews = Reviews.query.filter_by(buyer_email=username).all()
+
+
         reviews_list = []
 
         # username = login_session_username... (e.g., buyer_email1@gmail.com)
-        username = "buyer_email1@gmail.com"
-        reviews = Reviews.query.filter_by(buyer_email=username).all()
         for review in reviews:
             data = {}
             item = Item.query.filter_by(id=review.item_id).first()
@@ -433,17 +478,16 @@ def review():
         #                     'review' : row.review
         #     })
         # return jsonify({'reviews' : reviews})
-        return jsonify({'listings': listings_list})
 
 
-@main.route('/delete_listing', methods=['POST'])
-def delete_listing():
+@main.route('/delete_listing/<email>', methods=['POST'])
+def delete_listing(email):
     req = request.json
     print(req)
     print(req['id'])
     # TODO: make this seller specific
     listing = Listing.query.filter_by(
-        item_id=req['id'], storefront_email="storefront_email1@gmail.com").first()
+        item_id=req['id'], storefront_email=email).first()
     db.session.delete(listing)
     db.session.commit()
 

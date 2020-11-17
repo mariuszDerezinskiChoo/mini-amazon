@@ -1,6 +1,5 @@
 //import React from "react";
 import {Link} from "react-router-dom";
-import {List, Header} from "semantic-ui-react";
 import React, {useState, useEffect} from "react";
 import {Container, Row, Col, Card, Button} from "react-bootstrap";
 

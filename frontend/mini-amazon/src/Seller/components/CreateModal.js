@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Modal, Form, Input, TextArea } from 'semantic-ui-react';
-import FileUpload from './FileUpload';
+import { Button, Modal, Form, Input, TextArea, Image } from 'semantic-ui-react';
 import axios from 'axios';
+import imgur from "imgur-file-upload";
+
+imgur.setClientId('c7cbb16d550b502');
 
 function CreateModal() {
     const [open, setOpen] = useState(false)
@@ -12,6 +14,10 @@ function CreateModal() {
     const [item_desc, setItemDesc] = useState("")
     const [seller_desc, setSellerDesc] = useState("")
     const [picture, setPicture] = useState("")
+
+    const [file, setFile] = useState("");
+
+    const user_email = JSON.parse(sessionStorage.getItem('email'));
 
     const initialState = {
         open: false,
@@ -24,7 +30,9 @@ function CreateModal() {
         picture: ""
     };
 
-    //const [{ open, name, price, quantity, item_desc, seller_desc, picture }, setState] = useState(initialState)
+    const ImageThumb = ({ image }) => {
+        return <Image src={URL.createObjectURL(image)} alt={image.name} size='medium' />;
+    };
 
     function handleSubmit() {
         const data = {
@@ -37,7 +45,7 @@ function CreateModal() {
             picture: picture
         }
 
-        axios.post('http://127.0.0.1:5000/seller', data)
+        axios.post('http://127.0.0.1:5000/seller/' + user_email, data)
             .then((res) => {
                 console.log(res);
                 console.log(res.status);
@@ -51,7 +59,20 @@ function CreateModal() {
         setItemDesc(initialState.item_desc)
         setSellerDesc(initialState.seller_desc)
         setPicture(initialState.picture)
-        window.location.reload();
+        //window.location.reload();
+    }
+
+    async function handleUpload(event) {
+        const test = event.target.files[0]
+        setFile(event.target.files[0]);
+        console.log(test)
+        const formData = new FormData()
+        formData.append('type', 'file')
+        formData.append('image', test)
+
+        imgur.uploadImgur(test).then((result) => {
+            setPicture(result);
+          });
     }
 
     return (
@@ -127,7 +148,10 @@ function CreateModal() {
                 </Form.Field>
                 <Form.Field>
                     <label>Upload a Picture</label>
-                    <FileUpload />
+                    <div id="upload-box">
+                        <input type="file" accept="image/*" onChange={handleUpload} />
+                        {file && <ImageThumb image={file} />}
+                    </div>
                 </Form.Field>
                 <Button primary type='submit'>Submit</Button>
             </Modal.Content>

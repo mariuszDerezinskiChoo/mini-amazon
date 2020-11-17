@@ -1,21 +1,25 @@
 import React, {useEffect, useState} from "react";
 import axios from 'axios';
 import {Form, Button}  from "react-bootstrap";
+import backend from "../config";
 
 const Balance = (props) => {
     const [balance, setBalance] = useState(0);
     const [addBalance, setAddBalance] = useState(0);
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/getbalance').then((res) =>  setBalance(res.data.balance))
+        axios.get(backend + '/getbalance',{ params: { "email": JSON.parse(sessionStorage.getItem('email')) } }).then((res) =>  setBalance(res.data.balance))
     },[]);
 
     const submit = () => {
         if(isNaN(addBalance)){
             alert("Please enter a valid number!");
         } else{
-            let addBalance = parseFloat(addBalance);
-            //axios.post()
+            let floatAddBalance = parseFloat(addBalance);
+            const payload = {"adding": floatAddBalance, "email": JSON.parse(sessionStorage.getItem('email'))};
+            axios.post(backend + "/addBalance",payload).then(res => {
+                setBalance(res.data.newBalance);
+            });
         }
     }
 

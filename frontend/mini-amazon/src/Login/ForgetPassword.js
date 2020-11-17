@@ -5,6 +5,7 @@ import {Redirect} from 'react-router-dom';
 import {PostData} from "./PostData";
 import axios from "axios";
 import "./LoginPortal.css";
+import backend from "../config"
 
 class ForgetPassword extends Component {
      _isMounted = false;
@@ -34,7 +35,7 @@ class ForgetPassword extends Component {
 
   editpwd() {
     if (this.state.isStorefront == false) {
-    fetch('http://localhost:5000/buyerseditpassword', {
+    fetch(backend + '/buyerseditpassword', {
         method: 'POST',
         body: JSON.stringify(this.state),
         headers: {
@@ -46,7 +47,7 @@ class ForgetPassword extends Component {
       .catch(error => console.error('Error:', error));
   }
   else {
-    fetch('http://localhost:5000/storefrontseditpassword', {
+    fetch(backend + '/storefrontseditpassword', {
         method: 'POST',
         body: JSON.stringify(this.state),
         headers: {
@@ -62,11 +63,16 @@ class ForgetPassword extends Component {
   handleCheck() {
       console.log(this.state.newPass);
       console.log(this.state.confirmNewPass);
-    if(this.state.newPass == this.state.confirmNewPass) {
+    if(this.state.newPass == this.state.confirmNewPass && this.state.newPass.length > 8) {
         this.editpwd();
         this.setState({checkMessage: "Your password has successfully been reset. Retun to Login and Sign in with your new Password"});
     } else {
+      if (this.state.newPass !== this.state.confirmNewPass) {
         this.setState({checkMessage: "Passwords did not match"});
+      }
+        else {
+          this.setState({checkMessage: "Password must be at least 8 letters"});
+        }
     }
 }
 
@@ -74,7 +80,7 @@ class ForgetPassword extends Component {
     //console.log("Login function");
     if(this.state.email){ // if smth is there for email
       if (this.state.isStorefront == false) {
-      axios.post('http://localhost:5000/buyerssecurity', this.state)
+      axios.post(backend + '/buyerssecurity', this.state)
       .then((res) => {
           console.log(res.data.buyer_security)
           console.log(res.status);
@@ -91,7 +97,7 @@ class ForgetPassword extends Component {
     }
 
     else {
-      axios.post('http://localhost:5000/storefrontssecurity', this.state)
+      axios.post(backend + '/storefrontssecurity', this.state)
       .then((res) => {
           console.log(res.data)
           console.log(res.status);
@@ -150,7 +156,7 @@ class ForgetPassword extends Component {
 
     console.log(this.state.newPass);
     if (this.state.noData == false) {
-      content = <div><p> Security Question: {this.state.security_question} </p>
+      content = <div><p style={{ color: 'blue'}}> Security Question: {this.state.security_question} </p>
 
       <form onSubmit={this.handleSubmit}>
         {errors.map(error => (
@@ -167,7 +173,7 @@ class ForgetPassword extends Component {
       <div className="form-group text-center" style={{ color: 'red'}}>{resetlink}</div>
  </div>;
 }
-    if (this.state.noData == true){ content = <div><h2 style={{ fontsize: 40, color: 'blue'}}> No account found! </h2>
+    if (this.state.noData == true){ content = <div><p style={{ size: 10, color: 'red'}}> No account found! </p>
     </div>; }
 
 if (this.state.errors[0] == 'Correct') {
@@ -178,7 +184,7 @@ if (this.state.errors[0] == 'Correct') {
                 <br />
                 Confirm New Password:<input type="password" name="confirmNewPass" placeholder="Confirm New Password" className="input" onChange={this.onChange} />
                 <br />
-                <button onClick={this.handleCheck}>Update Pasword</button>
+                <button onClick={this.handleCheck}>Update Password</button>
             </div>
             <div>{this.state.checkMessage}</div>
 
@@ -189,9 +195,10 @@ if (this.state.errors[0] == 'Correct') {
  
      return (
 
-      <div className="container">
-
-    <Button href="../login" variant="outline-primary">Go back to Login</Button>
+      <div className="wrapper">
+        <div className="padding"></div>
+        <div className="padding"></div>
+    <Button href="../login" variant="outline-primary">Go back to Sign in</Button>
       <h1 style={{ color: '#007bff'}}></h1>
       <div className="form-group text-center">
       <label style={{ padding: 5}}>Enter your Email: </label>
