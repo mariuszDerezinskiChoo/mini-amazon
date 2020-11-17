@@ -10,13 +10,16 @@ main = Blueprint('main', __name__)
 
 @main.route('/home')
 def home():
-    res= db.engine.execute('With a as (Select AVG(rating_item) as rating, r.storefront_email, r.item_id from reviews r group by r.item_id, r.storefront_email order by rating DESC LIMIT 3), b as (Select * from a inner join listing on a.item_id = listing.item_id and a.storefront_email = listing.storefront_email) Select * from b inner join item on b.item_id = item.id;')
+    res= db.engine.execute('With a as (Select AVG(rating_item) as rating, r.storefront_email, r.item_id from reviews r group by r.item_id, r.storefront_email order by rating DESC LIMIT 20), b as (Select * from a inner join listing on a.item_id = listing.item_id and a.storefront_email = listing.storefront_email), c as (Select * from b inner join item on b.item_id = item.id) Select *, c.name as bname, storefront.name as sellername from c inner join storefront where c.storefront_email = storefront.email;')
     recs = []
     for row in res:
         recs.append({
             "id": row.item_id,
-            "name": row.name,
+            "seller" : row.sellername,
+            "name": row.bname,
             "price": row.price,
+            "quantity" : row.quantity,
+            "selleremail" : row.storefront_email
         })
     
     return jsonify({'recs': recs})
