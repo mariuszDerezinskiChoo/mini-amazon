@@ -52,7 +52,7 @@ def buyers():
         buyer_email = req['email']
         buyer_password = req['password']
         buyer_info = []
-        buyer = db.engine.execute('SELECT email, first_name, balance, last_name, password FROM Buyer WHERE Buyer.email = "{}" AND Buyer.password = "{}";'.format(
+        buyer = db.engine.execute('SELECT email, first_name, balance, last_name, password FROM Buyer WHERE Buyer.email = ? AND Buyer.password = ?;', (
             buyer_email, buyer_password))
         for b in buyer:
             buyer_info.append({'email': b.email,
@@ -81,7 +81,7 @@ def buyersedit():
     req = request.json
     buyer_email = req['email']
     buyer_new_password = req['newPass']
-    db.engine.execute('UPDATE Buyer SET password = "{}" where email = "{}";'.format(
+    db.engine.execute('UPDATE Buyer SET password = ? where email = ?;', (
         buyer_new_password, buyer_email))
     return 'Password Updated'
 
@@ -93,11 +93,11 @@ def buyerseditprofile():
     buyer_new_password = req['newPass']
     buyer_first_name = req['first_name']
     buyer_last_name = req['last_name']
-    db.engine.execute('UPDATE Buyer SET password = "{}" where email = "{}";'.format(
+    db.engine.execute('UPDATE Buyer SET password = ? where email = ?;', (
         buyer_new_password, buyer_email))
-    db.engine.execute('UPDATE Buyer SET first_name = "{}" where email = "{}";'.format(
+    db.engine.execute('UPDATE Buyer SET first_name = ? where email = ?;', (
         buyer_first_name, buyer_email))
-    db.engine.execute('UPDATE Buyer SET last_name = "{}" where email = "{}";'.format(
+    db.engine.execute('UPDATE Buyer SET last_name = ? where email = ?;', (
         buyer_last_name, buyer_email))
     return 'Profile Updated'
 
@@ -108,7 +108,7 @@ def buyerssecurity():
     buyersecurity_email = req['email']
     buyersecurity_info = []
     buyer_security = db.engine.execute(
-        'SELECT b.email, b.password, b.security_question, b.security_answer FROM Buyer b WHERE b.email = "{}";'.format(buyersecurity_email))
+        'SELECT b.email, b.password, b.security_question, b.security_answer FROM Buyer b WHERE b.email = ?;', (buyersecurity_email))
     for i in buyer_security:
         buyersecurity_info.append({'email': i.email,
                                    'password': i.password,
@@ -124,7 +124,7 @@ def storefronts():
         storefront_email = req['email']
         storefront_password = req['password']
         storefront_info = []
-        storefront = db.engine.execute('SELECT s.email, s.name, s.balance, s.description, s.password FROM Storefront s WHERE s.email = "{}" and s.password = "{}";'.format(
+        storefront = db.engine.execute('SELECT s.email, s.name, s.balance, s.description, s.password FROM Storefront s WHERE s.email = ? and s.password = ?;', (
             storefront_email, storefront_password))
         for s in storefront:
             storefront_info.append({'email': s.email,
@@ -171,7 +171,7 @@ def storefrontssecurity():
     storefrontsecurity_email = req['email']
     storefrontsecurity_info = []
     storefront_security = db.engine.execute(
-        'SELECT s.email, s.password, s.security_question, s.security_answer FROM Storefront s WHERE s.email = "{}";'.format(storefrontsecurity_email))
+        'SELECT s.email, s.password, s.security_question, s.security_answer FROM Storefront s WHERE s.email = ?;', (storefrontsecurity_email))
     for i in storefront_security:
         storefrontsecurity_info.append({'email': i.email,
                                         'password': i.password,
@@ -185,7 +185,7 @@ def storefrontsedit():
     req = request.json
     storefront_email = req['email']
     storefront_new_password = req['newPass']
-    db.engine.execute('UPDATE Storefront SET password = "{}" where email = "{}";'.format(
+    db.engine.execute('UPDATE Storefront SET password = ? where email = ?;', (
         storefront_new_password, storefront_email))
     return 'Done'
 
@@ -197,11 +197,11 @@ def storefrontseditprofile():
     storefront_new_password = req['newPass']
     storefront_name = req['name']
     storefront_description = req['description']
-    db.engine.execute('UPDATE Storefront SET password = "{}" where email = "{}";'.format(
+    db.engine.execute('UPDATE Storefront SET password = ? where email = ?;', (
         storefront_new_password, storefront_email))
-    db.engine.execute('UPDATE Storefront SET name = "{}" where email = "{}";'.format(
+    db.engine.execute('UPDATE Storefront SET name = ? where email = ?;', (
         storefront_name, storefront_email))
-    db.engine.execute('UPDATE Storefront SET description = "{}" where email = "{}";'.format(
+    db.engine.execute('UPDATE Storefront SET description = ? where email = ?;', (
         storefront_description, storefront_email))
     return 'Profile Updated'
 
@@ -397,7 +397,7 @@ def update_cart():
     seller_email = req['sellerEmail']
     new_quantity = req['quantity']
     # todo: validate size
-    db.engine.execute('UPDATE cart SET quantity = {} where storefront_email = "{}" and item_id = "{}" and buyer_email = "{}";'.format(
+    db.engine.execute('UPDATE cart SET quantity = ? where storefront_email = ? and item_id = ? and buyer_email = ?;', (
         new_quantity, seller_email, item_id, buyer_email))
 
     return 'Done', 201
@@ -506,7 +506,8 @@ def review():
         for review in reviews:
             data = {}
             item = Item.query.filter_by(id=review.item_id).first()
-            seller = Storefront.query.filter_by(email=review.storefront_email).first()
+            seller = Storefront.query.filter_by(
+                email=review.storefront_email).first()
             data['item_name'] = item.name
             data['item_id'] = review.item_id
             data['storefront_email'] = review.storefront_email
@@ -558,7 +559,7 @@ def listings(search):
 
 @main.route('/item/<seller>/<item_id>')
 def item(seller, item_id):
-    res = db.engine.execute('WITH a AS (Select * from item inner join listing on item.id=listing.item_id where item.id= {}), b AS (SELECT a.photo_url, a.item_id, a.name, a.description, a.category, a.storefront_email, a.price, a.quantity, s.name as sellername FROM a INNER JOIN storefront s ON a.storefront_email = s.email) SELECT * FROM b WHERE sellername = "{}";'.format(item_id, seller))
+    res = db.engine.execute('WITH a AS (Select * from item inner join listing on item.id=listing.item_id where item.id= ?), b AS (SELECT a.photo_url, a.item_id, a.name, a.description, a.category, a.storefront_email, a.price, a.quantity, s.name as sellername FROM a INNER JOIN storefront s ON a.storefront_email = s.email) SELECT * FROM b WHERE sellername = ?;', (item_id, seller))
     items = []
     for row in res:
         items.append({
@@ -575,9 +576,9 @@ def item(seller, item_id):
         })
     semail = items[0]["selleremail"]
     rate = db.engine.execute(
-        'SELECT COUNT(*) as total, AVG(rating_item) as rating, r.buyer_email, r.rating_item, r.review FROM reviews r WHERE r.item_id = {} and r.storefront_email = "{}";'.format(item_id, semail))
+        'SELECT COUNT(*) as total, AVG(rating_item) as rating, r.buyer_email, r.rating_item, r.review FROM reviews r WHERE r.item_id = ? and r.storefront_email = ?;', (item_id, semail))
     rate2 = db.engine.execute(
-        'SELECT * FROM reviews r WHERE r.item_id = {} and r.storefront_email = "{}";'.format(item_id, semail))
+        'SELECT * FROM reviews r WHERE r.item_id = ? and r.storefront_email = ?;', (item_id, semail))
     for row in rate:
         for item in items:
             item["avg_rating"] = row.rating

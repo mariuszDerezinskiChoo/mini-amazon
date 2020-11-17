@@ -67,7 +67,16 @@ class NavBar extends React.Component {
   <Navbar.Toggle aria-controls="basic-navbar-nav" />
   <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="mr-auto">
-      <Nav.Link href="/seller">Seller</Nav.Link>
+    {
+        JSON.parse(sessionStorage.getItem('last_name')) ?
+        <Nav.Link href="/balance">Review Balance</Nav.Link>
+          :
+          JSON.parse(sessionStorage.getItem('email')) ? 
+          <Nav.Link href="/seller">Seller</Nav.Link>
+          :
+          null
+      }
+      
       <Nav.Link href="/cart">Cart</Nav.Link>
       <Nav.Link href="/review">Manage Reviews</Nav.Link>
       {
@@ -85,9 +94,6 @@ class NavBar extends React.Component {
       <Button href={"/results/" + this.state.value}>Search</Button>
       <NavDropdown title="Actions" id="basic-nav-dropdown" style={signInStyle} >
         <NavDropdown.Item href="/profile">View Profile</NavDropdown.Item>
-        <NavDropdown.Item href="#">Add Balance</NavDropdown.Item>
-        <NavDropdown.Item href="#">Purchase History</NavDropdown.Item>
-        <NavDropdown.Item href="/signup">Create Account</NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item href="/login" onClick={this.logout} className="logout">Logout
         </NavDropdown.Item>
