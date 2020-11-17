@@ -140,6 +140,7 @@ class LoginPortal extends Component {
      return (
        <div>
       <div className="wrapper">
+      <h1 className="heading">Mini-Amazon</h1>
       <div id="formContent">
                 <h2> Account Sign In</h2>
       <div id="form">
