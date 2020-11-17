@@ -4,7 +4,7 @@ import NavBar from './NavBar';
 import {Home} from "./components/Home";
 
 function HomePage() {
-    const [recs, setRecs] = useState(null);
+    const [recs, setRecs] = useState([]);
     
 
     useEffect( () => {

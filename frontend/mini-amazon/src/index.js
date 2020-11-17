@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Cart from "./components/Cart";
-import Home from "./components/Home";
 import Balance from "./components/Balance";
 import TradeHistory from "./components/TradeHistory";
 import PurchaseHistory from "./components/PurchaseHistory";
@@ -18,6 +17,7 @@ import 'semantic-ui-css/semantic.min.css';
 import Results from "./Results";
 import TestAPI from './Login/testAPI';
 import ItemPage from "./ItemPage";
+import HomePage from "./HomePage";
 //import Item from "./components/Item";
 import RegisterForm from './Login/RegisterForm';
 import Nav from "./components/Nav";
@@ -33,7 +33,7 @@ ReactDOM.render(
         <Route path="/login" component={LoginPortal} />
         <Route path="/test-api" component={TestAPI} />
         <Route exact path="/" component={LoginPortal} />
-        <Route exact path="/home" component={Home} />
+        <Route exact path="/home" component={HomePage} />
         <Route exact path="/login" component={LoginPortal} />
         <Route exact path="/test-api" component={TestAPI} />
         <Route exact path="/seller" component={Seller} />

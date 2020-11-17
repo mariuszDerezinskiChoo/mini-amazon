@@ -5,6 +5,8 @@ import {faPlusCircle, faTimesCircle, faMinusCircle} from "@fortawesome/free-soli
 import axios from 'axios';
 import backend from "../config"
 import NavBar from '../NavBar';
+import {Link} from "react-router-dom";
+
 const Cart = () => {
     const [cart, setCart] = useState(null);
     console.log("reload");
@@ -44,6 +46,9 @@ const Cart = () => {
                 {
                     cart == null ? <h1>Loading</h1> : 
                     cart.map((entry, index) => {
+                        const newTo = { 
+                            pathname: "/item/" + entry.sellerName + "/" + entry.itemId, 
+                        }
                         return (
                             <Card key={index} className="mb-5">
                             <Row>
@@ -51,7 +56,7 @@ const Cart = () => {
                                     <img style={{"width": "300px", "height": "200px"}} src="https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673.png"></img>
                                 </Col>
                                 <Col xs={6}>
-                                        <h2>{entry.itemName}</h2>
+                                        <Link to = {newTo}><h2>{entry.itemName}</h2></Link>
                                         <h3>Sold by {entry.sellerName}</h3>
                                         <p>{entry.description}</p>
                                 </Col>
