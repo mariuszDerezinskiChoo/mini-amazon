@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
-import {Container, Row, Col, Card, Button} from "react-bootstrap";
+import {Container, Row, Col } from "react-bootstrap";
+import { Card, Icon, Image, Button} from 'semantic-ui-react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faPlusCircle, faTimesCircle, faMinusCircle} from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
@@ -28,54 +29,94 @@ const Cart = () => {
     const handleUpdate = (index) => {
         const payload = {...cart[index], "buyerEmail": JSON.parse(sessionStorage.getItem('email'))};
         console.log(payload);
-        axios.post(backend + "/updateCart",payload).then((res) => {
+        return axios.post(backend + "/updateCart",payload).then((res) => {
             console.log(res.status);
         })
+    }
+
+    const handlePurchase = () => {
+        let updates = [];
+        for(let i = 0; i < cart.length; i++){
+            updates.push(handleUpdate(i));
+        }
+        Promise.all(updates).then(() => {
+            const payload = {"email": JSON.parse(sessionStorage.getItem('email'))};
+            console.log(payload);
+            axios.post(backend + "/purchase-cart",payload).then((res) => {
+                console.log(res);
+                alert(res.data);
+                window.location.reload();
+            })
+        })
+    }
+
+    let totalPrice = 0;
+    if(cart){
+        for(let i = 0; i < cart.length; i++){
+            totalPrice += cart[i].quantity * cart[i].price;
+        }
     }
 
     return (
         <>
           <NavBar/>
-            <h1>view your cart</h1>
-            <Container fluid="lg">
+            
+            <Container>
+                <Row className="justify-content-center">
+                <h1>view your cart</h1>
+                </Row>
+                <Row className="justify-content-center mb-4">
                 {
                     cart == null ? <h1>Loading</h1> : 
                     cart.map((entry, index) => {
                         return (
-                            <Card key={index} className="mb-5">
-                            <Row>
-                                <Col xs={4}>
-                                    <img style={{"width": "300px", "height": "200px"}} src={entry.imageUrl}></img>
-                                </Col>
-                                <Col xs={6}>
-                                        <h2>{entry.itemName}</h2>
-                                        <h3>Sold by {entry.sellerName}</h3>
-                                        <p>{entry.description}</p>
-                                </Col>
-                                <Col xs={2}>
-                                    <div className="float-right mr-3 mt-3 mb-3">
-                                        <Row>
-                                            <FontAwesomeIcon style={{clear:"both"}} size="2x" onClick={() => handleRemove(index)} icon={faTimesCircle}/>
-                                        </Row>
-                                        <Row>
-                                            <FontAwesomeIcon size="2x" color="#09B049" onClick={() => handleIncrement(index,1)} icon={faPlusCircle}/>
-                                        </Row>
-                                        <Row>
-                                            <p>{entry.quantity}</p>
-                                        </Row>
-                                        <Row>
-                                            <FontAwesomeIcon size="2x" color="#FF0000" onClick={() => handleIncrement(index,-1)} icon={faMinusCircle}/>
-                                        </Row>
-                                        <Row>
-                                            <Button onClick={() => handleUpdate(index)}>Update</Button>
-                                        </Row>
-                                    </div>
-                                </Col>
-                            </Row>
-                            </Card>
+                            <Card className="ml-2 mr-2">
+                            <FontAwesomeIcon style={{clear:"both"}} size="2x" onClick={() => handleRemove(index)} icon={faTimesCircle}/>
+                            <Image src={entry.imageUrl} wrapped ui={false} />
+                            <Card.Content>
+                              <Card.Header>{entry.itemName}</Card.Header>
+                              <Card.Meta>
+                                <span className='date'>Sold by {entry.sellerName}</span>
+                              </Card.Meta>
+                              <Card.Description>
+                              {entry.description}
+                              </Card.Description>
+                              <Row className="justify-content-center">
+                              <Card.Description>
+                              ${entry.price.toFixed(2)} each
+                              </Card.Description>
+                              </Row>
+                            </Card.Content>
+                            <Card.Content extra>
+                                <Row className="justify-content-center">
+                                    <FontAwesomeIcon size="2x" color="#09B049" onClick={() => handleIncrement(index,1)} icon={faPlusCircle}/>
+                                    <p>{entry.quantity}</p>
+                                    <FontAwesomeIcon size="2x" color="#FF0000" onClick={() => handleIncrement(index,-1)} icon={faMinusCircle}/>
+                                </Row>
+                                <Row className="justify-content-center">
+                                <Button primary onClick={() => handleUpdate(index)}>Update</Button>            
+                                </Row>
+
+                            </Card.Content>
+                            <Card.Content extra >
+                                <Row className="justify-content-center">
+                                    <p>Total: ${(entry.price * entry.quantity).toFixed(2)}</p>
+                                </Row>
+                            
+                            </Card.Content>
+                          </Card>
                         );
                     })
                 }
+                </Row>
+                <Row className="justify-content-center mt-5 mb-3">
+                <h2>Cart total: ${totalPrice.toFixed(2)}</h2>
+                </Row>
+                <Row className="justify-content-center mb-3">
+                    <Button secondary onClick={handlePurchase}>Purchase</Button>
+                </Row>
+
+                
             </Container>
         </>
     )

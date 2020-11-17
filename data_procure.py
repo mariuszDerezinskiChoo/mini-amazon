@@ -38,6 +38,7 @@ dataset = dataset.drop(indices)
 
 item_id = 1
 companies = {}
+company_prices = {}
 seller_pairs = [['Buybox Winner', 'Price'], ['Other Seller1', 'Other Seller1 Price'], [
     'Other Seller2', 'Other Seller2 Price'], ['Other Seller3', 'Other Seller3 Price']]
 
@@ -80,6 +81,9 @@ for index, row in dataset.iterrows():
             continue
         if is_valid_string(company_name) and is_valid_string(company_price) and get_price(company_price):
             company_price = get_price(company_price)
+
+            company_prices[index] = company_price
+
             email = company_name + "@gmail.com"
             if email not in companies:
                 password = lorem.sentence().replace(' ', '')[0:20]
@@ -143,7 +147,7 @@ for person in reviews:
                 continue
             item_ids.append(item_id)
             quantity = item['quantity']
-            price = 10
+            price = company_prices.get(item_id, 10)
             conn.execute("INSERT into purchase values (?,?,?,?,?,?)",
                          (item_id, quantity, price, storefront_email, email, purchase_time))
 
