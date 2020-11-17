@@ -10,7 +10,7 @@ function ItemPage(props) {
     console.log(props.match.params.item);
 
     useEffect( () => {
-      fetch(backend + 'item/' + props.match.params.seller + "/" + props.match.params.id).then(response =>
+      fetch(backend + '/item/' + props.match.params.seller + "/" + props.match.params.id).then(response =>
         response.json().then(data => {
           setItems(data.items);
         })

@@ -9,7 +9,7 @@ function HomePage() {
     
 
     useEffect( () => {
-      fetch(backend + 'home').then(response =>
+      fetch(backend + '/home').then(response =>
         response.json().then(data => {
           setRecs(data.recs);
         })

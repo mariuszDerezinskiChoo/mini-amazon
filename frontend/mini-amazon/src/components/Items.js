@@ -35,7 +35,7 @@ export const Items = ({ items}) => {
                         <Rating name= "half-rating-read" defaultValue={item.avg_rating} precision={0.1} readOnly />
                         <h7>({item.total_reviews} reviews)</h7>
                         <Col xs={4}>
-                            <img style={{"width": "300px", "height": "200px"}} src="https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673.png"></img>
+                            <img style={{"width": "300px", "height": "200px"}} src={item.photo}></img>
                         </Col>
                         <h2> Sold by: {item.seller}</h2>
                         <h2> Price: ${item.price}</h2>

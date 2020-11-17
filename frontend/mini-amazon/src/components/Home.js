@@ -29,7 +29,7 @@ export const Home = ( {recs}) => {
                             <Card key={rec.item_id} className="mb-5">
                             <Row>
                                 <Col xs={4}>
-                                    <img style={{"width": "300px", "height": "200px"}} src="https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673.png"></img>
+                                    <img style={{"width": "300px", "height": "200px"}} src={rec.photo}></img>
                                 </Col>
                                 <Col xs={6}>
                                     <Link to = {newTo}><h2>{rec.name}</h2></Link>

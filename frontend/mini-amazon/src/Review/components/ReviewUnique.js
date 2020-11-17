@@ -45,7 +45,7 @@ function ReviewUnique(props) {
         }
 
         // axios.put(backend + '/review', data)
-        axios.put(backend + '/review', data)
+        axios.put(backend + '/review/', data)
             .then((res) => {
                 console.log(res);
             })

@@ -67,7 +67,7 @@ handleSubmit = e => {
     return;
     }
     if (errors.length == 0) {
-      
+      console.log("registering...");
       if (this.state.isStorefront == false) {
         fetch(backend +'/add_buyer', {
             method: 'POST',
@@ -86,7 +86,7 @@ handleSubmit = e => {
    
       
       else {
-        fetch(backend + 'add_storefront', {
+        fetch(backend + '/add_storefront', {
           method: 'POST',
           body: JSON.stringify(this.state),
           headers: {
