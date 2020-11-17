@@ -6,6 +6,8 @@ import {faPlusCircle, faTimesCircle, faMinusCircle} from "@fortawesome/free-soli
 import axios from 'axios';
 import backend from "../config"
 import NavBar from '../NavBar';
+import {Link} from "react-router-dom";
+
 const Cart = () => {
     const [cart, setCart] = useState(null);
 
@@ -69,6 +71,9 @@ const Cart = () => {
                 {
                     cart == null ? <h1>Loading</h1> : 
                     cart.map((entry, index) => {
+                        const newTo = { 
+                            pathname: "/item/" + entry.sellerName + "/" + entry.itemId, 
+                        }
                         return (
                             <Card className="ml-2 mr-2">
                             <FontAwesomeIcon style={{clear:"both"}} size="2x" onClick={() => handleRemove(index)} icon={faTimesCircle}/>

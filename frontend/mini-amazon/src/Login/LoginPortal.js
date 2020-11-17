@@ -124,11 +124,11 @@ class LoginPortal extends Component {
     const isEnabled = this.state.email.length > 0 && this.state.password.length > 0;
      
     if (this.state.redirectToReferrer) {
-      return (<Redirect to={'/nav'}/>)
+      return (<Redirect to={'/home'}/>)
     }
    
     if(sessionStorage.getItem('userData')){
-      return (<Redirect to={'/nav'}/>)
+      return (<Redirect to={'/home'}/>)
     }
 
     let message;

@@ -2,6 +2,7 @@
 import React, {Component, useEffect, useState} from 'react';
 import './App.css';
 import {Items} from "./components/Items";
+import backend from "./config"
 
 function ItemPage(props) {
     const [items, setItems] = useState([]);
@@ -9,7 +10,7 @@ function ItemPage(props) {
     console.log(props.match.params.item);
 
     useEffect( () => {
-      fetch('http://127.0.0.1:5000/item/' + props.match.params.item + '/' + props.match.params.seller + "/" + props.match.params.id).then(response =>
+      fetch(backend + 'item/' + props.match.params.seller + "/" + props.match.params.id).then(response =>
         response.json().then(data => {
           setItems(data.items);
         })

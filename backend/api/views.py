@@ -9,19 +9,31 @@ from datetime import datetime
 
 main = Blueprint('main', __name__)
 
-
+@main.route('/home')
+def home():
+    res= db.engine.execute('With a as (Select AVG(rating_item) as rating, r.storefront_email, r.item_id from reviews r group by r.item_id, r.storefront_email order by rating DESC LIMIT 20), b as (Select * from a inner join listing on a.item_id = listing.item_id and a.storefront_email = listing.storefront_email), c as (Select * from b inner join item on b.item_id = item.id) Select *, c.name as bname, storefront.name as sellername from c inner join storefront where c.storefront_email = storefront.email;')
+    recs = []
+    for row in res:
+        recs.append({
+            "id": row.item_id,
+            "seller" : row.sellername,
+            "name": row.bname,
+            "price": row.price,
+            "quantity" : row.quantity,
+            "selleremail" : row.storefront_email
+        })
+    
+    return jsonify({'recs': recs})
+    
 @main.route('/add_buyer', methods=['POST'])
 def add_buyer():
     buyer_data = request.get_json()
-
-    new_buyer = Buyer(email=buyer_data['email'],
-                      password=buyer_data['password'],
-                      first_name=buyer_data['first_name'],
-                      last_name=buyer_data['last_name'],
-                      balance=buyer_data['balance'],
-                      security_question=buyer_data['security_question'],
-                      security_answer=buyer_data['security_answer']
-                      )
+    new_buyer = Buyer(email = buyer_data['email'],
+                    password = buyer_data['password'], 
+                    first_name = buyer_data['first_name'],
+                    last_name = buyer_data['last_name'],
+                    balance = buyer_data['balance'], 
+                    )
     db.session.add(new_buyer)
     db.session.commit()
     return 'Buyer Added'
@@ -556,9 +568,9 @@ def listings(search):
     return jsonify({'listings': listings})
 
 
-@main.route('/item/<item>/<seller>/<item_id>')
-def item(item, seller, item_id):
-    res = db.engine.execute('WITH a AS (SELECT * FROM listing l, item i WHERE l.item_id = {} and i.name = "{}"), b AS (SELECT a.item_id, a.name, a.description, a.category, a.storefront_email, a.price, a.quantity, s.name as sellername FROM a INNER JOIN storefront s ON a.storefront_email = s.email) SELECT * FROM b WHERE sellername = "{}";'.format(item_id, item, seller))
+@main.route('/item/<seller>/<item_id>')
+def item(seller, item_id):
+    res = db.engine.execute('WITH a AS (Select * from item inner join listing on item.id=listing.item_id where item.id= {}), b AS (SELECT a.item_id, a.name, a.description, a.category, a.storefront_email, a.price, a.quantity, s.name as sellername FROM a INNER JOIN storefront s ON a.storefront_email = s.email) SELECT * FROM b WHERE sellername = "{}";'.format(item_id, seller))
     items = []
     for row in res:
         items.append({
@@ -584,9 +596,6 @@ def item(item, seller, item_id):
 
     for row in rate2:
         for item in items:
-            item["reviews"].append(
-                {"email": row.buyer_email, "rating": row.rating_item, "review": row.review})
-            # item["reviews"].append("rating" : row.rating_item)
-            # item["reviews"].append("review" : row.review)
+            item["reviews"].append({"email" : row.buyer_email, "rating" : row.rating_item, "review" : row.review})
 
     return jsonify({'items': items})
