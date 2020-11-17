@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal, Form, Input, TextArea, Image } from 'semantic-ui-react';
 import axios from 'axios';
 import imgur from "imgur-file-upload";
+import backend from "../../config"
 
 imgur.setClientId('c7cbb16d550b502');
 
@@ -14,7 +15,6 @@ function CreateModal() {
     const [item_desc, setItemDesc] = useState("")
     const [seller_desc, setSellerDesc] = useState("")
     const [picture, setPicture] = useState("")
-
     const [file, setFile] = useState("");
 
     const user_email = JSON.parse(sessionStorage.getItem('email'));
@@ -45,7 +45,9 @@ function CreateModal() {
             picture: picture
         }
 
-        axios.post('http://127.0.0.1:5000/seller/' + user_email, data)
+        console.log(picture)
+
+        axios.post(backend + '/seller/' + user_email, data)
             .then((res) => {
                 console.log(res);
                 console.log(res.status);
@@ -59,7 +61,7 @@ function CreateModal() {
         setItemDesc(initialState.item_desc)
         setSellerDesc(initialState.seller_desc)
         setPicture(initialState.picture)
-        //window.location.reload();
+        window.location.reload();
     }
 
     async function handleUpload(event) {
@@ -71,7 +73,8 @@ function CreateModal() {
         formData.append('image', test)
 
         imgur.uploadImgur(test).then((result) => {
-            setPicture(result);
+            const url = result['url']
+            setPicture(url)
           });
     }
 
