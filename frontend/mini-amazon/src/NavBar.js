@@ -78,7 +78,7 @@ class NavBar extends React.Component {
         <NavDropdown.Item href="/profile">View Profile</NavDropdown.Item>
         <NavDropdown.Item href="#">Add Balance</NavDropdown.Item>
         <NavDropdown.Item href="#">Purchase History</NavDropdown.Item>
-        <NavDropdown.Item href="/signup">create an account</NavDropdown.Item>
+        <NavDropdown.Item href="/signup">Create Account</NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item href="/login" onClick={this.logout} className="logout">Logout
         </NavDropdown.Item>

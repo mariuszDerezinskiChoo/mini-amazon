@@ -44,13 +44,13 @@ export const Home = ( {recs}) => {
                                             <p>{rec.quantity} in stock</p>
                                         </Row>
                                         <Row>
-                                            <FontAwesomeIcon size="2x" color="#09B049" onClick={() => setCount(count + 1)} icon={faPlusCircle}/>
+                                            <FontAwesomeIcon size="2x" color="#0080FF" onClick={() => setCount(count + 1)} icon={faPlusCircle}/>
                                         </Row>
                                         <Row>
                                             <p>{count}</p>
                                         </Row>
                                         <Row>
-                                            <FontAwesomeIcon size="2x" color="#FF0000" onClick={() => setCount(count - 1)} icon={faMinusCircle}/>
+                                            <FontAwesomeIcon size="2x" color="#7285A5" onClick={() => setCount(count - 1)} icon={faMinusCircle}/>
                                         </Row>
                                         <Row>
                                             <button

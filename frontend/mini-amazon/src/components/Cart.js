@@ -41,7 +41,7 @@ const Cart = () => {
     return (
         <>
           <NavBar/>
-            <h1>view your cart</h1>
+            <h1>View Your Cart</h1>
             <Container fluid="lg">
                 {
                     cart == null ? <h1>Loading</h1> : 
@@ -66,13 +66,13 @@ const Cart = () => {
                                             <FontAwesomeIcon style={{clear:"both"}} size="2x" onClick={() => handleRemove(index)} icon={faTimesCircle}/>
                                         </Row>
                                         <Row>
-                                            <FontAwesomeIcon size="2x" color="#09B049" onClick={() => handleIncrement(index,1)} icon={faPlusCircle}/>
+                                            <FontAwesomeIcon size="2x" color="#0080FF" onClick={() => handleIncrement(index,1)} icon={faPlusCircle}/>
                                         </Row>
                                         <Row>
                                             <p>{entry.quantity}</p>
                                         </Row>
                                         <Row>
-                                            <FontAwesomeIcon size="2x" color="#FF0000" onClick={() => handleIncrement(index,-1)} icon={faMinusCircle}/>
+                                            <FontAwesomeIcon size="2x" color="#7285A5" onClick={() => handleIncrement(index,-1)} icon={faMinusCircle}/>
                                         </Row>
                                         <Row>
                                             <Button onClick={() => handleUpdate(index)}>Update</Button>

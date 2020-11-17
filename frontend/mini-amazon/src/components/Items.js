@@ -44,13 +44,13 @@ export const Items = ({ items}) => {
                         <Col xs={2}>
                             <div className="float-center mr-3 mt-3 mb-3">
                         <Row>
-                            <FontAwesomeIcon size="2x" color="#09B049" onClick={() => setCount(count + 1)} icon={faPlusCircle}/>
+                            <FontAwesomeIcon size="2x" color="#0080FF" onClick={() => setCount(count + 1)} icon={faPlusCircle}/>
                         </Row>
                         <Row>
                             <p>{count}</p>
                         </Row>
                         <Row>
-                            <FontAwesomeIcon size="2x" color="#FF0000" onClick={() => setCount(count - 1)} icon={faMinusCircle}/>
+                            <FontAwesomeIcon size="2x" color="#7285A5" onClick={() => setCount(count - 1)} icon={faMinusCircle}/>
                         </Row>
                             </div>
                         </Col>

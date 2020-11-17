@@ -2,13 +2,14 @@ import React, {Component, useEffect, useState} from 'react';
 import './App.css';
 import NavBar from './NavBar';
 import {Home} from "./components/Home";
+import backend from "./config"
 
 function HomePage() {
     const [recs, setRecs] = useState([]);
     
 
     useEffect( () => {
-      fetch('http://127.0.0.1:5000/home').then(response =>
+      fetch(backend + 'home').then(response =>
         response.json().then(data => {
           setRecs(data.recs);
         })
