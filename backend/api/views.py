@@ -322,7 +322,7 @@ def seller(email):
     if request.method == 'POST':
         req = request.json
         new_item = Item(
-            name=req['name'], description=req['item_desc'], category=req['category'])
+            name=req['name'], description=req['item_desc'], category=req['category'], photo_url=req['picture'])
         db.session.add(new_item)
         db.session.commit()
         item = Item.query.filter_by(

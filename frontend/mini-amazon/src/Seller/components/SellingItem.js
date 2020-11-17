@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import placeholder from '../placeholder.png';
-import picLocations from '../picLocations.js';
 import { Button, Icon, Header, Card, Modal, Form, Input, TextArea, Image } from 'semantic-ui-react';
 import '../styles/sellingItem.css';
 import axios from 'axios';
 import imgur from "imgur-file-upload";
+import backend from "../../config"
 
 function SellingItem(props) {
     const [delOpen, setDelOpen] = useState(false)
@@ -26,13 +26,7 @@ function SellingItem(props) {
     
     const user_email = JSON.parse(sessionStorage.getItem('email'));
 
-    function inArray(id) {
-        return picLocations.some((el) => {
-            return el.id === id;
-          });
-    }
-
-    const location = inArray(props.item.id) ? picLocations.find(el => el.id === props.item.id)["location"] : placeholder
+    // const location = inArray(props.item.id) ? picLocations.find(el => el.id === props.item.id)["location"] : placeholder
 
     function handleSubmit() {
         const data = {
@@ -46,7 +40,7 @@ function SellingItem(props) {
             picture: picture
         }
 
-        axios.put('http://127.0.0.1:5000/seller/' + user_email, data)
+        axios.put(backend + '/seller/' + user_email, data)
             .then((res) => {
                 console.log(res);
             })
@@ -60,7 +54,7 @@ function SellingItem(props) {
             id: props.item.id,
             name: name
         }
-        axios.post('http://127.0.0.1:5000/delete_listing/' + user_email, data)
+        axios.post(backend + '/delete_listing/' + user_email, data)
             .then((res) => {
                 console.log(res);
             })
@@ -84,7 +78,7 @@ function SellingItem(props) {
     return (
         <Card>
             <img
-                src={location}
+                src={props.item.picture}
                 height={400}
                 alt={placeholder}
             />
