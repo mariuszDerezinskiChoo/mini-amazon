@@ -23,29 +23,29 @@ import RegisterForm from './Login/RegisterForm';
 import Nav from "./components/Nav";
 import Profile from "./Login/Profile";
 import ForgetPassword from './Login/ForgetPassword';
+import ProtectedRoute from './ProtectedRoute';
 
 ReactDOM.render(
 <React.StrictMode>
     <BrowserRouter>
       <Switch>
-      <Route exact path="/nav" component={Nav} />
-        <Route exact path="/cart" component={Cart} />
+      <ProtectedRoute exact path="/nav" component={Nav} />
+        <ProtectedRoute exact path="/cart" component={Cart} />
         <Route path="/login" component={LoginPortal} />
-        <Route path="/test-api" component={TestAPI} />
+        <ProtectedRoute path="/test-api" component={TestAPI} />
         <Route exact path="/" component={LoginPortal} />
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/login" component={LoginPortal} />
-        <Route exact path="/test-api" component={TestAPI} />
-        <Route exact path="/seller" component={Seller} />
-        <Route exact path="/profile" component={Profile} />
+        <ProtectedRoute exact path="/home" component={Home} />
+        <ProtectedRoute exact path="/test-api" component={TestAPI} />
+        <ProtectedRoute exact path="/seller" component={Seller} />
+        <ProtectedRoute exact path="/profile" component={Profile} />
         <Route exact path="/register" component={RegisterForm} />
-        <Route exact path="/balance" component={Balance} />
-        <Route exact path="/trade-history" component={TradeHistory} />
-        <Route exact path="/purchase-history" component={PurchaseHistory} />
-        <Route exact path="/results/:search" component={Results}/>
-        <Route exact path="/item/:item/:seller/:id" component={ItemPage}/>
+        <ProtectedRoute exact path="/balance" component={Balance} />
+        <ProtectedRoute exact path="/trade-history" component={TradeHistory} />
+        <ProtectedRoute exact path="/purchase-history" component={PurchaseHistory} />
+        <ProtectedRoute exact path="/results/:search" component={Results}/>
+        <ProtectedRoute exact path="/item/:item/:seller/:id" component={ItemPage}/>
         <Route exact path="/forgetPassword" component={ForgetPassword}/>
-        <Route exact path="/review" component={Review} />
+        <ProtectedRoute exact path="/review" component={Review} />
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,
