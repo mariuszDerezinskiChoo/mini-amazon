@@ -74,6 +74,7 @@ function CreateModal() {
 
         imgur.uploadImgur(test).then((result) => {
             const url = result['url']
+            console.log(url);
             setPicture(url)
           });
     }

@@ -75,6 +75,8 @@ function SellingItem(props) {
           });
     }
 
+    console.log(props.item.picture);
+
     return (
         <Card>
             <img
