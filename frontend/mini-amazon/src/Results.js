@@ -2,6 +2,7 @@ import React, {Component, useEffect, useState} from 'react';
 import './App.css';
 import {Listings} from "./components/Listings";
 import NavBar from './NavBar';
+import backend from "./config"
 
 function Results(props) {
     const [listings, setListings] = useState([]);
@@ -9,7 +10,7 @@ function Results(props) {
     console.log(props.match.params.search);
 
     useEffect( () => {
-      fetch('http://127.0.0.1:5000/listings/' + props.match.params.search).then(response =>
+      fetch(backend + 'listings/' + props.match.params.search).then(response =>
         response.json().then(data => {
           setListings(data.listings);
         })

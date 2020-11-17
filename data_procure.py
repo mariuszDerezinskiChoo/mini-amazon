@@ -38,6 +38,7 @@ dataset = dataset.drop(indices)
 
 item_id = 1
 companies = {}
+company_prices = {}
 seller_pairs = [['Buybox Winner', 'Price'], ['Other Seller1', 'Other Seller1 Price'], [
     'Other Seller2', 'Other Seller2 Price'], ['Other Seller3', 'Other Seller3 Price']]
 
@@ -64,17 +65,25 @@ for index, row in dataset.iterrows():
 
     image_url = ""
     if str(row['Image Url']) == None or str(row['Image Url']) == 'nan':
-        image_url = 'Unknown'
+        image_url = "https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673.png"
     else:
         image_url = row['Image Url'].split('|')[0]
+        image_url_list = image_url.split(".")
+        image_url_list[-2] = '_SS200_'
+        image_url = ".".join(image_url_list)
     conn.execute("INSERT into item values (?,?,?,?,?)", (item_id,
                                                          row['Title'], str(row['Description']), row['Category'], image_url))
 
     for seller_pair in seller_pairs:
         company_name = str(row[seller_pair[0]])
         company_price = str(row[seller_pair[1]])
+        if 'seller-register-popover' in company_name:
+            continue
         if is_valid_string(company_name) and is_valid_string(company_price) and get_price(company_price):
             company_price = get_price(company_price)
+
+            company_prices[index] = company_price
+
             email = company_name + "@gmail.com"
             if email not in companies:
                 password = lorem.sentence().replace(' ', '')[0:20]
@@ -138,7 +147,7 @@ for person in reviews:
                 continue
             item_ids.append(item_id)
             quantity = item['quantity']
-            price = 10
+            price = company_prices.get(item_id, 10)
             conn.execute("INSERT into purchase values (?,?,?,?,?,?)",
                          (item_id, quantity, price, storefront_email, email, purchase_time))
 

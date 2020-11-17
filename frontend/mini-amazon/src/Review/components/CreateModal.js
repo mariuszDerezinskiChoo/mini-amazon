@@ -6,34 +6,25 @@ import backend from "../../config"
 
 function CreateModal() {
     const [open, setOpen] = useState(false)
-
-    // Ideally, these 3 attributes are automatically prepared when user clicks on the purchase history tuple he wants to review
-    // Right now, anyone can write anything; at least check if user is logged in?
     const [item_id, setItemID] = useState("")
-    let localBuyerEmail = JSON.parse(sessionStorage.getItem('email'));
-    console.log(localBuyerEmail);
     const [storefront_email, setStorefrontEmail] = useState("")
-    const [buyer_email, setBuyerEmail] = useState(localBuyerEmail);
-
+    // const [buyer_email, setBuyerEmail] = useState("");
     const [rating_item, setRatingItem] = useState("")
     const [rating_storefront, setRatingStorefront] = useState("")
     const [review, setReview] = useState("")
 
-    // const [datetime, setDatetime] = useState("") // Ideally, this is automatically populated exactly when the form is actually submitted
-
+    const buyer_email = JSON.parse(sessionStorage.getItem('email'));
+    // console.log(localBuyerEmail);
 
     const initialState = {
         open: false,
         item_id: "",
         storefront_email: "",
-        buyer_email: "",
+        // buyer_email: "",
         rating_item: "",
         rating_storefront: "",
         review: "",
-        // datetime: ""
     };
-
-    //const [{ open, name, price, quantity, item_desc, seller_desc, picture }, setState] = useState(initialState)
 
     function handleSubmit() {
         const data = {
@@ -43,7 +34,6 @@ function CreateModal() {
             rating_item: rating_item,
             rating_storefront: rating_storefront,
             review: review,
-            // datetime:datetime
         }
         // axios.post(backend + '/review', data)
         axios.post(backend + '/review', data)
@@ -54,11 +44,10 @@ function CreateModal() {
         setOpen(initialState.open)
         setItemID(initialState.item_id)
         setStorefrontEmail(initialState.storefront_email)
-        setBuyerEmail(initialState.buyer_email)
+        // setBuyerEmail(initialState.buyer_email)
         setRatingItem(initialState.rating_item)
         setRatingStorefront(initialState.rating_storefront)
         setReview(initialState.review)
-        // setDatetime(initialState.datetime)
     }
 
     return (
@@ -74,7 +63,7 @@ function CreateModal() {
             <Modal.Header>Add New Review</Modal.Header>
             <Modal.Content>
                 <Form.Field>
-                    <label>Item ID</label>
+                    <label>Item ID (Refer to item_id in product URL)</label>
                     <input
                         required
                         placeholder='Item ID'
@@ -92,7 +81,7 @@ function CreateModal() {
                         onChange={e => setStorefrontEmail(e.target.value)}
                     />
                 </Form.Field>
-                <Form.Field>
+                {/* <Form.Field>
                     <label>Buyer Email</label>
                     <input
                         required
@@ -100,7 +89,7 @@ function CreateModal() {
                         value={buyer_email}
                         onChange={e => setBuyerEmail(e.target.value)}
                     />
-                </Form.Field>
+                </Form.Field> */}
                 <Form.Group widths='equal'>
                     <Form.Field>
                         <label>Item Rating (Only accepts integers 0-5!)</label>
@@ -138,15 +127,6 @@ function CreateModal() {
                         onChange={e => setReview(e.target.value)}
                     />
                 </Form.Field>
-                {/* <Form.Field>
-                    <label>Date/Time Submitted</label>
-                    <TextArea
-                        required
-                        placeholder='Date/Time'
-                        value={datetime}
-                        onChange={e => setDatetime(e.target.value)}
-                    />
-                </Form.Field> */}
                 <Button primary type='submit'>Submit</Button>
             </Modal.Content>
 

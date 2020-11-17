@@ -1,36 +1,15 @@
 //import React from "react";
 import {Link} from "react-router-dom";
-import {List, Header} from "semantic-ui-react";
 import React, {useState, useEffect} from "react";
 import {Container, Row, Col, Card, Button} from "react-bootstrap";
 
 
 export const Listings = ({ listings }) => {
-    /*return (
-        <>
-        <h1>Results</h1>
-        <List>
-            {listings.map(listing => {
-                return (
-                    <List.Item key= {listing.item_id}>
-                        <Header> <a href="/cart"><h2>{listing.name}</h2></a> Price: ${listing.price} Quantity: {listing.quantity}</Header>
-                    </List.Item>
-                )
-            })}
-        </List>
-        </>
-    )
-} */
     if (!listings) {
         return (
             <h1> No results found!</h1> 
         )
     }
-    /*const newTo = { 
-        pathname: "/item/" + listing.name, 
-        param1: listing.name,
-        param2: listing.seller
-    };*/
 
     return (
         <>
@@ -40,9 +19,9 @@ export const Listings = ({ listings }) => {
                     listings == null ?  <h1>No Results Found!</h1> :
                     listings.map(listing => {
                         const newTo = { 
-                            pathname: "/item/" + listing.name + "/" + listing.seller + "/" + listing.id, 
-                            param1: listing.name,
-                            param2: listing.seller
+                            pathname: "/item/" + listing.seller + "/" + listing.id, 
+                            param1: listing.seller,
+                            param2: listing.id
                         }
                         return (
                             <Card key={listing.item_id} className="mb-5">
