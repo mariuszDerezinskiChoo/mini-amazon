@@ -12,7 +12,7 @@
           rating_item: '{{integer(1,5)}}',
           rating_storefront: '{{integer(1,5)}}',
           review: '{{lorem(3)}}',
-          storefrontIndex: '{{integer(1,3920)}}',
+          storefrontIndex: '{{integer(1,3430)}}',
           timeSubmitted: '{{date(new Date(2010, 0, 1), new Date(),"YYYYMMdd hh:mm:ss A")}}'
         }
       ],
@@ -23,7 +23,7 @@
           items: [
               '{{repeat(3,5)}}',
               {
-                  storefrontIndex: '{{integer(1,3920)}}',
+                  storefrontIndex: '{{integer(1,3430)}}',
                   quantity: '{{integer(1,10)}}'
               }
           ]
@@ -33,7 +33,7 @@
       cart: [
         '{{repeat(5,10)}}',
         {
-          storefrontIndex: '{{integer(1,3920)}}',
+          storefrontIndex: '{{integer(1,3430)}}',
           quantity: '{{integer(1,10)}}'
         }
         ]

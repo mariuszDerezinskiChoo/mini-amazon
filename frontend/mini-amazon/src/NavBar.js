@@ -70,6 +70,15 @@ class NavBar extends React.Component {
       <Nav.Link href="/seller">Seller</Nav.Link>
       <Nav.Link href="/cart">Cart</Nav.Link>
       <Nav.Link href="/review">Manage Reviews</Nav.Link>
+      {
+        JSON.parse(sessionStorage.getItem('last_name')) ?
+          <Nav.Link href="/purchase-history">Purchase History</Nav.Link>
+          :
+          JSON.parse(sessionStorage.getItem('email')) ? 
+          <Nav.Link href="/trade-history">Order History</Nav.Link>
+          :
+          null
+      }
       <Form inline>
       <FormControl onChange={this.handleChange} value={this.state.value} type="text" placeholder="Search" className="mr-sm-2" />
       </Form>
@@ -78,9 +87,7 @@ class NavBar extends React.Component {
         <NavDropdown.Item href="/profile">View Profile</NavDropdown.Item>
         <NavDropdown.Item href="#">Add Balance</NavDropdown.Item>
         <NavDropdown.Item href="#">Purchase History</NavDropdown.Item>
-        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-        <Button >Search</Button>
-        <NavDropdown.Item href="/signup">create an account</NavDropdown.Item>
+        <NavDropdown.Item href="/signup">Create Account</NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item href="/login" onClick={this.logout} className="logout">Logout
         </NavDropdown.Item>

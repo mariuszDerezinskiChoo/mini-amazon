@@ -1,23 +1,30 @@
 import {Link} from "react-router-dom";
 import {List, Header} from "semantic-ui-react";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Component} from "react";
 import {Container, Row, Col, Card, Button} from "react-bootstrap";
 import Rating from '@material-ui/lab/Rating';
-import { faGlassMartiniAlt } from "@fortawesome/free-solid-svg-icons";
+import NavBar from '../NavBar';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faPlusCircle, faMinusCircle} from "@fortawesome/free-solid-svg-icons";
+import Quantity from './Quantity';
+
 
 export const Items = ({ items}) => {
+    const [count, setCount] = useState(0);
     console.log(items)
     if (!items) {
         return (
             <h1> No results found!</h1> 
         )
     }
+
     return (
         <>
+        <NavBar/>
         <List>
             {items.map(item => {
                 const id = item.id;
-                const quantity = item.quantity;
+                const quantity = count;
                 const selleremail = item.selleremail;
                 const buyeremail = JSON.parse(sessionStorage.getItem('email'));
                 return (
@@ -34,6 +41,19 @@ export const Items = ({ items}) => {
                         <h2> Price: ${item.price}</h2>
                         <h2> {item.quantity} in stock </h2>
                         <h2> Description: {item.description}</h2>
+                        <Col xs={2}>
+                            <div className="float-center mr-3 mt-3 mb-3">
+                        <Row>
+                            <FontAwesomeIcon size="2x" color="#0080FF" onClick={() => setCount(count + 1)} icon={faPlusCircle}/>
+                        </Row>
+                        <Row>
+                            <p>{count}</p>
+                        </Row>
+                        <Row>
+                            <FontAwesomeIcon size="2x" color="#7285A5" onClick={() => setCount(count - 1)} icon={faMinusCircle}/>
+                        </Row>
+                            </div>
+                        </Col>
                         <button
                             onClick={async () => {
                             const addCart = { id, quantity, selleremail, buyeremail};
@@ -74,15 +94,3 @@ export const Items = ({ items}) => {
         </>
     )
 } 
-
-/*import React from "react";
-
-const Item = () => {
-    return (
-        <>
-        <h1>Item Page</h1>
-        </>
-    )
-};
-
-export default Item;*/

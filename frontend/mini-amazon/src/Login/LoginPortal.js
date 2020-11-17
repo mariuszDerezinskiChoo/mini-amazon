@@ -22,7 +22,8 @@ class LoginPortal extends Component {
       name: '',
      redirectToReferrer: false,
      error: null,
-     isStorefront: false
+     isStorefront: false,
+     isAuthenticated: false,
     }
 
     this.login = this.login.bind(this);
@@ -46,15 +47,18 @@ class LoginPortal extends Component {
            this.setState({noData: true}) ;
          }
       else {
+        this.setState({isAuthenticated: true});
         sessionStorage.setItem('email',JSON.stringify(res.data.buyer_detail[0].email));
         sessionStorage.setItem('first_name',JSON.stringify(res.data.buyer_detail[0].first_name));
         sessionStorage.setItem('last_name',JSON.stringify(res.data.buyer_detail[0].last_name));
         sessionStorage.setItem('balance',JSON.stringify(res.data.buyer_detail[0].balance));
+        sessionStorage.setItem('isAuthenticated',JSON.stringify(this.state.isAuthenticated));
         this.state = {
           email: JSON.parse(sessionStorage.getItem('email')),
           first_name: JSON.parse(sessionStorage.getItem('first_name')),
           last_name: JSON.parse(sessionStorage.getItem('last_name')),
-          balance: JSON.parse(sessionStorage.getItem('balance'))
+          balance: JSON.parse(sessionStorage.getItem('balance')),
+
         }
         console.log()
         this.setState({redirectToReferrer: true});
@@ -73,11 +77,12 @@ class LoginPortal extends Component {
          this.setState({noData: true}) ;
        }
     else {
+      this.setState({isAutenticated: true});
       sessionStorage.setItem('email',JSON.stringify(res.data.storefronts[0].email));
       sessionStorage.setItem('name',JSON.stringify(res.data.storefronts[0].name));
       sessionStorage.setItem('description',JSON.stringify(res.data.storefronts[0].description));
       sessionStorage.setItem('balance',JSON.stringify(res.data.storefronts[0].balance));
-      
+      sessionStorage.setItem('isAuthenticated',JSON.stringify(!this.state.isAuthenticated));
       this.state = {
         email: JSON.parse(sessionStorage.getItem('email')),
         name: JSON.parse(sessionStorage.getItem('name')),
@@ -119,11 +124,11 @@ class LoginPortal extends Component {
     const isEnabled = this.state.email.length > 0 && this.state.password.length > 0;
      
     if (this.state.redirectToReferrer) {
-      return (<Redirect to={'/nav'}/>)
+      return (<Redirect to={'/home'}/>)
     }
    
     if(sessionStorage.getItem('userData')){
-      return (<Redirect to={'/nav'}/>)
+      return (<Redirect to={'/home'}/>)
     }
 
     let message;
