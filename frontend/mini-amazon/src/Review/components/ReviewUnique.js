@@ -15,16 +15,19 @@ function ReviewUnique(props) {
     // const [item_name, setItem_Name] = useState(props.review.item_name)
     const [item_id, setItemID] = useState(props.review.item_id)
     const [storefront_email, setStorefrontEmail] = useState(props.review.storefront_email)
-    const [buyer_email, setBuyerEmail] = useState(props.review.buyer_email)
+    // const [buyer_email, setBuyerEmail] = useState(props.review.buyer_email)
     const [rating_item, setRatingItem] = useState(props.review.rating_item)
     const [rating_storefront, setRatingStorefront] = useState(props.review.rating_storefront)
     const [review, setReview] = useState(props.review.review)
+
+    const buyer_email = JSON.parse(sessionStorage.getItem('email'));
+    // console.log(localBuyerEmail);
 
     const initialState = {
         // item_name: props.review.item_name,
         item_id: props.review.item_id,
         storefront_email: props.review.storefront_email,
-        buyer_email: props.review.buyer_email,
+        // buyer_email: props.review.buyer_email,
         rating_item: props.review.rating_item,
         rating_storefront: props.review.rating_storefront,
         review: props.review.review
@@ -50,7 +53,7 @@ function ReviewUnique(props) {
         setEditOpen(false)
         setItemID(initialState.item_id)
         setStorefrontEmail(initialState.storefront_email)
-        setBuyerEmail(initialState.buyer_email)
+        // setBuyerEmail(initialState.buyer_email)
         setRatingItem(initialState.rating_item)
         setRatingStorefront(initialState.rating_storefront)
         setReview(initialState.review)
@@ -142,7 +145,7 @@ function ReviewUnique(props) {
                                 // onChange={e => setStorefrontEmail(e.target.value)}
                             />
                         </Form.Field>
-                        <Form.Field>
+                        {/* <Form.Field>
                             <label>Buyer Email (You cannot change this!)</label>
                             <input
                                 required
@@ -150,7 +153,7 @@ function ReviewUnique(props) {
                                 value={props.review.buyer_email}
                                 // onChange={e => setBuyerEmail(e.target.value)}
                             />
-                        </Form.Field>
+                        </Form.Field> */}
                         <Form.Group widths='equal'>
                             <Form.Field>
                                 <label>Item Rating (Only accepts integers 0-5!)</label>
