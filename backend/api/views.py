@@ -352,7 +352,7 @@ def get_order_history():
     email = req.get("email")
     print(email)
     query = """
-    select p.item_id, i.photo_url, i.name, p.price, p.quantity, s.name, p.datetime
+    select p.item_id, i.photo_url, i.name, p.price, p.quantity, s.name as seller_name, p.datetime
     from item i, purchase p, storefront s
     where i.id = p.item_id and p.storefront_email = s.email and p.buyer_email = ?
     order by p.datetime desc;
@@ -366,7 +366,7 @@ def get_order_history():
             "itemName": row.name,
             "price": row.price,
             "quantity": row.quantity,
-            "name": row.name,
+            "name": row.seller_name,
             "time": row.datetime,
             "imageUrl": row.photo_url,
         })

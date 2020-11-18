@@ -51,17 +51,16 @@ function CreateModal() {
             .then((res) => {
                 console.log(res);
                 console.log(res.status);
+                setOpen(initialState.open)
+                setName(initialState.name)
+                setPrice(initialState.price)
+                setQuantity(initialState.quantity)
+                setCategory(initialState.category)
+                setItemDesc(initialState.item_desc)
+                setSellerDesc(initialState.seller_desc)
+                setPicture(initialState.picture)
+                window.location.reload();
             })
-
-        setOpen(initialState.open)
-        setName(initialState.name)
-        setPrice(initialState.price)
-        setQuantity(initialState.quantity)
-        setCategory(initialState.category)
-        setItemDesc(initialState.item_desc)
-        setSellerDesc(initialState.seller_desc)
-        setPicture(initialState.picture)
-        window.location.reload();
     }
 
     async function handleUpload(event) {

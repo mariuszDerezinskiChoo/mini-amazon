@@ -60,18 +60,16 @@ editprofile() {
     .then(res => {
     }
       )
-    .then(response => this.setState({checkMessage: "Your profile has been updated!"})
-    
-    )
+    .then(response => {
+      this.setState({checkMessage: "Your profile has been updated!"})
+      sessionStorage.setItem('first_name',JSON.stringify(this.state.first_name));
+      sessionStorage.setItem('last_name',JSON.stringify(this.state.last_name));
+      window.alert("success!")
+      window.location.reload(true);    
+    })
     .catch(error => {
       this.setState({checkMessage: "Unsuccessful"});
     })
-
-    if (this.state.checkMessage !== "Unsuccessful") {
-    sessionStorage.setItem('first_name',JSON.stringify(this.state.first_name));
-    sessionStorage.setItem('last_name',JSON.stringify(this.state.last_name));
-    window.location.reload(true);
-  }
   }
 
   else {
@@ -85,20 +83,18 @@ editprofile() {
     .then(res => {
     }
       )
-    .then(response => this.setState({checkMessage: "Your profile has been updated!"})
+    .then(response => {
+      this.setState({checkMessage: "Your profile has been updated!"})
+      sessionStorage.setItem('email',JSON.stringify(this.state.email));
+      sessionStorage.setItem('name',JSON.stringify(this.state.name));
+      sessionStorage.setItem('description',JSON.stringify(this.state.description));
+      window.alert("success!");
+      window.location.reload(true);
     
-    )
+    })
     .catch(error => {
       this.setState({checkMessage: "Unsuccessful"});
     })
-
-    if (this.state.checkMessage !== "Unsuccessful") {
-    sessionStorage.setItem('email',JSON.stringify(this.state.email));
-    sessionStorage.setItem('name',JSON.stringify(this.state.name));
-    sessionStorage.setItem('description',JSON.stringify(this.state.description));
-    window.alert("success!");
-    window.location.reload(true);
-  }
   }
 }
 
