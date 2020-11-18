@@ -43,10 +43,9 @@ function SellingItem(props) {
         axios.put(backend + '/seller/' + user_email, data)
             .then((res) => {
                 console.log(res);
+                setEditOpen(false)
+                window.location.reload();
             })
-
-        setEditOpen(false)
-        window.location.reload();
     }
 
     function handleDelete() {
@@ -57,9 +56,9 @@ function SellingItem(props) {
         axios.post(backend + '/delete_listing/' + user_email, data)
             .then((res) => {
                 console.log(res);
+                setDelOpen(false)
+                window.location.reload();
             })
-        setDelOpen(false)
-        window.location.reload();
     }
 
     async function handleUpload(event) {
