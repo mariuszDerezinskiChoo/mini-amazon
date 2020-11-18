@@ -32,12 +32,13 @@ function CreateModal(props) {
             .then((res) => {
                 console.log(res);
                 console.log(res.status);
+                setOpen(initialState.open)
+                setRatingItem(initialState.rating_item)
+                setRatingStorefront(initialState.rating_storefront)
+                setReview(initialState.review)
+                window.location.reload();
             })
-        setOpen(initialState.open)
-        setRatingItem(initialState.rating_item)
-        setRatingStorefront(initialState.rating_storefront)
-        setReview(initialState.review)
-        window.location.reload();
+
     }
 
     return (

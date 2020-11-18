@@ -36,13 +36,13 @@ function ReviewUnique(props) {
         axios.put(backend + '/review/', data)
             .then((res) => {
                 console.log(res);
-            })
+                setEditOpen(false)
+                setRatingItem(initialState.rating_item)
+                setRatingStorefront(initialState.rating_storefront)
+                setReview(initialState.review)
+                window.location.reload();
+        })
 
-        setEditOpen(false)
-        setRatingItem(initialState.rating_item)
-        setRatingStorefront(initialState.rating_storefront)
-        setReview(initialState.review)
-        window.location.reload();
     }
 
     return (
