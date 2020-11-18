@@ -3,12 +3,13 @@ import {Container, Row, Col } from "react-bootstrap";
 import { Card, Icon, Image, Button} from 'semantic-ui-react';
 import axios from 'axios';
 import NavBar from "../NavBar";
+import backend from "../config"
 const TradeHistory = () => {
     const [history, setHistory] = useState(null);
     console.log("reload");
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:5000/getTradeHistory',{ params: { "email": JSON.parse(sessionStorage.getItem('email')) } }).then((res) => {
+        axios.get(backend + '/getTradeHistory',{ params: { "email": JSON.parse(sessionStorage.getItem('email')) } }).then((res) => {
             console.log(res.data)
             setHistory(res.data);
         })

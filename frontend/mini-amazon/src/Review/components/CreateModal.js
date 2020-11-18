@@ -38,7 +38,6 @@ function CreateModal(props) {
                 setReview(initialState.review)
                 window.location.reload();
             })
-
     }
 
     return (
